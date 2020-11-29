@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Krávy</string>
+
+    <string name="section_history">Historie</string>
+
+    <string name="dialog_treatment_delete_text">Opravdu chcete odstranit ošetření z \'%s\'?</string>
+    <string name="dialog_treatment_delete_no">Ne</string>
+    <string name="dialog_treatment_delete_yes">Ano</string>
+
+    <string name="treatment_limp">Kulhá</string>
+    <string name="treatment_whole">Celková</string>
+    <string name="treatment_repeat">Převaz</string>
+
+    <string name="diagnosis_healed">Vyhojený</string>
+    <string name="diagnosis_treated">Rozléčený</string>
+    <string name="diagnosis_new">Nový</string>
+
+    <string name="resource_bandage">Obvaz</string>
+    <string name="resource_block_wood">Wooden Block</string>
+    <string name="resource_block_wood_xxl">Wooden Block XXL</string>
+    <string name="resource_block_tp">TP Block</string>
+    <string name="resource_block_tp_xxl">TP Block XXL</string>
+    <string name="resource_block_iron_half">½ Iron Block</string>
+    <string name="resource_block_iron">Iron Block</string>
+    <string name="resource_synulox">Synulox</string>
+    <string name="resource_synulox_2x">2x Synulox</string>
+
+    <string name="button_cancel">Zrušit</string>
+    <string name="button_save">Uložit</string>
+</resources>

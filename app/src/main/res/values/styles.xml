@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="Cows.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorPrimary">@color/back_dark</item>
+        <item name="android:colorAccent">@color/text_tint</item>
+    </style>
+
+</resources>
