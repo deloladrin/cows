@@ -1,7 +1,9 @@
 package com.deloladrin.cows.activities.cow;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.data.Company;
@@ -12,6 +14,7 @@ import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.DatabaseActivity;
+import com.deloladrin.cows.database.DatabaseBitmap;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

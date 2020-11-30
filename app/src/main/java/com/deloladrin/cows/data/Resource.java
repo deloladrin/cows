@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.database.Database;
+import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
@@ -22,10 +23,9 @@ public class Resource
     private int id;
     private String name;
     private ResourceType type;
-    private int image;
-    private int color;
+    private DatabaseBitmap image;
 
-    public Resource(Database database, int id, String name, ResourceType type, int image, int color)
+    public Resource(Database database, int id, String name, ResourceType type, DatabaseBitmap image)
     {
         this.database = database;
 
@@ -33,7 +33,6 @@ public class Resource
         this.name = name;
         this.type = type;
         this.image = image;
-        this.color = color;
     }
 
     public static List<Resource> parse(Database database, int resourceMask)
@@ -111,34 +110,14 @@ public class Resource
         this.type = type;
     }
 
-    public int getImage()
+    public DatabaseBitmap getImage()
     {
         return this.image;
     }
 
-    public void setImage(int image)
+    public void setImage(DatabaseBitmap image)
     {
         this.image = image;
-    }
-
-    public Drawable getDrawable(Context context)
-    {
-        if (this.image != 0)
-        {
-            return context.getDrawable(this.image);
-        }
-
-        return null;
-    }
-
-    public int getColor()
-    {
-        return this.color;
-    }
-
-    public void setColor(int color)
-    {
-        this.color = color;
     }
 
     public static class Table extends TableBase<Resource>
@@ -148,8 +127,7 @@ public class Resource
         public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
         public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
         public static final TableColumn COLUMN_TYPE = new TableColumn(2, "type", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_IMAGE = new TableColumn(3, "image", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_COLOR = new TableColumn(4, "color", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn(3, "image", ValueType.BLOB, false);
 
         public Table(Database database)
         {
@@ -159,7 +137,6 @@ public class Resource
             this.columns.add(COLUMN_NAME);
             this.columns.add(COLUMN_TYPE);
             this.columns.add(COLUMN_IMAGE);
-            this.columns.add(COLUMN_COLOR);
         }
 
         @Override
@@ -170,15 +147,15 @@ public class Resource
             Context context = this.database.getContext();
             List<Resource> defaults = new ArrayList<>();
 
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_bandage), ResourceType.HOOF, R.drawable.resource_bandage, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood), ResourceType.FINGER, R.drawable.resource_block_wood, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER, R.drawable.resource_block_wood_xxl, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp), ResourceType.FINGER, R.drawable.resource_block_tp, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER, R.drawable.resource_block_tp_xxl, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER, 0, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.FINGER, 0, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.COW, 0, 0));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.COW, 0, 0));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_bandage), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_wood)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_wood_xxl)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_tp)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_tp_xxl)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_bandage)));
 
             this.insertAll(db, defaults);
         }
@@ -191,8 +168,7 @@ public class Resource
             params.put(COLUMN_ID, object.getID());
             params.put(COLUMN_NAME, object.getName());
             params.put(COLUMN_TYPE, object.getType().getID());
-            params.put(COLUMN_IMAGE, object.getImage());
-            params.put(COLUMN_COLOR, object.getColor());
+            params.put(COLUMN_IMAGE, object.getImage().getHexBytes());
 
             return params;
         }
@@ -203,10 +179,9 @@ public class Resource
             int id = cursor.getInt(COLUMN_ID.getID());
             String name = cursor.getString(COLUMN_NAME.getID());
             ResourceType type = ResourceType.parse(cursor.getInt(COLUMN_TYPE.getID()));
-            int image = cursor.getInt(COLUMN_IMAGE.getID());
-            int color = cursor.getInt(COLUMN_COLOR.getID());
+            DatabaseBitmap image = new DatabaseBitmap(cursor.getBlob(COLUMN_IMAGE.getID()));
 
-            return new Resource(this.database, id, name, type, image, color);
+            return new Resource(this.database, id, name, type, image);
         }
     }
 }

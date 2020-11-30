@@ -22,6 +22,11 @@ public class ValueParams extends HashMap<TableColumn, Object>
                 return "\"" + resultString + "\"";
             }
 
+            if (column.getType() == ValueType.BLOB)
+            {
+                return "x\'" + resultString + "\'";
+            }
+
             return resultString;
         }
 

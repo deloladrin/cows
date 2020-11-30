@@ -1,5 +1,6 @@
 package com.deloladrin.cows.activities.cow;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
@@ -118,25 +119,25 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
     {
         for (Resource resource : diagnosis.getResources())
         {
-            Drawable drawable = resource.getDrawable(this.layout.getContext());
+            Bitmap bitmap = resource.getImage().getBitmap();
 
             switch (resource.getType())
             {
                 case FINGER:
                     if ((target & this.maskLeft) == this.maskLeft)
                     {
-                        this.resourceRight.setImageDrawable(drawable);
+                        this.resourceRight.setImageBitmap(bitmap);
                     }
 
                     else if ((target & this.maskRight) == this.maskRight)
                     {
-                        this.resourceLeft.setImageDrawable(drawable);
+                        this.resourceLeft.setImageBitmap(bitmap);
                     }
 
                     break;
 
                 case HOOF:
-                    this.resourceAll.setImageDrawable(drawable);
+                    this.resourceAll.setImageBitmap(bitmap);
 
                     break;
 
