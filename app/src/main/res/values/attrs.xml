@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="strokeColor" format="color" />
+    <attr name="strokeWidth" format="float" />
+
+    <declare-styleable name="CircleTextView">
+        <attr name="strokeColor" />
+        <attr name="strokeWidth" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="strokeColor" />
+        <attr name="strokeWidth" />
+    </declare-styleable>
+
+    <declare-styleable name="DiagnosisContainer">
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ToggleResourceContainer">
+        <attr name="disabledStrokeColor" format="color" />
+        <attr name="strokeColor" />
+        <attr name="strokeWidth" />
+    </declare-styleable>
+
+    <declare-styleable name="HoofResourceContainer">
+    </declare-styleable>
+
+</resources>

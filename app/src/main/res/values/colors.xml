@@ -3,9 +3,11 @@
     <color name="back_dark">#262626</color>
     <color name="back_light">#2F2F2F</color>
 
+    <color name="text_disabled">#808080</color>
     <color name="text_dark">#A8A8A8</color>
     <color name="text_light">#FFFFFF</color>
     <color name="text_tint">#E58521</color>
+    <color name="text_tint_dark">#CE7518</color>
 
     <color name="diagnosis_none">#A8A8A8</color>
     <color name="diagnosis_healed">#00FF00</color>

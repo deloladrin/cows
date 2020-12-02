@@ -23,8 +23,9 @@ public class Treatment
     private LocalDateTime date;
     private String comment;
     private String user;
+    private List<Resource> resources;
 
-    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user)
+    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user, List<Resource> resources)
     {
         this.database = database;
 
@@ -34,6 +35,7 @@ public class Treatment
         this.date = date;
         this.comment = comment;
         this.user = user;
+        this.resources = resources;
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -57,6 +59,24 @@ public class Treatment
     public void delete()
     {
         this.database.getTreatmentTable().delete(this);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Treatment))
+            return false;
+
+        return ((Treatment)obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
     }
 
     public int getID()
@@ -119,6 +139,16 @@ public class Treatment
         this.user = user;
     }
 
+    public List<Resource> getResources()
+    {
+        return this.resources;
+    }
+
+    public void setResources(List<Resource> resources)
+    {
+        this.resources = resources;
+    }
+
     public static class Table extends TableBase<Treatment>
     {
         public static final String TABLE_NAME = "treatments";
@@ -129,6 +159,7 @@ public class Treatment
         public static final TableColumn COLUMN_DATE = new TableColumn(3, "date", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_COMMENT = new TableColumn(4, "comment", ValueType.TEXT, true);
         public static final TableColumn COLUMN_USER = new TableColumn(5, "user", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_RESOURCES = new TableColumn(6, "resources", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -140,6 +171,7 @@ public class Treatment
             this.columns.add(COLUMN_DATE);
             this.columns.add(COLUMN_COMMENT);
             this.columns.add(COLUMN_USER);
+            this.columns.add(COLUMN_RESOURCES);
         }
 
         @Override
@@ -153,6 +185,7 @@ public class Treatment
             params.put(COLUMN_DATE, object.getDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000);
             params.put(COLUMN_COMMENT, object.getComment());
             params.put(COLUMN_USER, object.getUser());
+            params.put(COLUMN_RESOURCES, Resource.valueOf(object.getResources()));
 
             return params;
         }
@@ -166,8 +199,9 @@ public class Treatment
             LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochSecond(cursor.getLong(COLUMN_DATE.getID())), ZoneId.systemDefault());
             String comment = cursor.getString(COLUMN_COMMENT.getID());
             String user = cursor.getString(COLUMN_USER.getID());
+            List<Resource> resources = Resource.parse(this.database, cursor.getInt(COLUMN_RESOURCES.getID()));
 
-            return new Treatment(this.database, id, cow, type, date, comment, user);
+            return new Treatment(this.database, id, cow, type, date, comment, user, resources);
         }
     }
 }

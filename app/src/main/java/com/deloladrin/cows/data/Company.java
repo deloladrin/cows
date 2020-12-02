@@ -51,6 +51,24 @@ public class Company
         this.database.getCompanyTable().delete(this);
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Company))
+            return false;
+
+        return ((Company)obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
     public int getID()
     {
         return this.id;

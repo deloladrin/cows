@@ -80,6 +80,24 @@ public class Resource
         this.database.getResourceTable().delete(this);
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Resource))
+            return false;
+
+        return ((Resource)obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
     public int getID()
     {
         return this.id;
@@ -147,15 +165,20 @@ public class Resource
             Context context = this.database.getContext();
             List<Resource> defaults = new ArrayList<>();
 
+            /* Default resources */
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_bandage), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_wood)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_wood_xxl)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_tp)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_block_tp_xxl)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.FINGER, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_wood)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_wood_xxl)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_tp)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_tp_xxl)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_iron_half)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_block_iron)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_antibiotics), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_antibiotics)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_checkup), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_checkup)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_no_bathing), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_no_bathing)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_take_out), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_take_out)));
 
             this.insertAll(db, defaults);
         }

@@ -67,6 +67,24 @@ public class Cow
         this.database.getCowTable().delete(this);
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Cow))
+            return false;
+
+        return ((Cow)obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
     public int getID()
     {
         return this.id;

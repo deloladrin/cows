@@ -1,8 +1,6 @@
 package com.deloladrin.cows.activities.cow;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
@@ -10,8 +8,6 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.Treatment;
-import com.deloladrin.cows.views.DiagnosesContainer;
 
 import java.util.List;
 
@@ -26,13 +22,13 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
     private CowTreatmentFinger left;
     private CowTreatmentFinger right;
 
-    private DiagnosesContainer diagnosesLeft;
-    private DiagnosesContainer diagnosesRight;
-    private DiagnosesContainer diagnosesAll;
+    private DiagnosisContainer diagnosesLeft;
+    private DiagnosisContainer diagnosesRight;
+    private DiagnosisContainer diagnosesAll;
 
-    private ImageView resourceLeft;
-    private ImageView resourceRight;
-    private ImageView resourceAll;
+    private HoofResourceContainer resourcesLeft;
+    private HoofResourceContainer resourcesRight;
+    private HoofResourceContainer resourcesAll;
 
     public CowTreatmentHoof(CowTreatmentEditor parent, int mask, int layoutID)
     {
@@ -47,9 +43,9 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
         this.diagnosesRight = this.findViewById(R.id.hoof_diagnoses_right);
         this.diagnosesAll = this.findViewById(R.id.hoof_diagnoses_all);
 
-        this.resourceLeft = this.findViewById(R.id.hoof_resource_left);
-        this.resourceRight = this.findViewById(R.id.hoof_resource_right);
-        this.resourceAll = this.findViewById(R.id.hoof_resource_all);
+        this.resourcesLeft = this.findViewById(R.id.hoof_resources_left);
+        this.resourcesRight = this.findViewById(R.id.hoof_resources_right);
+        this.resourcesAll = this.findViewById(R.id.hoof_resources_all);
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -66,9 +62,9 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
         this.diagnosesRight.clear();
         this.diagnosesAll.clear();
 
-        this.resourceLeft.setImageDrawable(null);
-        this.resourceRight.setImageDrawable(null);
-        this.resourceAll.setImageDrawable(null);
+        this.resourcesLeft.clear();
+        this.resourcesRight.clear();
+        this.resourcesAll.clear();
 
         this.left.setState(DiagnosisState.NONE, true);
         this.right.setState(DiagnosisState.NONE, true);
@@ -119,25 +115,37 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
     {
         for (Resource resource : diagnosis.getResources())
         {
-            Bitmap bitmap = resource.getImage().getBitmap();
-
+            /* Show resource on correct location */
             switch (resource.getType())
             {
                 case FINGER:
                     if ((target & this.maskLeft) == this.maskLeft)
                     {
-                        this.resourceRight.setImageBitmap(bitmap);
+                        this.resourcesLeft.add(resource);
                     }
 
                     else if ((target & this.maskRight) == this.maskRight)
                     {
-                        this.resourceLeft.setImageBitmap(bitmap);
+                        this.resourcesRight.add(resource);
+                    }
+
+                    break;
+
+                case FINGER_INVERTED:
+                    if ((target & this.maskLeft) == this.maskLeft)
+                    {
+                        this.resourcesRight.add(resource);
+                    }
+
+                    else if ((target & this.maskRight) == this.maskRight)
+                    {
+                        this.resourcesLeft.add(resource);
                     }
 
                     break;
 
                 case HOOF:
-                    this.resourceAll.setImageBitmap(bitmap);
+                    this.resourcesAll.add(resource);
 
                     break;
 

@@ -1,19 +1,35 @@
-package com.deloladrin.cows.views;
+package com.deloladrin.cows.activities.cow;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.deloladrin.cows.R;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 
-public class DiagnosesContainer extends LinearLayout
+public class DiagnosisContainer extends LinearLayout
 {
-    public DiagnosesContainer(Context context, AttributeSet attrs)
+    private int textSize;
+
+    public DiagnosisContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+
+        /* Get attributes */
+        TypedArray attrArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DiagnosisContainer, 0, 0);
+
+        try
+        {
+            this.textSize = attrArray.getDimensionPixelSize(R.styleable.DiagnosisContainer_textSize, 20);
+        }
+        finally
+        {
+            attrArray.recycle();
+        }
 
         /* Create empty diagnosis in horizontal views */
         if (this.getOrientation() == HORIZONTAL)
@@ -27,7 +43,7 @@ public class DiagnosesContainer extends LinearLayout
     {
         /* Create with params */
         TextView view = new TextView(this.getContext());
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PT, 6);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.textSize);
         view.setTextColor(diagnosis.getState().getColor(this.getContext()));
         view.setText(diagnosis.getShortName());
 
@@ -61,5 +77,16 @@ public class DiagnosesContainer extends LinearLayout
         {
             this.removeViewAt(i);
         }
+    }
+
+    public int getTextSize()
+    {
+        return this.textSize;
+    }
+
+    public void setTextSize(int textSize)
+    {
+        this.textSize = textSize;
+        this.invalidate();
     }
 }

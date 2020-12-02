@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cows="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back_dark"
@@ -10,25 +11,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.deloladrin.cows.views.DiagnosesContainer
+        <com.deloladrin.cows.activities.cow.DiagnosisContainer
             android:id="@+id/hoof_diagnoses_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="2dp"
             android:gravity="right"
+            cows:textSize="6pt"
             android:orientation="vertical" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="100dp">
-
-            <ImageView
-                android:id="@+id/hoof_resource_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true" />
 
             <ImageView
                 android:id="@+id/hoof_left"
@@ -48,39 +43,45 @@
                 android:scaleX="-1"
                 android:src="@drawable/icon_hoof" />
 
-            <ImageView
-                android:id="@+id/hoof_resource_left"
+            <com.deloladrin.cows.activities.cow.HoofResourceContainer
+                android:id="@+id/hoof_resources_all"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true" />
+                android:layout_centerHorizontal="true" />
 
-            <ImageView
-                android:id="@+id/hoof_resource_right"
+            <com.deloladrin.cows.activities.cow.HoofResourceContainer
+                android:id="@+id/hoof_resources_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <com.deloladrin.cows.activities.cow.HoofResourceContainer
+                android:id="@+id/hoof_resources_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4px"
                 android:layout_toRightOf="@id/hoof_left"
-                android:adjustViewBounds="true"
                 android:scaleX="-1" />
 
         </RelativeLayout>
 
-        <com.deloladrin.cows.views.DiagnosesContainer
+        <com.deloladrin.cows.activities.cow.DiagnosisContainer
             android:id="@+id/hoof_diagnoses_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="2dp"
+            cows:textSize="6pt"
             android:orientation="vertical" />
 
     </LinearLayout>
 
-    <com.deloladrin.cows.views.DiagnosesContainer
+    <com.deloladrin.cows.activities.cow.DiagnosisContainer
         android:id="@+id/hoof_diagnoses_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:gravity="center"
+        cows:textSize="6pt"
         android:orientation="horizontal" />
 
 </LinearLayout>

@@ -18,6 +18,9 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
     private Treatment treatment;
 
     private TextView date;
+    private TextView comment;
+
+    private CowTreatmentStatus status;
 
     private CowTreatmentHoof frontLeft;
     private CowTreatmentHoof frontRight;
@@ -33,6 +36,9 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
 
         /* Load all children */
         this.date = this.findViewById(R.id.editor_date);
+        this.comment = this.findViewById(R.id.editor_comment);
+
+        this.status = new CowTreatmentStatus(this, R.id.editor_status);
 
         this.frontLeft = new CowTreatmentHoof(this, 0b11000000, R.id.editor_front_left);
         this.frontRight = new CowTreatmentHoof(this, 0b00110000, R.id.editor_front_right);
@@ -70,7 +76,13 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
             String date = treatment.getDate().format(dateFormatter);
             this.date.setText(date);
 
+            /* Set comment */
+            String comment = treatment.getComment();
+            this.comment.setText(comment);
+
             /* Update children */
+            this.status.setTreatment(treatment);
+
             List<Diagnosis> diagnoses = treatment.getDiagnoses();
             this.frontLeft.setDiagnoses(diagnoses);
             this.frontRight.setDiagnoses(diagnoses);
@@ -80,6 +92,9 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         else
         {
             this.date.setText("");
+            this.comment.setText("");
+
+            this.status.setTreatment(null);
 
             this.frontLeft.setDiagnoses(null);
             this.frontRight.setDiagnoses(null);

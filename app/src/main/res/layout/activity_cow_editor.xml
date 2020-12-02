@@ -15,14 +15,20 @@
             android:id="@+id/editor_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:textSize="6pt"
             android:textStyle="italic|bold"
             android:textColor="@color/text_dark" />
 
+        <include layout="@layout/activity_cow_status"
+            android:id="@+id/editor_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <include layout="@layout/activity_cow_hoof"
@@ -58,6 +64,22 @@
                 android:layout_weight="1" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="6pt"
+            android:textStyle="italic|bold"
+            android:textColor="@color/text_dark"
+            android:text="@string/section_comment" />
+
+        <EditText
+            android:id="@+id/editor_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            android:textColor="@color/text_light" />
 
     </LinearLayout>
 

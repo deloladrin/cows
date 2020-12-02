@@ -26,7 +26,7 @@ public class DatabaseBitmap
 
     public DatabaseBitmap(Context context, int drawableID)
     {
-        Drawable drawable = context.getResources().getDrawable(drawableID);
+        Drawable drawable = context.getResources().getDrawable(drawableID, context.getTheme());
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(bitmap);

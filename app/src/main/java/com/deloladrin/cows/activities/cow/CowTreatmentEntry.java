@@ -88,14 +88,14 @@ public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYe
     public void onClick(View view)
     {
         /* On show click */
-        if (view == this.show)
+        if (view.equals(this.show))
         {
             CowActivity activity = this.parent.getParent();
             activity.getEditor().setTreatment(this.treatment);
         }
 
         /* On delete click */
-        if (view == this.delete)
+        if (view.equals(this.delete))
         {
             YesNoDialog dialog = new YesNoDialog(this.view.getContext());
             Resources resources = this.view.getResources();

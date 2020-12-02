@@ -55,6 +55,24 @@ public class Diagnosis
         this.database.getDiagnosesTable().delete(this);
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Diagnosis))
+            return false;
+
+        return ((Diagnosis)obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
     public int getID()
     {
         return this.id;

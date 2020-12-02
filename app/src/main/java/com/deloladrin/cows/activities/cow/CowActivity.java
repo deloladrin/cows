@@ -42,8 +42,27 @@ public class CowActivity extends DatabaseActivity
         this.editor = new CowTreatmentEditor(this, R.id.cow_treatment_editor);
         this.history = new CowTreatmentHistory(this, R.id.cow_treatment_history);
 
+        this.database.onUpgrade(this.database.getWritableDatabase(), 0, 0);
+        Company company = new Company(this.database, 1, "AGRAS BOHDALOV", null);
+        company.insert();
+
+        Cow cow = new Cow(this.database, 582344, 86, company, null);
+        cow.insert();
+
+        List<Resource> cowResources = new ArrayList<>();
+        cowResources.add(this.database.getResourceTable().select(10));
+        cowResources.add(this.database.getResourceTable().select(11));
+        Treatment treatment = new Treatment(this.database, 1, cow, TreatmentType.WHOLE, LocalDateTime.of(2020, 12, 2, 8, 45), null, "Bohous", cowResources);
+        treatment.insert();
+
+        List<Resource> resources = new ArrayList<>();
+        resources.add(this.database.getResourceTable().select(4));
+
+        new Diagnosis(this.database, -1, treatment, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisState.NEW, 0b00001000, resources).insert();
+        new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.NEW, 0b00000010, resources).insert();
+
         /* Load requested cow */
-        int cowID = this.getIntent().getIntExtra(EXTRA_COW_ID, 486773 /* TODO */);
+        int cowID = this.getIntent().getIntExtra(EXTRA_COW_ID, 582344 /* TODO */);
         this.setCow(this.database.getCowTable().select(cowID));
     }
 
@@ -55,7 +74,6 @@ public class CowActivity extends DatabaseActivity
     public void setCow(Cow cow)
     {
         this.cow = cow;
-
         this.header.setCow(cow);
 
         if (cow != null)

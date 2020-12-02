@@ -4,8 +4,9 @@ public enum ResourceType
 {
     NONE(0),
     FINGER(1),
-    HOOF(2),
-    COW(3);
+    FINGER_INVERTED(2),
+    HOOF(3),
+    COW(4);
 
     private int id;
 

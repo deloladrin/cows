@@ -29,4 +29,9 @@ public abstract class ChildActivity<T extends Container> implements Container
     {
         return this.layout;
     }
+
+    public Context getContext()
+    {
+        return this.layout.getContext();
+    }
 }
