@@ -90,8 +90,7 @@ public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYe
         /* On show click */
         if (view.equals(this.show))
         {
-            CowActivity activity = this.parent.getParent();
-            activity.getEditor().setTreatment(this.treatment);
+            this.parent.getActivity().getEditor().setTreatment(this.treatment);
         }
 
         /* On delete click */
@@ -128,7 +127,9 @@ public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYe
 
         this.treatment.delete();
 
-        CowActivity activity = this.parent.getParent();
-        activity.setCow(activity.getCow());
+        CowActivity activity = this.parent.getActivity();
+        Cow cow = activity.getCow();
+
+        activity.setCow(cow);
     }
 }

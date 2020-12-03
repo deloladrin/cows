@@ -11,10 +11,10 @@ public class CowTreatmentFinger
     private ImageView view;
     private DiagnosisState state;
 
-    public CowTreatmentFinger(CowTreatmentHoof parent, int viewID)
+    public CowTreatmentFinger(CowTreatmentHoof parent, int view)
     {
         this.parent = parent;
-        this.view = parent.findViewById(viewID);
+        this.view = parent.findViewById(view);
 
         this.setState(DiagnosisState.NONE, true);
     }

@@ -83,32 +83,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/editor_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/editor_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/button_dark"
-            android:textColor="@color/text_light"
-            android:textSize="6pt"
-            android:text="@string/button_cancel" />
-
-        <Button
-            android:id="@+id/editor_save"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/button_color"
-            android:textColor="@color/text_light"
-            android:textSize="6pt"
-            android:text="@string/button_save" />
-
-    </LinearLayout>
+        android:background="@color/button_tint"
+        android:textColor="@color/text_light"
+        android:textSize="6pt"
+        android:text="@string/button_add" />
 
 </LinearLayout>

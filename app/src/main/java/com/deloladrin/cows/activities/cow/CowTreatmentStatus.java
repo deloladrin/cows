@@ -6,23 +6,23 @@ import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.views.CircleTextView;
 
-public class CowTreatmentStatus extends ChildActivity<CowTreatmentEditor>
+public class CowTreatmentStatus extends ChildActivity<CowActivity>
 {
     private Treatment treatment;
 
     private CircleTextView type;
     private ToggleResourceContainer resources;
 
-    public CowTreatmentStatus(CowTreatmentEditor parent, int layoutID)
+    public CowTreatmentStatus(ChildActivity<CowActivity> parent, int layout)
     {
-        super(parent, layoutID);
+        super(parent, layout);
 
         /* Load all children */
         this.type = this.findViewById(R.id.status_type);
         this.resources = this.findViewById(R.id.status_resources);
 
         /* Load resources from database */
-        CowActivity activity = this.parent.getParent();
+        CowActivity activity = this.getActivity();
         this.resources.refresh(activity.getDatabase());
     }
 

@@ -30,6 +30,5 @@
     <string name="resource_checkup">Kontrola</string>
     <string name="resource_take_out">Vyřadit z chovu</string>
 
-    <string name="button_cancel">Zrušit</string>
-    <string name="button_save">Uložit</string>
+    <string name="button_add">Přidat</string>
 </resources>

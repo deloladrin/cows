@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.deloladrin.cows.activities.Container;
-
-public abstract class DatabaseActivity extends AppCompatActivity implements Container
+public abstract class DatabaseActivity extends AppCompatActivity
 {
     protected Database database;
 

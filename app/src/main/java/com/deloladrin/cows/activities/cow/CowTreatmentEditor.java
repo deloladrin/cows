@@ -27,12 +27,11 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
     private CowTreatmentHoof backLeft;
     private CowTreatmentHoof backRight;
 
-    private Button cancel;
-    private Button save;
+    private Button add;
 
-    public CowTreatmentEditor(CowActivity parent, int layoutID)
+    public CowTreatmentEditor(CowActivity parent, int layout)
     {
-        super(parent, layoutID);
+        super(parent, layout);
 
         /* Load all children */
         this.date = this.findViewById(R.id.editor_date);
@@ -45,12 +44,9 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         this.backLeft = new CowTreatmentHoof(this, 0b00001100, R.id.editor_back_left);
         this.backRight = new CowTreatmentHoof(this, 0b00000011, R.id.editor_back_right);
 
-        this.cancel = this.findViewById(R.id.editor_cancel);
-        this.save = this.findViewById(R.id.editor_save);
-
         /* Add events */
-        this.cancel.setOnClickListener(this);
-        this.save.setOnClickListener(this);
+        this.add = this.findViewById(R.id.editor_add);
+        this.add.setOnClickListener(this);
     }
 
 

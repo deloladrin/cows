@@ -15,9 +15,9 @@ public class CowHeader extends ChildActivity<CowActivity>
     private TextView company;
     private TextView group;
 
-    public CowHeader(CowActivity parent, int layoutID)
+    public CowHeader(CowActivity parent, int layout)
     {
-        super(parent, layoutID);
+        super(parent, layout);
 
         /* Load all children */
         this.id = this.findViewById(R.id.header_id);

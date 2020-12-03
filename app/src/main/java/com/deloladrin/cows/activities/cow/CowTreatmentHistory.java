@@ -14,9 +14,9 @@ public class CowTreatmentHistory extends ChildActivity<CowActivity>
     private List<Treatment> treatments;
     private List<CowTreatmentEntry> views;
 
-    public CowTreatmentHistory(CowActivity parent, int layoutID)
+    public CowTreatmentHistory(CowActivity parent, int layout)
     {
-        super(parent, layoutID);
+        super(parent, layout);
     }
 
     public List<Treatment> getTreatments()
@@ -31,8 +31,7 @@ public class CowTreatmentHistory extends ChildActivity<CowActivity>
 
         /* Create all views */
         this.views = new ArrayList<>();
-
-        LayoutInflater inflater = this.parent.getLayoutInflater();
+        LayoutInflater inflater = this.activity.getLayoutInflater();
 
         if (treatments != null)
         {

@@ -3,6 +3,8 @@ package com.deloladrin.cows.activities.cow;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.deloladrin.cows.R;

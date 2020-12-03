@@ -5,13 +5,14 @@ import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
+import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.Resource;
 
 import java.util.List;
 
-public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
+public class CowTreatmentHoof extends ChildActivity<CowActivity>
 {
     private List<Diagnosis> diagnoses;
 
@@ -30,9 +31,9 @@ public class CowTreatmentHoof extends ChildActivity<CowTreatmentEditor>
     private HoofResourceContainer resourcesRight;
     private HoofResourceContainer resourcesAll;
 
-    public CowTreatmentHoof(CowTreatmentEditor parent, int mask, int layoutID)
+    public CowTreatmentHoof(ChildActivity<CowActivity> parent, int mask, int layout)
     {
-        super(parent, layoutID);
+        super(parent, layout);
         this.getMasks(mask);
 
         /* Load all children */
