@@ -16,7 +16,7 @@ import com.deloladrin.cows.views.YesNoDialog;
 
 import java.time.format.DateTimeFormatter;
 
-public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYesListener
+public class CowTreatmentEntry implements View.OnClickListener
 {
     private CowTreatmentHistory parent;
     private Treatment treatment;
@@ -45,6 +45,49 @@ public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYe
         /* Add events */
         this.show.setOnClickListener(this);
         this.delete.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        /* On show click */
+        if (view.equals(this.show))
+        {
+            this.parent.getActivity().getEditor().setTreatment(this.treatment);
+        }
+
+        /* On delete click */
+        if (view.equals(this.delete))
+        {
+            YesNoDialog dialog = new YesNoDialog(this.view.getContext());
+            Resources resources = this.view.getResources();
+
+            /* Treatment date */
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String date = this.treatment.getDate().format(dateFormatter);
+
+            dialog.setText(R.string.dialog_treatment_delete_text, date);
+            dialog.setNoText(R.string.dialog_treatment_delete_no);
+            dialog.setYesText(R.string.dialog_treatment_delete_yes);
+
+            dialog.setOnYesListener(new YesNoDialog.OnYesListener()
+            {
+                @Override
+                public void onYesClick(YesNoDialog dialog)
+                {
+                    /* Remove treatment and restart */
+                    for (Diagnosis diagnosis : treatment.getDiagnoses())
+                    {
+                        diagnosis.delete();
+                    }
+
+                    treatment.delete();
+                    parent.getActivity().refresh();
+                }
+            });
+
+            dialog.show();
+        }
     }
 
     public CowTreatmentHistory getParent()
@@ -82,54 +125,5 @@ public class CowTreatmentEntry implements View.OnClickListener, YesNoDialog.OnYe
 
         String user = treatment.getUser();
         this.user.setText(user);
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        /* On show click */
-        if (view.equals(this.show))
-        {
-            this.parent.getActivity().getEditor().setTreatment(this.treatment);
-        }
-
-        /* On delete click */
-        if (view.equals(this.delete))
-        {
-            YesNoDialog dialog = new YesNoDialog(this.view.getContext());
-            Resources resources = this.view.getResources();
-
-            /* Treatment date */
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            String date = this.treatment.getDate().format(dateFormatter);
-
-            String text = String.format(resources.getString(R.string.dialog_treatment_delete_text), date);
-            String noText = resources.getString(R.string.dialog_treatment_delete_no);
-            String yesText = resources.getString(R.string.dialog_treatment_delete_yes);
-
-            dialog.setText(text);
-            dialog.setNoText(noText);
-            dialog.setYesText(yesText);
-
-            dialog.setOnYesListener(this);
-            dialog.show();
-        }
-    }
-
-    @Override
-    public void onYesClick(YesNoDialog dialog)
-    {
-        /* Remove treatment and restart */
-        for (Diagnosis diagnosis : this.treatment.getDiagnoses())
-        {
-            diagnosis.delete();
-        }
-
-        this.treatment.delete();
-
-        CowActivity activity = this.parent.getActivity();
-        Cow cow = activity.getCow();
-
-        activity.setCow(cow);
     }
 }

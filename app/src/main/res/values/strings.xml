@@ -5,6 +5,8 @@
     <string name="section_comment">Komentář</string>
 
     <string name="dialog_treatment_delete_text">Opravdu chcete odstranit ošetření z \'%s\'?</string>
+    <string name="dialog_resource_toggle_add">Opravdu chcete přidat položku \'%s\'?</string>
+    <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
     <string name="dialog_treatment_delete_no">Ne</string>
     <string name="dialog_treatment_delete_yes">Ano</string>
 

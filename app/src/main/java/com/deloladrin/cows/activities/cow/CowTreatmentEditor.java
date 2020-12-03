@@ -44,11 +44,11 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         this.backLeft = new CowTreatmentHoof(this, 0b00001100, R.id.editor_back_left);
         this.backRight = new CowTreatmentHoof(this, 0b00000011, R.id.editor_back_right);
 
-        /* Add events */
         this.add = this.findViewById(R.id.editor_add);
+
+        /* Add events */
         this.add.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View view)

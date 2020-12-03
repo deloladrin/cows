@@ -35,7 +35,7 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
     public void onClick(View view)
     {
         /* On yes click */
-        if (view == this.yes)
+        if (view.equals(this.yes))
         {
             this.onYesListener.onYesClick(this);
         }
@@ -53,6 +53,17 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
         this.text.setText(text);
     }
 
+    public void setText(int text)
+    {
+        this.setText(this.getContext().getResources().getString(text));
+    }
+
+    public void setText(int text, Object... args)
+    {
+        String format = this.getContext().getResources().getString(text);
+        this.setText(String.format(format, args));
+    }
+
     public Button getNoButton()
     {
         return this.no;
@@ -68,6 +79,11 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
         this.no.setText(text);
     }
 
+    public void setNoText(int text)
+    {
+        this.setNoText(this.getContext().getResources().getString(text));
+    }
+
     public Button getYesButton()
     {
         return this.yes;
@@ -81,6 +97,11 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
     public void setYesText(String text)
     {
         this.yes.setText(text);
+    }
+
+    public void setYesText(int text)
+    {
+        this.setYesText(this.getContext().getResources().getString(text));
     }
 
     public OnYesListener getOnYesListener()

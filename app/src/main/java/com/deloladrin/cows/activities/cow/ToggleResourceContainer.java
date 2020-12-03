@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.deloladrin.cows.R;
@@ -14,14 +15,17 @@ import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.views.CircleImageView;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class ToggleResourceContainer extends LinearLayout
+public class ToggleResourceContainer extends LinearLayout implements View.OnClickListener
 {
     private HashMap<Resource, CircleImageView> views;
 
     private float strokeWidth;
     private int strokeColor;
     private int disabledStrokeColor;
+
+    private OnClickListener onClickListener;
 
     public ToggleResourceContainer(Context context, AttributeSet attrs)
     {
@@ -56,6 +60,9 @@ public class ToggleResourceContainer extends LinearLayout
             CircleImageView view = new CircleImageView(this.getContext());
             view.setStrokeWidth(this.strokeWidth);
 
+            view.setClickable(true);
+            view.setOnClickListener(this);
+
             view.setImageBitmap(resource.getImage().getBitmap());
             view.setAdjustViewBounds(true);
 
@@ -75,17 +82,17 @@ public class ToggleResourceContainer extends LinearLayout
         this.reset();
     }
 
-    public void set(Resource resource, boolean enabled)
+    public void setEnabled(Resource resource, boolean enabled)
     {
         CircleImageView view = this.views.get(resource);
 
         if (view != null)
         {
-            this.set(view, enabled);
+            this.setEnabled(view, enabled);
         }
     }
 
-    private void set(CircleImageView view, boolean enabled)
+    private void setEnabled(CircleImageView view, boolean enabled)
     {
         if (enabled)
         {
@@ -103,7 +110,20 @@ public class ToggleResourceContainer extends LinearLayout
     {
         for (CircleImageView view : this.views.values())
         {
-            this.set(view, false);
+            this.setEnabled(view, false);
+        }
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        /* Check, which is clicked */
+        for (Map.Entry<Resource, CircleImageView> entry : this.views.entrySet())
+        {
+            if (view.equals(entry.getValue()))
+            {
+                this.onClickListener.onResourceClick(entry.getKey());
+            }
         }
     }
 
@@ -138,5 +158,20 @@ public class ToggleResourceContainer extends LinearLayout
     {
         this.disabledStrokeColor = disabledStrokeColor;
         this.invalidate();
+    }
+
+    public OnClickListener getOnClickListener()
+    {
+        return this.onClickListener;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener)
+    {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener
+    {
+        void onResourceClick(Resource resource);
     }
 }

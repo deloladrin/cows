@@ -68,6 +68,12 @@ public class CowActivity extends DatabaseActivity
         this.setCow(this.database.getCowTable().select(cowID));
     }
 
+    public void refresh()
+    {
+        /* Reload the same cow */
+        this.setCow(this.cow);
+    }
+
     public Cow getCow()
     {
         return this.cow;
