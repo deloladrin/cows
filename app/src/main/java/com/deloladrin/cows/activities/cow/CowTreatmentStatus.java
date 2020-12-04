@@ -1,18 +1,22 @@
 package com.deloladrin.cows.activities.cow;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
+import android.view.View;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
+import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.views.CircleTextView;
+import com.deloladrin.cows.views.SelectDialog;
 import com.deloladrin.cows.views.YesNoDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CowTreatmentStatus extends ChildActivity<CowActivity> implements ToggleResourceContainer.OnClickListener
+public class CowTreatmentStatus extends ChildActivity<CowActivity> implements View.OnClickListener, ToggleResourceContainer.OnToggleListener
 {
     private Treatment treatment;
 
@@ -28,7 +32,8 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements To
         this.resources = this.findViewById(R.id.status_resources);
 
         /* Add events */
-        this.resources.setOnClickListener(this);
+        this.type.setOnClickListener(this);
+        this.resources.setOnToggleListener(this);
 
         /* Load resources from database */
         CowActivity activity = this.getActivity();
@@ -63,17 +68,52 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements To
         }
     }
 
-    public void onResourceClick(final Resource resource)
+    @Override
+    public void onClick(View view)
+    {
+        if (view.equals(this.type))
+        {
+            /* Select different type */
+            Context context = this.getContext();
+            SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
+
+            dialog.setText(R.string.dialog_treatment_type);
+
+            for (TreatmentType type : TreatmentType.values())
+            {
+                if (type != TreatmentType.NONE)
+                {
+                    TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
+                    dialog.add(entry);
+                }
+            }
+
+            dialog.setOnSelectListener(new SelectDialog.OnSelectListener()
+            {
+                @Override
+                public void onSelect(View view)
+                {
+                    /* Update and refresh */
+                    TreatmentTypeEntry entry = (TreatmentTypeEntry)view;
+
+                    CowTreatmentStatus.this.treatment.setType(entry.getValue());
+                    CowTreatmentStatus.this.treatment.update();
+                    CowTreatmentStatus.this.activity.refresh();
+                }
+            });
+
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void onToggle(final Resource resource)
     {
         /* Toggle after secondary check */
         YesNoDialog dialog = new YesNoDialog(this.getContext());
-        Resources resources = this.getContext().getResources();
 
         final List<Resource> treatmentResources = this.treatment.getResources();
         final boolean contains = treatmentResources.contains(resource);
-
-        dialog.setNoText(R.string.dialog_treatment_delete_no);
-        dialog.setYesText(R.string.dialog_treatment_delete_yes);
 
         if (contains)
         {
@@ -89,6 +129,7 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements To
             @Override
             public void onYesClick(YesNoDialog dialog)
             {
+                /* Toggle and refresh */
                 if (contains)
                 {
                     treatmentResources.remove(resource);
@@ -98,8 +139,8 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements To
                     treatmentResources.add(resource);
                 }
 
-                treatment.update();
-                parent.getActivity().refresh();
+                CowTreatmentStatus.this.treatment.update();
+                CowTreatmentStatus.this.activity.refresh();
             }
         });
 

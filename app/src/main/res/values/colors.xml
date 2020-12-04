@@ -15,7 +15,7 @@
     <color name="diagnosis_new">#FF0000</color>
 
     <color name="button_disabled">#808080</color>
-    <color name="button_dark">#2F2F2F</color>
+    <color name="button_dark">#262626</color>
     <color name="button_bad">#A80000</color>
     <color name="button_tint">#E58521</color>
 </resources>

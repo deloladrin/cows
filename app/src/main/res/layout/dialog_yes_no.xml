@@ -26,16 +26,18 @@
             android:layout_weight="1"
             android:background="@color/button_dark"
             android:textColor="@color/text_light"
-            android:textSize="6pt" />
+            android:textSize="6pt"
+            android:text="@string/dialog_no" />
 
         <Button
             android:id="@+id/dialog_yes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/button_color"
+            android:background="@color/button_tint"
             android:textColor="@color/text_light"
-            android:textSize="6pt" />
+            android:textSize="6pt"
+            android:text="@string/dialog_yes" />
 
     </LinearLayout>
 

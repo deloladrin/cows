@@ -25,7 +25,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
     private int strokeColor;
     private int disabledStrokeColor;
 
-    private OnClickListener onClickListener;
+    private OnToggleListener onToggleListener;
 
     public ToggleResourceContainer(Context context, AttributeSet attrs)
     {
@@ -122,7 +122,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
         {
             if (view.equals(entry.getValue()))
             {
-                this.onClickListener.onResourceClick(entry.getKey());
+                this.onToggleListener.onToggle(entry.getKey());
             }
         }
     }
@@ -160,18 +160,18 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
         this.invalidate();
     }
 
-    public OnClickListener getOnClickListener()
+    public OnToggleListener getOnToggleListener()
     {
-        return this.onClickListener;
+        return this.onToggleListener;
     }
 
-    public void setOnClickListener(OnClickListener onClickListener)
+    public void setOnToggleListener(OnToggleListener onToggleListener)
     {
-        this.onClickListener = onClickListener;
+        this.onToggleListener = onToggleListener;
     }
 
-    public interface OnClickListener
+    public interface OnToggleListener
     {
-        void onResourceClick(Resource resource);
+        void onToggle(Resource resource);
     }
 }

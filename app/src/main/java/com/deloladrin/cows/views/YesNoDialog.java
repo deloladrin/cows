@@ -10,7 +10,6 @@ import com.deloladrin.cows.R;
 
 public class YesNoDialog extends Dialog implements View.OnClickListener
 {
-
     private TextView text;
     private Button no;
     private Button yes;
@@ -22,6 +21,7 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
         super(context);
         this.setContentView(R.layout.dialog_yes_no);
 
+        /* Load all children */
         this.text = this.findViewById(R.id.dialog_text);
         this.no = this.findViewById(R.id.dialog_no);
         this.yes = this.findViewById(R.id.dialog_yes);

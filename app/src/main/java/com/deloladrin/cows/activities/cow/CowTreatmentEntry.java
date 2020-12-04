@@ -60,15 +60,12 @@ public class CowTreatmentEntry implements View.OnClickListener
         if (view.equals(this.delete))
         {
             YesNoDialog dialog = new YesNoDialog(this.view.getContext());
-            Resources resources = this.view.getResources();
 
             /* Treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String date = this.treatment.getDate().format(dateFormatter);
 
             dialog.setText(R.string.dialog_treatment_delete_text, date);
-            dialog.setNoText(R.string.dialog_treatment_delete_no);
-            dialog.setYesText(R.string.dialog_treatment_delete_yes);
 
             dialog.setOnYesListener(new YesNoDialog.OnYesListener()
             {
@@ -76,13 +73,13 @@ public class CowTreatmentEntry implements View.OnClickListener
                 public void onYesClick(YesNoDialog dialog)
                 {
                     /* Remove treatment and restart */
-                    for (Diagnosis diagnosis : treatment.getDiagnoses())
+                    for (Diagnosis diagnosis : CowTreatmentEntry.this.treatment.getDiagnoses())
                     {
                         diagnosis.delete();
                     }
 
-                    treatment.delete();
-                    parent.getActivity().refresh();
+                    CowTreatmentEntry.this.treatment.delete();
+                    CowTreatmentEntry.this.parent.getActivity().refresh();
                 }
             });
 
