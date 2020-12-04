@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseActivity;
 
 public abstract class ChildActivity<T extends DatabaseActivity>
@@ -39,6 +40,11 @@ public abstract class ChildActivity<T extends DatabaseActivity>
     public T getActivity()
     {
         return this.activity;
+    }
+
+    public Database getDatabase()
+    {
+        return this.activity.getDatabase();
     }
 
     public ChildActivity<T> getParent()

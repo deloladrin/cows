@@ -25,6 +25,11 @@ public class Diagnosis
     private int target;
     private List<Resource> resources;
 
+    public Diagnosis(Database database)
+    {
+        this.database = database;
+    }
+
     public Diagnosis(Database database, int id, Treatment treatment, String nameNew, String nameHealed, String nameTreated, String nameShort, DiagnosisState state, int target, List<Resource> resources)
     {
         this.database = database;

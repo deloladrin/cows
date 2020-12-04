@@ -3,6 +3,10 @@
     <style name="Cows.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorPrimary">@color/back_dark</item>
         <item name="android:colorAccent">@color/text_tint</item>
+
+        <item name="android:colorControlNormal">@color/text_dark</item>
+        <item name="android:colorControlActivated">@color/text_tint</item>
+        <item name="android:colorControlHighlight">@color/text_tint</item>
     </style>
 
 </resources>

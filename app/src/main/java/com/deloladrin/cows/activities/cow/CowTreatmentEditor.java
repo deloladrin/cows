@@ -1,5 +1,6 @@
 package com.deloladrin.cows.activities.cow;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,7 +10,10 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.Treatment;
+import com.deloladrin.cows.data.TreatmentType;
+import com.deloladrin.cows.views.SelectDialog;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -53,7 +57,45 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
     @Override
     public void onClick(View view)
     {
+        if (view.equals(this.add))
+        {
+            /* Create new treatment */
+            Context context = this.getContext();
+            SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
 
+            dialog.setText(R.string.dialog_treatment_type);
+
+            for (TreatmentType type : TreatmentType.values())
+            {
+                if (type != TreatmentType.NONE)
+                {
+                    TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
+                    dialog.add(entry);
+                }
+            }
+
+            dialog.setOnSelectListener(new SelectDialog.OnSelectListener()
+            {
+                @Override
+                public void onSelect(View view)
+                {
+                    /* Create and refresh */
+                    TreatmentTypeEntry entry = (TreatmentTypeEntry)view;
+                    CowActivity activity = CowTreatmentEditor.this.getActivity();
+
+                    Treatment treatment = new Treatment(activity.getDatabase());
+                    treatment.setCow(activity.getCow());
+                    treatment.setType(entry.getValue());
+                    treatment.setDate(LocalDateTime.now());
+                    treatment.setUser(activity.getUser());
+                    treatment.insert();
+
+                    activity.refresh();
+                }
+            });
+
+            dialog.show();
+        }
     }
 
     public Treatment getTreatment()

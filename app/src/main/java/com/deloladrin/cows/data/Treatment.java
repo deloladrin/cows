@@ -25,6 +25,11 @@ public class Treatment
     private String user;
     private List<Resource> resources;
 
+    public Treatment(Database database)
+    {
+        this.database = database;
+    }
+
     public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user, List<Resource> resources)
     {
         this.database = database;

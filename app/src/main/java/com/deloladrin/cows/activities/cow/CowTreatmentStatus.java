@@ -37,7 +37,7 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
 
         /* Load resources from database */
         CowActivity activity = this.getActivity();
-        this.resources.refresh(activity.getDatabase());
+        this.resources.refresh(this.getDatabase());
     }
 
     public Treatment getTreatment()

@@ -19,6 +19,11 @@ public class Company
     private String name;
     private String group;
 
+    public Company(Database database)
+    {
+        this.database = database;
+    }
+
     public Company(Database database, int id, String name, String group)
     {
         this.database = database;

@@ -25,6 +25,11 @@ public class Resource
     private ResourceType type;
     private DatabaseBitmap image;
 
+    public Resource(Database database)
+    {
+        this.database = database;
+    }
+
     public Resource(Database database, int id, String name, ResourceType type, DatabaseBitmap image)
     {
         this.database = database;
@@ -54,15 +59,20 @@ public class Resource
 
     public static int valueOf(List<Resource> resources)
     {
-        int resourceMask = 0;
-
-        for (Resource resource : resources)
+        if (resources != null)
         {
-            int maskID = (1 << resource.getID());
-            resourceMask |= maskID;
+            int resourceMask = 0;
+
+            for (Resource resource : resources)
+            {
+                int maskID = (1 << resource.getID());
+                resourceMask |= maskID;
+            }
+
+            return resourceMask;
         }
 
-        return resourceMask;
+        return 0;
     }
 
     public void insert()

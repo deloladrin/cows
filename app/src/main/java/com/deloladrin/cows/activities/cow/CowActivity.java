@@ -1,5 +1,6 @@
 package com.deloladrin.cows.activities.cow;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,8 +27,10 @@ import java.util.Random;
 public class CowActivity extends DatabaseActivity
 {
     public static final String EXTRA_COW_ID = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_COW_ID";
+    public static final String EXTRA_USER_NAME = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_USER_NAME";
 
     private Cow cow;
+    private String user;
 
     private CowHeader header;
     private CowTreatmentEditor editor;
@@ -64,7 +67,12 @@ public class CowActivity extends DatabaseActivity
         new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.NEW, 0b00000010, resources).insert();
 
         /* Load requested cow */
-        int cowID = this.getIntent().getIntExtra(EXTRA_COW_ID, 582344 /* TODO */);
+        Intent intent = this.getIntent();
+
+        int cowID = intent.getIntExtra(EXTRA_COW_ID, 582344 /* TODO */);
+        String user = "Bohous";// intent.getStringExtra(EXTRA_USER_NAME);
+
+        this.user = user;
         this.setCow(this.database.getCowTable().select(cowID));
     }
 
@@ -104,6 +112,11 @@ public class CowActivity extends DatabaseActivity
             this.history.setTreatments(null);
             this.editor.setTreatment(null);
         }
+    }
+
+    public String getUser()
+    {
+        return this.user;
     }
 
     public CowHeader getHeader()

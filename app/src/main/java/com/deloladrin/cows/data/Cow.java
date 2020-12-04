@@ -21,6 +21,11 @@ public class Cow
     private Company company;
     private String group;
 
+    public Cow(Database database)
+    {
+        this.database = database;
+    }
+
     public Cow(Database database, int id, int collar, Company company, String group)
     {
         this.database = database;
