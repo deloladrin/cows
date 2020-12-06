@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class CowTreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener
+public class CowTreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
     private Treatment treatment;
 
@@ -51,6 +51,7 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         this.add = this.findViewById(R.id.editor_add);
 
         /* Add events */
+        this.comment.setOnFocusChangeListener(this);
         this.add.setOnClickListener(this);
     }
 
@@ -95,6 +96,18 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
             });
 
             dialog.show();
+        }
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean hasFocus)
+    {
+        if (view.equals(this.comment) && !hasFocus)
+        {
+            /* Save comment every time it loses focus */
+            String comment = this.comment.getText().toString();
+            this.treatment.setComment(comment);
+            this.treatment.update();
         }
     }
 

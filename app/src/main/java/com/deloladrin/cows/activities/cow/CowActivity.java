@@ -3,9 +3,13 @@ package com.deloladrin.cows.activities.cow;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
@@ -74,6 +78,33 @@ public class CowActivity extends DatabaseActivity
 
         this.user = user;
         this.setCow(this.database.getCowTable().select(cowID));
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        /* Allow EditText saving after clicking outside */
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            View view = this.getCurrentFocus();
+
+            if (view instanceof EditText)
+            {
+                Rect rect = new Rect();
+                view.getGlobalVisibleRect(rect);
+
+                if (!rect.contains((int)event.getRawX(), (int)event.getRawY()))
+                {
+                    view.clearFocus();
+
+                    /* Close the keyboard */
+                    InputMethodManager manager = (InputMethodManager)this.getSystemService(INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 
     public void refreshFull()
