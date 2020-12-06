@@ -79,7 +79,7 @@ public class CowTreatmentEntry implements View.OnClickListener
                     }
 
                     CowTreatmentEntry.this.treatment.delete();
-                    CowTreatmentEntry.this.parent.getActivity().refresh();
+                    CowTreatmentEntry.this.parent.getActivity().refreshFull();
                 }
             });
 

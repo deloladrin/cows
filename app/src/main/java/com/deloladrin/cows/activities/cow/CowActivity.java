@@ -76,10 +76,17 @@ public class CowActivity extends DatabaseActivity
         this.setCow(this.database.getCowTable().select(cowID));
     }
 
-    public void refresh()
+    public void refreshFull()
     {
         /* Reload the same cow */
         this.setCow(this.cow);
+    }
+
+    public void refresh()
+    {
+        /* Reload the same cow with the same treatment */
+        Treatment current = this.editor.getTreatment();
+        this.setCow(this.cow, current);
     }
 
     public Cow getCow()
@@ -106,6 +113,24 @@ public class CowActivity extends DatabaseActivity
             {
                 this.editor.setTreatment(null);
             }
+        }
+        else
+        {
+            this.history.setTreatments(null);
+            this.editor.setTreatment(null);
+        }
+    }
+
+    public void setCow(Cow cow, Treatment treatment)
+    {
+        this.cow = cow;
+        this.header.setCow(cow);
+
+        if (cow != null)
+        {
+            List<Treatment> treatments = cow.getTreatments();
+            this.history.setTreatments(treatments);
+            this.editor.setTreatment(treatment);
         }
         else
         {

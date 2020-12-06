@@ -90,7 +90,7 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
                     treatment.setUser(activity.getUser());
                     treatment.insert();
 
-                    activity.refresh();
+                    activity.refreshFull();
                 }
             });
 
