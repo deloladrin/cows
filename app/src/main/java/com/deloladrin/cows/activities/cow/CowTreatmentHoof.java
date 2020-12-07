@@ -14,11 +14,12 @@ import java.util.List;
 
 public class CowTreatmentHoof extends ChildActivity<CowActivity>
 {
-    private List<Diagnosis> diagnoses;
+    public static final int MASK_ALL = 0b11;
+    public static final int MASK_LEFT = 0b10;
+    public static final int MASK_RIGHT = 0b01;
 
-    private int maskLeft;
-    private int maskRight;
-    private int maskAll;
+    private List<Diagnosis> diagnoses;
+    private int mask;
 
     private CowTreatmentFinger left;
     private CowTreatmentFinger right;
@@ -26,15 +27,12 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
     private DiagnosisContainer diagnosesLeft;
     private DiagnosisContainer diagnosesRight;
     private DiagnosisContainer diagnosesAll;
-
-    private HoofResourceContainer resourcesLeft;
-    private HoofResourceContainer resourcesRight;
-    private HoofResourceContainer resourcesAll;
+    private HoofResourceContainer resources;
 
     public CowTreatmentHoof(ChildActivity<CowActivity> parent, int mask, int layout)
     {
         super(parent, layout);
-        this.getMasks(mask);
+        this.mask = mask;
 
         /* Load all children */
         this.left = new CowTreatmentFinger(this, R.id.hoof_left);
@@ -43,10 +41,7 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         this.diagnosesLeft = this.findViewById(R.id.hoof_diagnoses_left);
         this.diagnosesRight = this.findViewById(R.id.hoof_diagnoses_right);
         this.diagnosesAll = this.findViewById(R.id.hoof_diagnoses_all);
-
-        this.resourcesLeft = this.findViewById(R.id.hoof_resources_left);
-        this.resourcesRight = this.findViewById(R.id.hoof_resources_right);
-        this.resourcesAll = this.findViewById(R.id.hoof_resources_all);
+        this.resources = this.findViewById(R.id.hoof_resources);
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -62,10 +57,7 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         this.diagnosesLeft.clear();
         this.diagnosesRight.clear();
         this.diagnosesAll.clear();
-
-        this.resourcesLeft.clear();
-        this.resourcesRight.clear();
-        this.resourcesAll.clear();
+        this.resources.clear();
 
         this.left.setState(DiagnosisState.NONE, true);
         this.right.setState(DiagnosisState.NONE, true);
@@ -75,7 +67,7 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
             for (Diagnosis diagnosis : diagnoses)
             {
                 /* Load only valid diagnoses */
-                if ((diagnosis.getTarget() & this.maskAll) != 0)
+                if ((diagnosis.getTarget() & this.mask) != 0)
                 {
                     this.addDiagnosis(diagnosis);
                 }
@@ -86,10 +78,10 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
     private void addDiagnosis(Diagnosis diagnosis)
     {
         DiagnosisState state = diagnosis.getState();
-        int target = diagnosis.getTarget();
+        int target = this.getLocalMask(diagnosis.getTarget());
 
         /* Add diagnosis to correct finger */
-        if ((target & this.maskAll) == this.maskAll)
+        if (target == MASK_ALL)
         {
             this.left.setState(state);
             this.right.setState(state);
@@ -97,89 +89,41 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
             this.diagnosesAll.add(diagnosis);
         }
 
-        else if ((target & this.maskLeft) == this.maskLeft)
+        else if (target == MASK_LEFT)
         {
             this.left.setState(state);
             this.diagnosesLeft.add(diagnosis);
         }
 
-        else if ((target & this.maskRight) == this.maskRight)
+        else if (target == MASK_RIGHT)
         {
             this.right.setState(state);
             this.diagnosesRight.add(diagnosis);
         }
 
-        this.addResources(diagnosis, target);
-    }
-
-    private void addResources(Diagnosis diagnosis, int target)
-    {
+        /* Add all resources */
         for (Resource resource : diagnosis.getResources())
         {
-            /* Show resource on correct location */
-            switch (resource.getType())
-            {
-                case FINGER:
-                    if ((target & this.maskLeft) == this.maskLeft)
-                    {
-                        this.resourcesLeft.add(resource);
-                    }
-
-                    else if ((target & this.maskRight) == this.maskRight)
-                    {
-                        this.resourcesRight.add(resource);
-                    }
-
-                    break;
-
-                case FINGER_INVERTED:
-                    if ((target & this.maskLeft) == this.maskLeft)
-                    {
-                        this.resourcesRight.add(resource);
-                    }
-
-                    else if ((target & this.maskRight) == this.maskRight)
-                    {
-                        this.resourcesLeft.add(resource);
-                    }
-
-                    break;
-
-                case HOOF:
-                    this.resourcesAll.add(resource);
-
-                    break;
-
-                case COW:
-
-                    break;
-            }
+            this.resources.add(resource, target);
         }
     }
 
-    private void getMasks(int mask)
+    private int getLocalMask(int mask)
     {
-        int left = -1;
-        int right = -1;
-
-        for (int i = 0; i < Integer.BYTES * 8; i++)
+        if (mask != 0)
         {
-            boolean on = (mask & (1 << i)) != 0;
+            int m = this.mask;
+            int n = 0;
 
-            if (on && right == -1)
+            while ((m & 0x1) == 0)
             {
-                right = i;
+                m >>= 1;
+                n++;
             }
 
-            else if (on)
-            {
-                left = i;
-                break;
-            }
+            return (mask >> n);
         }
 
-        this.maskLeft = (1 << left);
-        this.maskRight = (1 << right);
-        this.maskAll = mask;
+        return 0;
     }
 }
