@@ -183,8 +183,8 @@ public class Resource
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_tp_xxl)));
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, new DatabaseBitmap(context, R.drawable.resource_block_iron_half)));
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_block_iron)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_bandage)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_synulox)));
+            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.HOOF, new DatabaseBitmap(context, R.drawable.resource_synulox_2x)));
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_antibiotics), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_antibiotics)));
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_checkup), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_checkup)));
             defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_no_bathing), ResourceType.COW, new DatabaseBitmap(context, R.drawable.resource_no_bathing)));
