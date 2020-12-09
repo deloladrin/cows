@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textSize="6pt"
+            android:textSize="@dimen/text_small"
             android:textStyle="italic|bold"
             android:textColor="@color/text_dark" />
 
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="6pt"
+            android:textSize="@dimen/text_small"
             android:textStyle="italic|bold"
             android:textColor="@color/text_dark"
             android:text="@string/section_comment" />
@@ -78,7 +78,7 @@
             android:id="@+id/editor_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
     </LinearLayout>
@@ -90,7 +90,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/button_tint"
         android:textColor="@color/text_light"
-        android:textSize="6pt"
+        android:textSize="@dimen/text_small"
         android:text="@string/button_add" />
 
 </LinearLayout>

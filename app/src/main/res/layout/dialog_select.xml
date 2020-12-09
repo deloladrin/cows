@@ -15,7 +15,7 @@
             android:id="@+id/dialog_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
         <LinearLayout
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@color/button_dark"
         android:textColor="@color/text_light"
-        android:textSize="6pt"
+        android:textSize="@dimen/text_small"
         android:text="@string/dialog_cancel" />
 
 </LinearLayout>

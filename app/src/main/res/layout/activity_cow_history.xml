@@ -11,7 +11,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:textSize="6pt"
+        android:textSize="@dimen/text_small"
         android:textStyle="italic|bold"
         android:textColor="@color/text_dark"
         android:text="@string/section_history" />

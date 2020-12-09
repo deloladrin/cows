@@ -10,7 +10,7 @@
         android:id="@+id/header_company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="6pt"
+        android:textSize="@dimen/text_small"
         android:textStyle="italic|bold"
         android:textColor="@color/text_dark" />
 
@@ -39,14 +39,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_light"
-                android:textSize="8pt" />
+                android:textSize="@dimen/text_medium" />
 
             <TextView
                 android:id="@+id/header_collar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_tint"
-                android:textSize="8pt" />
+                android:textSize="@dimen/text_medium" />
 
         </LinearLayout>
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_light"
-            android:textSize="8pt" />
+            android:textSize="@dimen/text_medium" />
 
     </LinearLayout>
 

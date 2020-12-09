@@ -69,7 +69,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
             int size = this.getLayoutParams().height;
             LayoutParams params = new LayoutParams(size, size);
 
-            int marginPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, this.getContext().getResources().getDisplayMetrics());
+            int marginPx = this.getResources().getDimensionPixelSize(R.dimen.margin_container);
             params.setMargins(marginPx, 0, 0, 0);
 
             view.setLayoutParams(params);

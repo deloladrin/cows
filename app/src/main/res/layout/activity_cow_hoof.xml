@@ -18,12 +18,12 @@
             android:layout_weight="1"
             android:layout_marginRight="2dp"
             android:gravity="right"
-            cows:textSize="6pt"
+            cows:textSize="@dimen/text_small"
             android:orientation="vertical" />
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="100dp">
+            android:layout_height="@dimen/size_cow_hoof">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="2dp"
-            cows:textSize="6pt"
+            cows:textSize="@dimen/text_small"
             android:orientation="vertical" />
 
     </LinearLayout>
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:gravity="center"
-        cows:textSize="6pt"
+        cows:textSize="@dimen/text_small"
         android:orientation="horizontal" />
 
 </LinearLayout>

@@ -8,19 +8,19 @@
 
     <com.deloladrin.cows.views.CircleTextView
         android:id="@+id/status_type"
-        android:layout_width="24pt"
-        android:layout_height="24pt"
+        android:layout_width="@dimen/size_cow_status"
+        android:layout_height="@dimen/size_cow_status"
         android:gravity="center"
         cows:strokeColor="@color/text_tint"
         cows:strokeWidth="8.0"
         android:textStyle="bold"
         android:textColor="@color/text_tint_dark"
-        android:textSize="12pt" />
+        android:textSize="@dimen/text_big" />
 
     <com.deloladrin.cows.activities.cow.ToggleResourceContainer
         android:id="@+id/status_resources"
         android:layout_width="0dp"
-        android:layout_height="24pt"
+        android:layout_height="@dimen/size_cow_status"
         android:layout_weight="1"
         android:gravity="right"
         cows:disabledStrokeColor="@color/text_disabled"

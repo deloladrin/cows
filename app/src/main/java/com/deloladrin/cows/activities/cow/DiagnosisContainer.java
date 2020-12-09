@@ -53,7 +53,7 @@ public class DiagnosisContainer extends LinearLayout
         /* Add margin to horizontal views */
         if (this.getOrientation() == HORIZONTAL)
         {
-            int marginPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, this.getContext().getResources().getDisplayMetrics());
+            int marginPx = this.getResources().getDimensionPixelSize(R.dimen.margin_container);
 
             params.setMargins(marginPx, 0, marginPx, 0);
             view.setLayoutParams(params);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_small">6pt</dimen>
+    <dimen name="text_medium">8pt</dimen>
+    <dimen name="text_big">12pt</dimen>
+
+    <dimen name="size_cow_hoof">100dp</dimen>
+    <dimen name="size_cow_status">24pt</dimen>
+    <dimen name="size_cow_entry">24pt</dimen>
+
+    <dimen name="margin_container">4dp</dimen>
+</resources>
