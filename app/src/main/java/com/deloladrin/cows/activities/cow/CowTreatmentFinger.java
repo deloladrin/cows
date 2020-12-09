@@ -3,17 +3,21 @@ package com.deloladrin.cows.activities.cow;
 import android.widget.ImageView;
 
 import com.deloladrin.cows.data.DiagnosisState;
+import com.deloladrin.cows.data.FingerMask;
 
 public class CowTreatmentFinger
 {
     private CowTreatmentHoof parent;
+    private FingerMask mask;
 
     private ImageView view;
     private DiagnosisState state;
 
-    public CowTreatmentFinger(CowTreatmentHoof parent, int view)
+    public CowTreatmentFinger(CowTreatmentHoof parent, FingerMask mask, int view)
     {
         this.parent = parent;
+        this.mask = mask;
+
         this.view = parent.findViewById(view);
 
         this.setState(DiagnosisState.NONE, true);

@@ -9,6 +9,7 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
+import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.views.SelectDialog;
@@ -43,10 +44,10 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
 
         this.status = new CowTreatmentStatus(this, R.id.editor_status);
 
-        this.frontLeft = new CowTreatmentHoof(this, 0b11000000, R.id.editor_front_left);
-        this.frontRight = new CowTreatmentHoof(this, 0b00110000, R.id.editor_front_right);
-        this.backLeft = new CowTreatmentHoof(this, 0b00001100, R.id.editor_back_left);
-        this.backRight = new CowTreatmentHoof(this, 0b00000011, R.id.editor_back_right);
+        this.frontLeft = new CowTreatmentHoof(this, HoofMask.LF, R.id.editor_front_left);
+        this.frontRight = new CowTreatmentHoof(this, HoofMask.RF, R.id.editor_front_right);
+        this.backLeft = new CowTreatmentHoof(this, HoofMask.LB, R.id.editor_back_left);
+        this.backRight = new CowTreatmentHoof(this, HoofMask.RB, R.id.editor_back_right);
 
         this.add = this.findViewById(R.id.editor_add);
 

@@ -20,6 +20,19 @@
     <string name="diagnosis_treated">Rozléčený</string>
     <string name="diagnosis_new">Nový</string>
 
+    <string name="mask_lf">LP</string>
+    <string name="mask_lf_lf">LP-lp</string>
+    <string name="mask_lf_rf">LP-pp</string>
+    <string name="mask_rf">PP</string>
+    <string name="mask_rf_lf">PP-lp</string>
+    <string name="mask_rf_rf">PP-pp</string>
+    <string name="mask_lb">LZ</string>
+    <string name="mask_lb_lf">LZ-lp</string>
+    <string name="mask_lb_rf">LZ-pp</string>
+    <string name="mask_rb">PZ</string>
+    <string name="mask_rb_lf">PZ-lp</string>
+    <string name="mask_rb_rf">PZ-pp</string>
+
     <string name="resource_bandage">Obvaz</string>
     <string name="resource_block_wood">Wooden Block</string>
     <string name="resource_block_wood_xxl">Wooden Block XXL</string>

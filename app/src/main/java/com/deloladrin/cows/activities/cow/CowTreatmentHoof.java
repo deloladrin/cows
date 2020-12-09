@@ -8,18 +8,15 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
+import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
 
 import java.util.List;
 
 public class CowTreatmentHoof extends ChildActivity<CowActivity>
 {
-    public static final int MASK_ALL = 0b11;
-    public static final int MASK_LEFT = 0b10;
-    public static final int MASK_RIGHT = 0b01;
-
     private List<Diagnosis> diagnoses;
-    private int mask;
+    private HoofMask mask;
 
     private CowTreatmentFinger left;
     private CowTreatmentFinger right;
@@ -29,19 +26,21 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
     private DiagnosisContainer diagnosesAll;
     private HoofResourceContainer resources;
 
-    public CowTreatmentHoof(ChildActivity<CowActivity> parent, int mask, int layout)
+    public CowTreatmentHoof(ChildActivity<CowActivity> parent, HoofMask mask, int layout)
     {
         super(parent, layout);
         this.mask = mask;
 
         /* Load all children */
-        this.left = new CowTreatmentFinger(this, R.id.hoof_left);
-        this.right = new CowTreatmentFinger(this, R.id.hoof_right);
+        this.left = new CowTreatmentFinger(this, mask.getLeftFinger(), R.id.hoof_left);
+        this.right = new CowTreatmentFinger(this, mask.getRightFinger(), R.id.hoof_right);
 
         this.diagnosesLeft = this.findViewById(R.id.hoof_diagnoses_left);
         this.diagnosesRight = this.findViewById(R.id.hoof_diagnoses_right);
         this.diagnosesAll = this.findViewById(R.id.hoof_diagnoses_all);
+
         this.resources = this.findViewById(R.id.hoof_resources);
+        this.resources.setMask(this.mask);
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -67,7 +66,7 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
             for (Diagnosis diagnosis : diagnoses)
             {
                 /* Load only valid diagnoses */
-                if ((diagnosis.getTarget() & this.mask) != 0)
+                if (this.mask.contains(diagnosis.getTarget()))
                 {
                     this.addDiagnosis(diagnosis);
                 }
@@ -78,10 +77,10 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
     private void addDiagnosis(Diagnosis diagnosis)
     {
         DiagnosisState state = diagnosis.getState();
-        int target = this.getLocalMask(diagnosis.getTarget());
+        int target = diagnosis.getTarget();
 
         /* Add diagnosis to correct finger */
-        if (target == MASK_ALL)
+        if (target == this.mask.getMask())
         {
             this.left.setState(state);
             this.right.setState(state);
@@ -89,13 +88,13 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
             this.diagnosesAll.add(diagnosis);
         }
 
-        else if (target == MASK_LEFT)
+        else if (target == this.mask.getLeftFinger().getMask())
         {
             this.left.setState(state);
             this.diagnosesLeft.add(diagnosis);
         }
 
-        else if (target == MASK_RIGHT)
+        else if (target == this.mask.getRightFinger().getMask())
         {
             this.right.setState(state);
             this.diagnosesRight.add(diagnosis);
@@ -106,24 +105,5 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         {
             this.resources.add(resource, target);
         }
-    }
-
-    private int getLocalMask(int mask)
-    {
-        if (mask != 0)
-        {
-            int m = this.mask;
-            int n = 0;
-
-            while ((m & 0x1) == 0)
-            {
-                m >>= 1;
-                n++;
-            }
-
-            return (mask >> n);
-        }
-
-        return 0;
     }
 }

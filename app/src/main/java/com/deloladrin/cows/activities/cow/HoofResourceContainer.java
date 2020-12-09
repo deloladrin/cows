@@ -8,11 +8,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.ResourceType;
 
 public class HoofResourceContainer extends FrameLayout
 {
+    private HoofMask mask;
+
     public HoofResourceContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -37,7 +40,7 @@ public class HoofResourceContainer extends FrameLayout
 
             case FINGER:
 
-                if (target == CowTreatmentHoof.MASK_RIGHT)
+                if (target == this.mask.getRightFinger().getMask())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;
@@ -47,7 +50,7 @@ public class HoofResourceContainer extends FrameLayout
 
             case FINGER_INVERTED:
 
-                if (target == CowTreatmentHoof.MASK_LEFT)
+                if (target == this.mask.getLeftFinger().getMask())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;
@@ -64,5 +67,15 @@ public class HoofResourceContainer extends FrameLayout
     {
         /* Remove all children */
         this.removeAllViews();
+    }
+
+    public HoofMask getMask()
+    {
+        return this.mask;
+    }
+
+    public void setMask(HoofMask mask)
+    {
+        this.mask = mask;
     }
 }

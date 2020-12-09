@@ -170,7 +170,7 @@ public class Diagnosis
 
     public static class Table extends TableBase<Diagnosis>
     {
-        public static final String TABLE_NAME = "diagnosis"; /* TODO */
+        public static final String TABLE_NAME = "diagnoses";
 
         public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
         public static final TableColumn COLUMN_TREATMENT = new TableColumn(1, "treatment", ValueType.INTEGER, false);
