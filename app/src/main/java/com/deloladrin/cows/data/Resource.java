@@ -77,7 +77,7 @@ public class Resource
 
     public void insert()
     {
-        this.database.getResourceTable().insert(this);
+        this.id = this.database.getResourceTable().insert(this);
     }
 
     public void update()

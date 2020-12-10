@@ -53,7 +53,7 @@ public class Treatment
 
     public void insert()
     {
-        this.database.getTreatmentTable().insert(this);
+        this.id = this.database.getTreatmentTable().insert(this);
     }
 
     public void update()

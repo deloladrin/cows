@@ -10,7 +10,7 @@
         android:layout_height="24pt"
         android:gravity="center"
         android:textStyle="bold"
-        android:textColor="@color/text_tint_dark"
+        android:textColor="@color/text_tint"
         android:textSize="@dimen/text_big" />
 
     <TextView

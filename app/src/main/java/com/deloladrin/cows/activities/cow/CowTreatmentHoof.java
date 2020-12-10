@@ -1,21 +1,18 @@
 package com.deloladrin.cows.activities.cow;
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
-import com.deloladrin.cows.data.Cow;
+import com.deloladrin.cows.activities.cow.views.DiagnosisContainer;
+import com.deloladrin.cows.activities.cow.views.HoofResourceContainer;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
-
-import java.util.List;
+import com.deloladrin.cows.data.Treatment;
 
 public class CowTreatmentHoof extends ChildActivity<CowActivity>
 {
-    private List<Diagnosis> diagnoses;
+    private Treatment treatment;
     private HoofMask mask;
 
     private CowTreatmentFinger left;
@@ -43,14 +40,14 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         this.resources.setMask(this.mask);
     }
 
-    public List<Diagnosis> getDiagnoses()
+    public Treatment getTreatment()
     {
-        return this.diagnoses;
+        return this.treatment;
     }
 
-    public void setDiagnoses(List<Diagnosis> diagnoses)
+    public void setTreatment(Treatment treatment)
     {
-        this.diagnoses = diagnoses;
+        this.treatment = treatment;
 
         /* Reset diagnosis */
         this.diagnosesLeft.clear();
@@ -61,9 +58,9 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         this.left.setState(DiagnosisState.NONE, true);
         this.right.setState(DiagnosisState.NONE, true);
 
-        if (diagnoses != null)
+        if (treatment != null)
         {
-            for (Diagnosis diagnosis : diagnoses)
+            for (Diagnosis diagnosis : treatment.getDiagnoses())
             {
                 /* Load only valid diagnoses */
                 if (this.mask.contains(diagnosis.getTarget()))

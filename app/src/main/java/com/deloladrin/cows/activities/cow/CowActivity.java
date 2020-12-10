@@ -67,10 +67,10 @@ public class CowActivity extends DatabaseActivity
         List<Resource> resources = new ArrayList<>();
         resources.add(this.database.getResourceTable().select(1));
         resources.add(this.database.getResourceTable().select(4));
-        resources.add(this.database.getResourceTable().select(8));
 
-        new Diagnosis(this.database, -1, treatment, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisState.NEW, 0b00001000, resources).insert();
-        new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.NEW, 0b00000010, resources).insert();
+        new Diagnosis(this.database, -1, treatment, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisState.NEW, 0b00000001, resources).insert();
+        new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.TREATED, 0b00000010, null).insert();
+        new Diagnosis(this.database, -1, treatment, "DKWAOPDKWAOPDOP", "DWAKODWAKPDOWAKOP", "DWOKDWAPODKWOP", "DD", DiagnosisState.HEALED, 0b00000011, null).insert();
 
         /* Load requested cow */
         Intent intent = this.getIntent();

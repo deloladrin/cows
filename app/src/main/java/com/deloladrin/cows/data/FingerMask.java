@@ -6,23 +6,21 @@ import com.deloladrin.cows.R;
 
 public enum FingerMask
 {
-    LF_LF(0b10000000, HoofMask.LF, R.string.mask_lf_lf),
-    LF_RF(0b01000000, HoofMask.LF, R.string.mask_lf_rf),
-    RF_LF(0b00100000, HoofMask.RF, R.string.mask_rf_lf),
-    RF_RF(0b00010000, HoofMask.RF, R.string.mask_rf_rf),
-    LB_LF(0b00001000, HoofMask.LB, R.string.mask_lb_lf),
-    LB_RF(0b00000100, HoofMask.LB, R.string.mask_lb_rf),
-    RB_LF(0b00000010, HoofMask.RB, R.string.mask_rb_lf),
-    RB_RF(0b00000001, HoofMask.RB, R.string.mask_rb_rf);
+    LF_LF(0b10000000, R.string.mask_lf_lf),
+    LF_RF(0b01000000, R.string.mask_lf_rf),
+    RF_LF(0b00100000, R.string.mask_rf_lf),
+    RF_RF(0b00010000, R.string.mask_rf_rf),
+    LB_LF(0b00001000, R.string.mask_lb_lf),
+    LB_RF(0b00000100, R.string.mask_lb_rf),
+    RB_LF(0b00000010, R.string.mask_rb_lf),
+    RB_RF(0b00000001, R.string.mask_rb_rf);
 
     private int mask;
-    private HoofMask hoof;
     private int name;
 
-    FingerMask(int mask, HoofMask hoof, int name)
+    FingerMask(int mask, int name)
     {
         this.mask = mask;
-        this.hoof = hoof;
         this.name = name;
     }
 
@@ -57,7 +55,15 @@ public enum FingerMask
 
     public HoofMask getHoof()
     {
-        return this.hoof;
+        for (HoofMask value : HoofMask.values())
+        {
+            if (value.contains(this.mask))
+            {
+                return value;
+            }
+        }
+
+        return null;
     }
 
     public String getName(Context context)

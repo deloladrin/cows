@@ -1,12 +1,12 @@
 package com.deloladrin.cows.activities.cow;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.View;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
+import com.deloladrin.cows.activities.cow.views.ToggleResourceContainer;
+import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;

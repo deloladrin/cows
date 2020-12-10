@@ -1,4 +1,4 @@
-package com.deloladrin.cows.activities.cow;
+package com.deloladrin.cows.activities.cow.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

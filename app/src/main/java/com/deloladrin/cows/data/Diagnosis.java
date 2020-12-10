@@ -17,9 +17,9 @@ public class Diagnosis
 
     private int id;
     private Treatment treatment;
-    private String nameNew;
     private String nameHealed;
     private String nameTreated;
+    private String nameNew;
     private String nameShort;
     private DiagnosisState state;
     private int target;
@@ -30,15 +30,15 @@ public class Diagnosis
         this.database = database;
     }
 
-    public Diagnosis(Database database, int id, Treatment treatment, String nameNew, String nameHealed, String nameTreated, String nameShort, DiagnosisState state, int target, List<Resource> resources)
+    public Diagnosis(Database database, int id, Treatment treatment, String nameHealed, String nameTreated, String nameNew, String nameShort, DiagnosisState state, int target, List<Resource> resources)
     {
         this.database = database;
 
         this.id = id;
         this.treatment = treatment;
-        this.nameNew = nameNew;
         this.nameHealed = nameHealed;
         this.nameTreated = nameTreated;
+        this.nameNew = nameNew;
         this.nameShort = nameShort;
         this.state = state;
         this.target = target;
@@ -47,7 +47,7 @@ public class Diagnosis
 
     public void insert()
     {
-        this.database.getDiagnosesTable().insert(this);
+        this.id = this.database.getDiagnosesTable().insert(this);
     }
 
     public void update()
@@ -98,14 +98,16 @@ public class Diagnosis
         this.treatment = treatment;
     }
 
-    public String getNewName()
+    public String getName()
     {
-        return this.nameNew;
-    }
+        switch (this.state)
+        {
+            case HEALED: return this.nameHealed;
+            case TREATED: return this.nameTreated;
+            case NEW: return this.nameNew;
+        }
 
-    public void setNewName(String name)
-    {
-        this.nameNew = name;
+        return null;
     }
 
     public String getHealedName()
@@ -126,6 +128,16 @@ public class Diagnosis
     public void setTreatedName(String name)
     {
         this.nameTreated = name;
+    }
+
+    public String getNewName()
+    {
+        return this.nameNew;
+    }
+
+    public void setNewName(String name)
+    {
+        this.nameNew = name;
     }
 
     public String getShortName()

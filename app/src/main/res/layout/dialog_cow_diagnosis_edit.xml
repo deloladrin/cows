@@ -12,18 +12,44 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_text"
+            android:id="@+id/dialog_finger"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
-        <LinearLayout
-            android:id="@+id/dialog_container"
+        <TextView
+            android:id="@+id/dialog_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:textSize="@dimen/text_medium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_healed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_healed"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/diagnosis_healed" />
+
+        <Button
+            android:id="@+id/dialog_treated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_treated"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/diagnosis_treated" />
 
     </LinearLayout>
 

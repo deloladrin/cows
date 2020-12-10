@@ -15,6 +15,7 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
 {
     private TextView text;
     private LinearLayout container;
+
     private Button cancel;
 
     private OnSelectListener onSelectListener;
@@ -27,6 +28,7 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
         /* Load all children */
         this.text = this.findViewById(R.id.dialog_text);
         this.container = this.findViewById(R.id.dialog_container);
+
         this.cancel = this.findViewById(R.id.dialog_cancel);
 
         /* Add events */
@@ -36,10 +38,13 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
     @Override
     public void onClick(View view)
     {
-        /* Please don't select cancel button */
-        if (!view.equals(this.cancel))
+        /* Get selected item */
+        for (int i = 0; i < this.container.getChildCount(); i++)
         {
-            this.onSelectListener.onSelect(view);
+            if (view.equals(this.container.getChildAt(i)))
+            {
+                this.onSelectListener.onSelect(view);
+            }
         }
 
         this.dismiss();

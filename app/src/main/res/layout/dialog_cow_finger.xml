@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/size_dialog"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:background="@color/back_light"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dialog_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/text_light" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+        <com.wefika.flowlayout.FlowLayout
+            android:id="@+id/dialog_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,24 +34,24 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/dialog_no"
+            android:id="@+id/dialog_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/button_dark"
             android:textColor="@color/text_light"
             android:textSize="@dimen/text_small"
-            android:text="@string/dialog_no" />
+            android:text="@string/dialog_cancel" />
 
         <Button
-            android:id="@+id/dialog_yes"
+            android:id="@+id/dialog_add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/button_tint"
             android:textColor="@color/text_light"
             android:textSize="@dimen/text_small"
-            android:text="@string/dialog_yes" />
+            android:text="@string/dialog_add" />
 
     </LinearLayout>
 

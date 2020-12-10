@@ -7,8 +7,9 @@ import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
-import com.deloladrin.cows.data.Cow;
+import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Diagnosis;
+import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
@@ -16,7 +17,6 @@ import com.deloladrin.cows.views.SelectDialog;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class CowTreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
@@ -92,6 +92,23 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
                     treatment.setUser(activity.getUser());
                     treatment.insert();
 
+                    /* Copy previous diagnosis */
+                    for (Diagnosis diagnosis : CowTreatmentEditor.this.treatment.getDiagnoses())
+                    {
+                        if (diagnosis.getState() != DiagnosisState.HEALED)
+                        {
+                            Diagnosis copy = new Diagnosis(activity.getDatabase());
+                            copy.setTreatment(treatment);
+                            copy.setHealedName(diagnosis.getHealedName());
+                            copy.setTreatedName(diagnosis.getTreatedName());
+                            copy.setNewName(diagnosis.getNewName());
+                            copy.setShortName(diagnosis.getShortName());
+                            copy.setState(diagnosis.getState());
+                            copy.setTarget(diagnosis.getTarget());
+                            copy.insert();
+                        }
+                    }
+
                     activity.refreshFull();
                 }
             });
@@ -135,23 +152,22 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
             /* Update children */
             this.status.setTreatment(treatment);
 
-            List<Diagnosis> diagnoses = treatment.getDiagnoses();
-            this.frontLeft.setDiagnoses(diagnoses);
-            this.frontRight.setDiagnoses(diagnoses);
-            this.backLeft.setDiagnoses(diagnoses);
-            this.backRight.setDiagnoses(diagnoses);
+            this.frontLeft.setTreatment(treatment);
+            this.frontRight.setTreatment(treatment);
+            this.backLeft.setTreatment(treatment);
+            this.backRight.setTreatment(treatment);
         }
         else
         {
-            this.date.setText("");
+            this.date.setText("—");
             this.comment.setText("");
 
             this.status.setTreatment(null);
 
-            this.frontLeft.setDiagnoses(null);
-            this.frontRight.setDiagnoses(null);
-            this.backLeft.setDiagnoses(null);
-            this.backRight.setDiagnoses(null);
+            this.frontLeft.setTreatment(null);
+            this.frontRight.setTreatment(null);
+            this.backLeft.setTreatment(null);
+            this.backRight.setTreatment(null);
         }
     }
 }

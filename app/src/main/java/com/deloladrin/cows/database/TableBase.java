@@ -1,5 +1,6 @@
 package com.deloladrin.cows.database;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -42,13 +43,13 @@ public abstract class TableBase<T>
         db.execSQL("DROP TABLE IF EXISTS " + this.getName());
     }
 
-    public void insert(T object)
+    public int insert(T object)
     {
         SQLiteDatabase db = this.database.getWritableDatabase();
-        this.insert(db, object);
+        return this.insert(db, object);
     }
 
-    public void insert(SQLiteDatabase db, T object)
+    public int insert(SQLiteDatabase db, T object)
     {
         ValueParams params = this.getParams(object);
 
@@ -65,6 +66,8 @@ public abstract class TableBase<T>
         }
 
         db.execSQL("INSERT INTO " + this.getName() + "(" + String.join(", ", columns) + ") VALUES(" + String.join(", ", values) + ")");
+
+        return this.getLastID();
     }
 
     public void insertAll(List<T> objects)
@@ -253,6 +256,25 @@ public abstract class TableBase<T>
         }
 
         return null;
+    }
+
+    public int getLastID()
+    {
+        SQLiteDatabase db = this.database.getWritableDatabase();
+        return this.getLastID(db);
+    }
+
+    public int getLastID(SQLiteDatabase db)
+    {
+        Cursor cursor = db.rawQuery("SELECT last_insert_rowid()", null);
+
+        if (cursor.getCount() > 0)
+        {
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+
+        return -1;
     }
 
     public String getName()

@@ -43,7 +43,7 @@ public class Company
 
     public void insert()
     {
-        this.database.getCompanyTable().insert(this);
+        this.id = this.database.getCompanyTable().insert(this);
     }
 
     public void update()

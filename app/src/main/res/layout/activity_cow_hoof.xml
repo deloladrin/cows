@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.deloladrin.cows.activities.cow.DiagnosisContainer
+        <com.deloladrin.cows.activities.cow.views.DiagnosisContainer
             android:id="@+id/hoof_diagnoses_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -48,14 +48,14 @@
 
             </LinearLayout>
 
-            <com.deloladrin.cows.activities.cow.HoofResourceContainer
+            <com.deloladrin.cows.activities.cow.views.HoofResourceContainer
                 android:id="@+id/hoof_resources"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
         </FrameLayout>
 
-        <com.deloladrin.cows.activities.cow.DiagnosisContainer
+        <com.deloladrin.cows.activities.cow.views.DiagnosisContainer
             android:id="@+id/hoof_diagnoses_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 
     </LinearLayout>
 
-    <com.deloladrin.cows.activities.cow.DiagnosisContainer
+    <com.deloladrin.cows.activities.cow.views.DiagnosisContainer
         android:id="@+id/hoof_diagnoses_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
