@@ -37,7 +37,7 @@ public class CowTreatmentFinger implements View.OnClickListener
             Context context = this.parent.getContext();
             Treatment treatment = this.parent.getTreatment();
 
-            FingerDialog dialog = new FingerDialog(context, treatment, this.mask);
+            FingerDialog dialog = new FingerDialog(this.parent, treatment, this.mask);
 
             dialog.setOnSubmitListener((d) ->
             {

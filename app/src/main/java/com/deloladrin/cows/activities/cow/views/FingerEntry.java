@@ -16,11 +16,6 @@ public class FingerEntry extends AppCompatButton
         super(context);
     }
 
-    public FingerEntry(Context context, AttributeSet attrs)
-    {
-        super(context);
-    }
-
     public Diagnosis getDiagnosis()
     {
         return this.diagnosis;

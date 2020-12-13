@@ -7,14 +7,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
+import com.deloladrin.cows.activities.ChildActivity;
+import com.deloladrin.cows.activities.ChildDialog;
+import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.FingerMask;
+import com.deloladrin.cows.data.TargetMask;
 
-public class DiagnosisEditDialog extends Dialog implements View.OnClickListener
+public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
     private Diagnosis diagnosis;
-    private FingerMask mask;
+    private TargetMask mask;
 
     private TextView finger;
     private TextView name;
@@ -25,13 +29,13 @@ public class DiagnosisEditDialog extends Dialog implements View.OnClickListener
 
     private OnSubmitListener onSubmitListener;
 
-    public DiagnosisEditDialog(Context context, Diagnosis diagnosis, FingerMask mask)
+    public DiagnosisEditDialog(ChildActivity<CowActivity> parent, Diagnosis diagnosis)
     {
-        super(context);
+        super(parent);
         this.setContentView(R.layout.dialog_cow_diagnosis_edit);
 
         this.diagnosis = diagnosis;
-        this.mask = mask;
+        this.mask = FingerMask.parseUnknown(diagnosis.getTarget());
 
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
@@ -68,10 +72,13 @@ public class DiagnosisEditDialog extends Dialog implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
+        Context context = this.getContext();
+
         if (view.equals(this.healed))
         {
             /* Change to healed and submit */
             this.diagnosis.setState(DiagnosisState.HEALED);
+            this.diagnosis.setResources(null);
             this.diagnosis.update();
 
             this.onSubmitListener.onSubmit(this);
@@ -79,11 +86,21 @@ public class DiagnosisEditDialog extends Dialog implements View.OnClickListener
 
         if (view.equals(this.treated))
         {
-            /* Change to treated and submit */
-            this.diagnosis.setState(DiagnosisState.TREATED);
-            this.diagnosis.update();
+            /* Show resources edit dialog */
+            ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
 
-            this.onSubmitListener.onSubmit(this);
+            dialog.setOnSubmitListener((d) ->
+            {
+                /* Change to treated and submit */
+                this.diagnosis.setState(DiagnosisState.TREATED);
+                this.diagnosis.update();
+
+                this.onSubmitListener.onSubmit(this);
+                this.dismiss();
+            });
+
+            dialog.show();
+            return;
         }
 
         this.dismiss();

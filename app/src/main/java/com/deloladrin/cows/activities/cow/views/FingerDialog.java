@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
+import com.deloladrin.cows.activities.ChildActivity;
+import com.deloladrin.cows.activities.ChildDialog;
+import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.Treatment;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FingerDialog extends Dialog implements View.OnClickListener
+public class FingerDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
     private Treatment treatment;
     private FingerMask mask;
@@ -30,9 +33,9 @@ public class FingerDialog extends Dialog implements View.OnClickListener
 
     private OnSubmitListener onSubmitListener;
 
-    public FingerDialog(Context context, Treatment treatment, FingerMask mask)
+    public FingerDialog(ChildActivity<CowActivity> parent, Treatment treatment, FingerMask mask)
     {
-        super(context);
+        super(parent);
         this.setContentView(R.layout.dialog_cow_finger);
 
         this.treatment = treatment;
@@ -86,7 +89,7 @@ public class FingerDialog extends Dialog implements View.OnClickListener
             Diagnosis diagnosis = entry.getDiagnosis();
 
             /* Show edit dialog */
-            DiagnosisEditDialog dialog = new DiagnosisEditDialog(context, diagnosis, this.mask);
+            DiagnosisEditDialog dialog = new DiagnosisEditDialog(this.parent, diagnosis);
 
             dialog.setOnSubmitListener((d) ->
             {

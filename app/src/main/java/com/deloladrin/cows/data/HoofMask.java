@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.deloladrin.cows.R;
 
-public enum HoofMask
+public enum HoofMask implements TargetMask
 {
     LF(FingerMask.LF_LF, FingerMask.LF_RF, R.string.mask_lf),
     RF(FingerMask.RF_LF, FingerMask.RF_RF, R.string.mask_rf),
@@ -33,6 +33,11 @@ public enum HoofMask
         }
 
         return null;
+    }
+
+    public static TargetMask parseUnknown(int mask)
+    {
+        return FingerMask.parseUnknown(mask);
     }
 
     public boolean contains(int value)

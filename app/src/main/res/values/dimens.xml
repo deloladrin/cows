@@ -12,4 +12,5 @@
     <dimen name="size_cow_finger_entry">64dp</dimen>
 
     <dimen name="margin_container">4dp</dimen>
+    <dimen name="padding_image_button">8dp</dimen>
 </resources>
