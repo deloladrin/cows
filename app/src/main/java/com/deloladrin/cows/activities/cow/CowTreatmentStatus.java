@@ -88,18 +88,14 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
                 }
             }
 
-            dialog.setOnSelectListener(new SelectDialog.OnSelectListener()
+            dialog.setOnSelectListener((v) ->
             {
-                @Override
-                public void onSelect(View view)
-                {
-                    /* Update and refresh */
-                    TreatmentTypeEntry entry = (TreatmentTypeEntry)view;
+                /* Update and refresh */
+                TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
 
-                    CowTreatmentStatus.this.treatment.setType(entry.getValue());
-                    CowTreatmentStatus.this.treatment.update();
-                    CowTreatmentStatus.this.activity.refresh();
-                }
+                this.treatment.setType(entry.getValue());
+                this.treatment.update();
+                this.activity.refresh();
             });
 
             dialog.show();
@@ -124,24 +120,20 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
             dialog.setText(R.string.dialog_resource_toggle_add, resource.getName());
         }
 
-        dialog.setOnYesListener(new YesNoDialog.OnYesListener()
+        dialog.setOnYesListener((d) ->
         {
-            @Override
-            public void onYesClick(YesNoDialog dialog)
+            /* Toggle and refresh */
+            if (contains)
             {
-                /* Toggle and refresh */
-                if (contains)
-                {
-                    treatmentResources.remove(resource);
-                }
-                else
-                {
-                    treatmentResources.add(resource);
-                }
-
-                CowTreatmentStatus.this.treatment.update();
-                CowTreatmentStatus.this.activity.refresh();
+                treatmentResources.remove(resource);
             }
+            else
+            {
+                treatmentResources.add(resource);
+            }
+
+            this.treatment.update();
+            this.activity.refresh();
         });
 
         dialog.show();

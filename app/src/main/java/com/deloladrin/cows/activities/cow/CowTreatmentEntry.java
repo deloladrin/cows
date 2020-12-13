@@ -67,20 +67,16 @@ public class CowTreatmentEntry implements View.OnClickListener
 
             dialog.setText(R.string.dialog_treatment_delete_text, date);
 
-            dialog.setOnYesListener(new YesNoDialog.OnYesListener()
+            dialog.setOnYesListener((d) ->
             {
-                @Override
-                public void onYesClick(YesNoDialog dialog)
+                /* Remove treatment and restart */
+                for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                 {
-                    /* Remove treatment and restart */
-                    for (Diagnosis diagnosis : CowTreatmentEntry.this.treatment.getDiagnoses())
-                    {
-                        diagnosis.delete();
-                    }
-
-                    CowTreatmentEntry.this.treatment.delete();
-                    CowTreatmentEntry.this.parent.getActivity().refreshFull();
+                    diagnosis.delete();
                 }
+
+                this.treatment.delete();
+                this.parent.getActivity().refreshFull();
             });
 
             dialog.show();

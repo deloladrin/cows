@@ -88,15 +88,11 @@ public class FingerDialog extends Dialog implements View.OnClickListener
             /* Show edit dialog */
             DiagnosisEditDialog dialog = new DiagnosisEditDialog(context, diagnosis, this.mask);
 
-            dialog.setOnSubmitListener(new DiagnosisEditDialog.OnSubmitListener()
+            dialog.setOnSubmitListener((d) ->
             {
-                @Override
-                public void onSubmit(DiagnosisEditDialog dialog)
-                {
-                    /* Close on submit */
-                    FingerDialog.this.onSubmitListener.onSubmit(FingerDialog.this);
-                    FingerDialog.this.dismiss();
-                }
+                /* Close on submit */
+                this.onSubmitListener.onSubmit(FingerDialog.this);
+                this.dismiss();
             });
 
             dialog.show();

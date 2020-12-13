@@ -76,41 +76,37 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
                 }
             }
 
-            dialog.setOnSelectListener(new SelectDialog.OnSelectListener()
+            dialog.setOnSelectListener((v) ->
             {
-                @Override
-                public void onSelect(View view)
+                /* Create and refresh */
+                TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
+                CowActivity activity = this.getActivity();
+
+                Treatment treatment = new Treatment(activity.getDatabase());
+                treatment.setCow(activity.getCow());
+                treatment.setType(entry.getValue());
+                treatment.setDate(LocalDateTime.now());
+                treatment.setUser(activity.getUser());
+                treatment.insert();
+
+                /* Copy previous diagnosis */
+                for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                 {
-                    /* Create and refresh */
-                    TreatmentTypeEntry entry = (TreatmentTypeEntry)view;
-                    CowActivity activity = CowTreatmentEditor.this.getActivity();
-
-                    Treatment treatment = new Treatment(activity.getDatabase());
-                    treatment.setCow(activity.getCow());
-                    treatment.setType(entry.getValue());
-                    treatment.setDate(LocalDateTime.now());
-                    treatment.setUser(activity.getUser());
-                    treatment.insert();
-
-                    /* Copy previous diagnosis */
-                    for (Diagnosis diagnosis : CowTreatmentEditor.this.treatment.getDiagnoses())
+                    if (diagnosis.getState() != DiagnosisState.HEALED)
                     {
-                        if (diagnosis.getState() != DiagnosisState.HEALED)
-                        {
-                            Diagnosis copy = new Diagnosis(activity.getDatabase());
-                            copy.setTreatment(treatment);
-                            copy.setHealedName(diagnosis.getHealedName());
-                            copy.setTreatedName(diagnosis.getTreatedName());
-                            copy.setNewName(diagnosis.getNewName());
-                            copy.setShortName(diagnosis.getShortName());
-                            copy.setState(diagnosis.getState());
-                            copy.setTarget(diagnosis.getTarget());
-                            copy.insert();
-                        }
+                        Diagnosis copy = new Diagnosis(activity.getDatabase());
+                        copy.setTreatment(treatment);
+                        copy.setHealedName(diagnosis.getHealedName());
+                        copy.setTreatedName(diagnosis.getTreatedName());
+                        copy.setNewName(diagnosis.getNewName());
+                        copy.setShortName(diagnosis.getShortName());
+                        copy.setState(diagnosis.getState());
+                        copy.setTarget(diagnosis.getTarget());
+                        copy.insert();
                     }
-
-                    activity.refreshFull();
                 }
+
+                activity.refreshFull();
             });
 
             dialog.show();
