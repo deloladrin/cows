@@ -63,6 +63,12 @@ public class Treatment
 
     public void delete()
     {
+        /* Delete all diagnoses */
+        for (Diagnosis diagnosis : this.getDiagnoses())
+        {
+            diagnosis.delete();
+        }
+
         this.database.getTreatmentTable().delete(this);
     }
 

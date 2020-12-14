@@ -102,5 +102,7 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
         {
             this.resources.add(resource, target);
         }
+
+        this.resources.sort();
     }
 }

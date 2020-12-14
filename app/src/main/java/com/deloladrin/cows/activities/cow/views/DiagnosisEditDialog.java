@@ -89,7 +89,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
             /* Show resources edit dialog */
             ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
 
-            dialog.setOnSubmitListener((d) ->
+            dialog.setOnSubmitListener((ResourcesEditDialog d) ->
             {
                 /* Change to treated and submit */
                 this.diagnosis.setState(DiagnosisState.TREATED);

@@ -67,7 +67,7 @@ public abstract class TableBase<T>
 
         db.execSQL("INSERT INTO " + this.getName() + "(" + String.join(", ", columns) + ") VALUES(" + String.join(", ", values) + ")");
 
-        return this.getLastID();
+        return this.getLastID(db);
     }
 
     public void insertAll(List<T> objects)

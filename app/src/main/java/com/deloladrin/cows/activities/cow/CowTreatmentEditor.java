@@ -76,7 +76,7 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
                 }
             }
 
-            dialog.setOnSelectListener((v) ->
+            dialog.setOnSelectListener((View v) ->
             {
                 /* Create and refresh */
                 TreatmentTypeEntry entry = (TreatmentTypeEntry) v;

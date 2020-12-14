@@ -39,7 +39,7 @@ public class CowTreatmentFinger implements View.OnClickListener
 
             FingerDialog dialog = new FingerDialog(this.parent, treatment, this.mask);
 
-            dialog.setOnSubmitListener((d) ->
+            dialog.setOnSubmitListener((FingerDialog d) ->
             {
                 /* Refresh on submit */
                 this.parent.getActivity().refresh();

@@ -67,14 +67,9 @@ public class CowTreatmentEntry implements View.OnClickListener
 
             dialog.setText(R.string.dialog_treatment_delete_text, date);
 
-            dialog.setOnYesListener((d) ->
+            dialog.setOnYesListener((YesNoDialog d) ->
             {
                 /* Remove treatment and restart */
-                for (Diagnosis diagnosis : this.treatment.getDiagnoses())
-                {
-                    diagnosis.delete();
-                }
-
                 this.treatment.delete();
                 this.parent.getActivity().refreshFull();
             });

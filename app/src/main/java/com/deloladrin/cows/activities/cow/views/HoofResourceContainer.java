@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.ResourceType;
+
+import java.util.Arrays;
 
 public class HoofResourceContainer extends FrameLayout
 {
@@ -24,7 +27,8 @@ public class HoofResourceContainer extends FrameLayout
     public void add(Resource resource, int target)
     {
         /* Create ImageView */
-        ImageView view = new ImageView(this.getContext());
+        HoofResourceEntry view = new HoofResourceEntry(this.getContext());
+        view.setResource(resource);
 
         Bitmap bitmap = resource.getImage().getBitmap();
         view.setImageBitmap(bitmap);
@@ -61,6 +65,32 @@ public class HoofResourceContainer extends FrameLayout
 
         view.setLayoutParams(params);
         this.addView(view);
+    }
+
+    public void sort()
+    {
+        /* Get all children */
+        int childCount = this.getChildCount();
+        HoofResourceEntry[] children = new HoofResourceEntry[childCount];
+
+        for (int i = 0; i < childCount; i++)
+        {
+            children[i] = (HoofResourceEntry)this.getChildAt(i);
+        }
+
+        /* Sort children */
+        Arrays.sort(children, (HoofResourceEntry a, HoofResourceEntry b) ->
+        {
+            return a.getResource().getLayer() - b.getResource().getLayer();
+        });
+
+        /* Put children back */
+        this.clear();
+
+        for (HoofResourceEntry view : children)
+        {
+            this.addView(view);
+        }
     }
 
     public void clear()

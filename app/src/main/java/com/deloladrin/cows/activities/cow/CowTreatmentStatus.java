@@ -88,7 +88,7 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
                 }
             }
 
-            dialog.setOnSelectListener((v) ->
+            dialog.setOnSelectListener((View v) ->
             {
                 /* Update and refresh */
                 TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
@@ -120,7 +120,7 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
             dialog.setText(R.string.dialog_resource_toggle_add, resource.getName());
         }
 
-        dialog.setOnYesListener((d) ->
+        dialog.setOnYesListener((YesNoDialog d) ->
         {
             /* Toggle and refresh */
             if (contains)
