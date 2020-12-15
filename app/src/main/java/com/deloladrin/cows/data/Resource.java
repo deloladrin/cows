@@ -22,16 +22,17 @@ public class Resource
 
     private int id;
     private String name;
-    private ResourceType type;
+    private int type;
     private int layer;
-    private DatabaseBitmap image;
+    private int copy;
+    private byte[] image;
 
     public Resource(Database database)
     {
         this.database = database;
     }
 
-    public Resource(Database database, int id, String name, ResourceType type, int layer, DatabaseBitmap image)
+    public Resource(Database database, int id, String name, int type, int layer, int copy, byte[] image)
     {
         this.database = database;
 
@@ -39,7 +40,32 @@ public class Resource
         this.name = name;
         this.type = type;
         this.layer = layer;
+        this.copy = copy;
         this.image = image;
+    }
+
+    public Resource(Database database, int id, String name, ResourceType type, int layer, Resource copy, DatabaseBitmap image)
+    {
+        this.database = database;
+
+        this.id = id;
+        this.name = name;
+        this.type = type.getID();
+        this.layer = layer;
+        this.copy = copy.getID();
+        this.image = image.getBytes();
+    }
+
+    public Resource(Database database, int id, String name, ResourceType type, int layer, boolean copy, DatabaseBitmap image)
+    {
+        this.database = database;
+
+        this.id = id;
+        this.name = name;
+        this.type = type.getID();
+        this.layer = layer;
+        this.copy = copy ? -1 : 0;
+        this.image = image.getBytes();
     }
 
     public static List<Resource> parse(Database database, int resourceMask)
@@ -79,17 +105,54 @@ public class Resource
 
     public void insert()
     {
-        this.id = this.database.getResourceTable().insert(this);
+        Table table = this.database.getResourceTable();
+
+        if (this.copy != 0)
+        {
+            Resource copy = new Resource(this.database);
+            this.copyValues(copy);
+
+            int id = table.insert(copy);
+            this.copy = id;
+        }
+
+        this.id = table.insert(this);
     }
 
     public void update()
     {
-        this.database.getResourceTable().update(this);
+        Table table = this.database.getResourceTable();
+
+        if (this.copy != 0)
+        {
+            Resource copy = this.getCopy();
+            this.copyValues(copy);
+
+            table.update(copy);
+        }
+
+        table.update(this);
     }
 
     public void delete()
     {
-        this.database.getResourceTable().delete(this);
+        Table table = this.database.getResourceTable();
+
+        if (this.copy != 0)
+        {
+            Resource copy = this.getCopy();
+            table.delete(copy);
+        }
+
+        table.delete(this);
+    }
+
+    private void copyValues(Resource copy)
+    {
+        copy.setName(this.name);
+        copy.setType(ResourceType.COPY);
+        copy.setLayer(this.layer);
+        copy.setImage(this.image);
     }
 
     @Override
@@ -132,10 +195,15 @@ public class Resource
 
     public ResourceType getType()
     {
-        return this.type;
+        return ResourceType.parse(this.type);
     }
 
     public void setType(ResourceType type)
+    {
+        this.type = type.getID();
+    }
+
+    public void setType(int type)
     {
         this.type = type;
     }
@@ -150,12 +218,37 @@ public class Resource
         this.layer = layer;
     }
 
+    public Resource getCopy()
+    {
+        return this.database.getResourceTable().select(this.copy);
+    }
+
+    public void setCopy(Resource copy)
+    {
+        this.copy = copy.getID();
+    }
+
+    public void setCopy(int copy)
+    {
+        this.copy = copy;
+    }
+
     public DatabaseBitmap getImage()
     {
-        return this.image;
+        return new DatabaseBitmap(this.image);
+    }
+
+    public String getImageHexBytes()
+    {
+        return this.getImage().getHexBytes();
     }
 
     public void setImage(DatabaseBitmap image)
+    {
+        this.image = image.getBytes();
+    }
+
+    public void setImage(byte[] image)
     {
         this.image = image;
     }
@@ -168,7 +261,8 @@ public class Resource
         public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
         public static final TableColumn COLUMN_TYPE = new TableColumn(2, "type", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_LAYER = new TableColumn(3, "layer", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_IMAGE = new TableColumn(4, "image", ValueType.BLOB, false);
+        public static final TableColumn COLUMN_COPY = new TableColumn(4, "copy", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn(5, "image", ValueType.BLOB, false);
 
         public Table(Database database)
         {
@@ -178,33 +272,8 @@ public class Resource
             this.columns.add(COLUMN_NAME);
             this.columns.add(COLUMN_TYPE);
             this.columns.add(COLUMN_LAYER);
+            this.columns.add(COLUMN_COPY);
             this.columns.add(COLUMN_IMAGE);
-        }
-
-        @Override
-        public void create(SQLiteDatabase db)
-        {
-            super.create(db);
-
-            Context context = this.database.getContext();
-            List<Resource> defaults = new ArrayList<>();
-
-            /* Default resources */
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_bandage), ResourceType.HOOF, 0, new DatabaseBitmap(context, R.drawable.resource_bandage)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood), ResourceType.FINGER_INVERTED, 1, new DatabaseBitmap(context, R.drawable.resource_block_wood)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER_INVERTED, 1, new DatabaseBitmap(context, R.drawable.resource_block_wood_xxl)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp), ResourceType.FINGER_INVERTED, 1, new DatabaseBitmap(context, R.drawable.resource_block_tp)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, 1, new DatabaseBitmap(context, R.drawable.resource_block_tp_xxl)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, 1, new DatabaseBitmap(context, R.drawable.resource_block_iron_half)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_block_iron), ResourceType.HOOF, 1, new DatabaseBitmap(context, R.drawable.resource_block_iron)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox), ResourceType.HOOF, 2, new DatabaseBitmap(context, R.drawable.resource_synulox)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_synulox_2x), ResourceType.HOOF, 2, new DatabaseBitmap(context, R.drawable.resource_synulox_2x)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_antibiotics), ResourceType.COW, 0, new DatabaseBitmap(context, R.drawable.resource_antibiotics)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_checkup), ResourceType.COW, 0, new DatabaseBitmap(context, R.drawable.resource_checkup)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_no_bathing), ResourceType.COW, 0, new DatabaseBitmap(context, R.drawable.resource_no_bathing)));
-            defaults.add(new Resource(this.database, -1, context.getString(R.string.resource_take_out), ResourceType.COW, 0, new DatabaseBitmap(context, R.drawable.resource_take_out)));
-
-            this.insertAll(db, defaults);
         }
 
         @Override
@@ -212,11 +281,12 @@ public class Resource
         {
             ValueParams params = new ValueParams();
 
-            params.put(COLUMN_ID, object.getID());
-            params.put(COLUMN_NAME, object.getName());
-            params.put(COLUMN_TYPE, object.getType().getID());
-            params.put(COLUMN_LAYER, object.getLayer());
-            params.put(COLUMN_IMAGE, object.getImage().getHexBytes());
+            params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_NAME, object.name);
+            params.put(COLUMN_TYPE, object.type);
+            params.put(COLUMN_LAYER, object.layer);
+            params.put(COLUMN_COPY, object.copy);
+            params.put(COLUMN_IMAGE, object.getImageHexBytes());
 
             return params;
         }
@@ -226,11 +296,12 @@ public class Resource
         {
             int id = cursor.getInt(COLUMN_ID.getID());
             String name = cursor.getString(COLUMN_NAME.getID());
-            ResourceType type = ResourceType.parse(cursor.getInt(COLUMN_TYPE.getID()));
+            int type = cursor.getInt(COLUMN_TYPE.getID());
             int layer = cursor.getInt(COLUMN_LAYER.getID());
-            DatabaseBitmap image = new DatabaseBitmap(cursor.getBlob(COLUMN_IMAGE.getID()));
+            int copy = cursor.getInt(COLUMN_COPY.getID());
+            byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
 
-            return new Resource(this.database, id, name, type, layer, image);
+            return new Resource(this.database, id, name, type, layer, copy, image);
         }
     }
 }

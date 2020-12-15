@@ -126,9 +126,9 @@ public class Company
         {
             ValueParams params = new ValueParams();
 
-            params.put(COLUMN_ID, object.getID());
-            params.put(COLUMN_NAME, object.getName());
-            params.put(COLUMN_GROUP, object.getGroup());
+            params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_NAME, object.name);
+            params.put(COLUMN_GROUP, object.group);
 
             return params;
         }

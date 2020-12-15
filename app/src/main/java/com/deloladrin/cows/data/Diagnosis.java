@@ -16,21 +16,21 @@ public class Diagnosis
     private Database database;
 
     private int id;
-    private Treatment treatment;
+    private int treatment;
     private String nameHealed;
     private String nameTreated;
     private String nameNew;
     private String nameShort;
-    private DiagnosisState state;
+    private int state;
     private int target;
-    private List<Resource> resources;
+    private int resources;
 
     public Diagnosis(Database database)
     {
         this.database = database;
     }
 
-    public Diagnosis(Database database, int id, Treatment treatment, String nameHealed, String nameTreated, String nameNew, String nameShort, DiagnosisState state, int target, List<Resource> resources)
+    public Diagnosis(Database database, int id, int treatment, String nameHealed, String nameTreated, String nameNew, String nameShort, int state, int target, int resources)
     {
         this.database = database;
 
@@ -43,6 +43,21 @@ public class Diagnosis
         this.state = state;
         this.target = target;
         this.resources = resources;
+    }
+
+    public Diagnosis(Database database, int id, Treatment treatment, String nameHealed, String nameTreated, String nameNew, String nameShort, DiagnosisState state, int target, List<Resource> resources)
+    {
+        this.database = database;
+
+        this.id = id;
+        this.treatment = treatment.getID();
+        this.nameHealed = nameHealed;
+        this.nameTreated = nameTreated;
+        this.nameNew = nameNew;
+        this.nameShort = nameShort;
+        this.state = state.getID();
+        this.target = target;
+        this.resources = Resource.valueOf(resources);
     }
 
     public void insert()
@@ -90,17 +105,22 @@ public class Diagnosis
 
     public Treatment getTreatment()
     {
-        return this.treatment;
+        return this.database.getTreatmentTable().select(this.treatment);
     }
 
     public void setTreatment(Treatment treatment)
+    {
+        this.treatment = treatment.getID();
+    }
+
+    public void setTreatment(int treatment)
     {
         this.treatment = treatment;
     }
 
     public String getName()
     {
-        switch (this.state)
+        switch (this.getState())
         {
             case HEALED: return this.nameHealed;
             case TREATED: return this.nameTreated;
@@ -152,10 +172,15 @@ public class Diagnosis
 
     public DiagnosisState getState()
     {
-        return this.state;
+        return DiagnosisState.parse(this.state);
     }
 
     public void setState(DiagnosisState state)
+    {
+        this.state = state.getID();
+    }
+
+    public void setState(int state)
     {
         this.state = state;
     }
@@ -172,10 +197,15 @@ public class Diagnosis
 
     public List<Resource> getResources()
     {
-        return this.resources;
+        return Resource.parse(this.database, this.resources);
     }
 
     public void setResources(List<Resource> resources)
+    {
+        this.resources = Resource.valueOf(resources);
+    }
+
+    public void setResources(int resources)
     {
         this.resources = resources;
     }
@@ -214,15 +244,15 @@ public class Diagnosis
         {
             ValueParams params = new ValueParams();
 
-            params.put(COLUMN_ID, object.getID());
-            params.put(COLUMN_TREATMENT, object.getTreatment().getID());
-            params.put(COLUMN_NAME_NEW, object.getNewName());
-            params.put(COLUMN_NAME_HEALED, object.getHealedName());
-            params.put(COLUMN_NAME_TREATED, object.getTreatedName());
-            params.put(COLUMN_NAME_SHORT, object.getShortName());
-            params.put(COLUMN_STATE, object.getState().getID());
-            params.put(COLUMN_TARGET, object.getTarget());
-            params.put(COLUMN_RESOURCES, Resource.valueOf(object.getResources()));
+            params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_TREATMENT, object.treatment);
+            params.put(COLUMN_NAME_NEW, object.nameNew);
+            params.put(COLUMN_NAME_HEALED, object.nameHealed);
+            params.put(COLUMN_NAME_TREATED, object.nameTreated);
+            params.put(COLUMN_NAME_SHORT, object.nameShort);
+            params.put(COLUMN_STATE, object.state);
+            params.put(COLUMN_TARGET, object.target);
+            params.put(COLUMN_RESOURCES, object.resources);
 
             return params;
         }
@@ -231,14 +261,14 @@ public class Diagnosis
         protected Diagnosis getObject(Cursor cursor)
         {
             int id = cursor.getInt(COLUMN_ID.getID());
-            Treatment treatment = this.database.getTreatmentTable().select(cursor.getInt(COLUMN_TREATMENT.getID()));
+            int treatment = cursor.getInt(COLUMN_TREATMENT.getID());
             String nameNew = cursor.getString(COLUMN_NAME_NEW.getID());
             String nameHealed = cursor.getString(COLUMN_NAME_HEALED.getID());
             String nameTreated = cursor.getString(COLUMN_NAME_TREATED.getID());
             String nameShort = cursor.getString(COLUMN_NAME_SHORT.getID());
-            DiagnosisState state = DiagnosisState.parse(cursor.getInt(COLUMN_STATE.getID()));
+            int state = cursor.getInt(COLUMN_STATE.getID());
             int target = cursor.getInt(COLUMN_TARGET.getID());
-            List<Resource> resources = Resource.parse(this.database, cursor.getInt(COLUMN_RESOURCES.getID()));
+            int resources = cursor.getInt(COLUMN_RESOURCES.getID());
 
             return new Diagnosis(this.database, id, treatment, nameNew, nameHealed, nameTreated, nameShort, state, target, resources);
         }

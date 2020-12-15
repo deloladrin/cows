@@ -18,19 +18,19 @@ public class Treatment
     private Database database;
 
     private int id;
-    private Cow cow;
-    private TreatmentType type;
-    private LocalDateTime date;
+    private int cow;
+    private int type;
+    private long date;
     private String comment;
     private String user;
-    private List<Resource> resources;
+    private int resources;
 
     public Treatment(Database database)
     {
         this.database = database;
     }
 
-    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user, List<Resource> resources)
+    public Treatment(Database database, int id, int cow, int type, long date, String comment, String user, int resources)
     {
         this.database = database;
 
@@ -41,6 +41,19 @@ public class Treatment
         this.comment = comment;
         this.user = user;
         this.resources = resources;
+    }
+
+    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user, List<Resource> resources)
+    {
+        this.database = database;
+
+        this.id = id;
+        this.cow = cow.getID();
+        this.type = type.getID();
+        this.date = this.dateToTimestamp(date);
+        this.comment = comment;
+        this.user = user;
+        this.resources = Resource.valueOf(resources);
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -70,6 +83,16 @@ public class Treatment
         }
 
         this.database.getTreatmentTable().delete(this);
+    }
+
+    private long dateToTimestamp(LocalDateTime date)
+    {
+        return date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000;
+    }
+
+    private LocalDateTime timestampToDate(long timestamp)
+    {
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
     @Override
@@ -102,30 +125,45 @@ public class Treatment
 
     public Cow getCow()
     {
-        return this.cow;
+        return this.database.getCowTable().select(this.cow);
     }
 
     public void setCow(Cow cow)
+    {
+        this.cow = cow.getID();
+    }
+
+    public void setCow(int cow)
     {
         this.cow = cow;
     }
 
     public TreatmentType getType()
     {
-        return this.type;
+        return TreatmentType.parse(this.type);
     }
 
     public void setType(TreatmentType type)
     {
+        this.type = type.getID();
+    }
+
+    public void setType(int type)
+    {
         this.type = type;
     }
 
-    public LocalDateTime getDate()
+    public LocalDateTime timestampToDate()
     {
-        return this.date;
+        return this.timestampToDate(this.date);
     }
 
     public void setDate(LocalDateTime date)
+    {
+        this.date = this.dateToTimestamp(date);
+    }
+
+    public void setDate(long date)
     {
         this.date = date;
     }
@@ -152,10 +190,15 @@ public class Treatment
 
     public List<Resource> getResources()
     {
-        return this.resources;
+        return Resource.parse(this.database, this.resources);
     }
 
     public void setResources(List<Resource> resources)
+    {
+        this.resources = Resource.valueOf(resources);
+    }
+
+    public void setResources(int resources)
     {
         this.resources = resources;
     }
@@ -190,13 +233,13 @@ public class Treatment
         {
             ValueParams params = new ValueParams();
 
-            params.put(COLUMN_ID, object.getID());
-            params.put(COLUMN_COW, object.getCow().getID());
-            params.put(COLUMN_TYPE, object.getType().getID());
-            params.put(COLUMN_DATE, object.getDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000);
-            params.put(COLUMN_COMMENT, object.getComment());
-            params.put(COLUMN_USER, object.getUser());
-            params.put(COLUMN_RESOURCES, Resource.valueOf(object.getResources()));
+            params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_COW, object.cow);
+            params.put(COLUMN_TYPE, object.type);
+            params.put(COLUMN_DATE, object.date);
+            params.put(COLUMN_COMMENT, object.comment);
+            params.put(COLUMN_USER, object.user);
+            params.put(COLUMN_RESOURCES, object.resources);
 
             return params;
         }
@@ -205,12 +248,12 @@ public class Treatment
         protected Treatment getObject(Cursor cursor)
         {
             int id = cursor.getInt(COLUMN_ID.getID());
-            Cow cow = this.database.getCowTable().select(cursor.getInt(COLUMN_COW.getID()));
-            TreatmentType type = TreatmentType.parse(cursor.getInt(COLUMN_TYPE.getID()));
-            LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochSecond(cursor.getLong(COLUMN_DATE.getID())), ZoneId.systemDefault());
+            int cow = cursor.getInt(COLUMN_COW.getID());
+            int type = cursor.getInt(COLUMN_TYPE.getID());
+            long date = cursor.getLong(COLUMN_DATE.getID());
             String comment = cursor.getString(COLUMN_COMMENT.getID());
             String user = cursor.getString(COLUMN_USER.getID());
-            List<Resource> resources = Resource.parse(this.database, cursor.getInt(COLUMN_RESOURCES.getID()));
+            int resources = cursor.getInt(COLUMN_RESOURCES.getID());
 
             return new Treatment(this.database, id, cow, type, date, comment, user, resources);
         }

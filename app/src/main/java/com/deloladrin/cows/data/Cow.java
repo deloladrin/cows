@@ -18,12 +18,22 @@ public class Cow
 
     private int id;
     private int collar;
-    private Company company;
+    private int company;
     private String group;
 
     public Cow(Database database)
     {
         this.database = database;
+    }
+
+    public Cow(Database database, int id, int collar, int company, String group)
+    {
+        this.database = database;
+
+        this.id = id;
+        this.collar = collar;
+        this.company = company;
+        this.group = group;
     }
 
     public Cow(Database database, int id, int collar, Company company, String group)
@@ -32,7 +42,7 @@ public class Cow
 
         this.id = id;
         this.collar = collar;
-        this.company = company;
+        this.company = company.getID();
         this.group = group;
     }
 
@@ -112,10 +122,15 @@ public class Cow
 
     public Company getCompany()
     {
-        return this.company;
+        return this.database.getCompanyTable().select(this.company);
     }
 
     public void setCompany(Company company)
+    {
+        this.company = company.getID();
+    }
+
+    public void setCompany(int company)
     {
         this.company = company;
     }
@@ -154,10 +169,10 @@ public class Cow
         {
             ValueParams params = new ValueParams();
 
-            params.put(COLUMN_ID, object.getID());
-            params.put(COLUMN_COLLAR, object.getCollar());
-            params.put(COLUMN_COMPANY, object.getCompany().getID());
-            params.put(COLUMN_GROUP, object.getGroup());
+            params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_COLLAR, object.collar);
+            params.put(COLUMN_COMPANY, object.company);
+            params.put(COLUMN_GROUP, object.group);
 
             return params;
         }
@@ -167,7 +182,7 @@ public class Cow
         {
             int id = cursor.getInt(COLUMN_ID.getID());
             int collar = cursor.getInt(COLUMN_COLLAR.getID());
-            Company company = this.database.getCompanyTable().select(cursor.getInt(COLUMN_COMPANY.getID()));
+            int company = cursor.getInt(COLUMN_COMPANY.getID());
             String group = cursor.getString(COLUMN_GROUP.getID());
 
             return new Cow(this.database, id, collar, company, group);

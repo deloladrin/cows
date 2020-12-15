@@ -6,7 +6,8 @@ public enum ResourceType
     FINGER(1),
     FINGER_INVERTED(2),
     HOOF(3),
-    COW(4);
+    COW(4),
+    COPY(5);
 
     private int id;
 

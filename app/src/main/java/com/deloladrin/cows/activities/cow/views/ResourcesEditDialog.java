@@ -26,6 +26,7 @@ public class ResourcesEditDialog extends ChildDialog<CowActivity> implements Vie
 {
     private Diagnosis diagnosis;
     private TargetMask mask;
+    private List<Resource> copyResources;
 
     private TextView finger;
     private FlowLayout container;
@@ -44,6 +45,16 @@ public class ResourcesEditDialog extends ChildDialog<CowActivity> implements Vie
 
         this.diagnosis = diagnosis;
         this.mask = FingerMask.parseUnknown(diagnosis.getTarget());
+        this.copyResources = new ArrayList<>();
+
+        /* Get copy resources */
+        for (Resource resource : this.diagnosis.getResources())
+        {
+            if (resource.getType() == ResourceType.COPY)
+            {
+                this.copyResources.add(resource);
+            }
+        }
 
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
@@ -74,7 +85,9 @@ public class ResourcesEditDialog extends ChildDialog<CowActivity> implements Vie
 
         for (Resource resource : this.getDatabase().getResourceTable().selectAll())
         {
-            if (resource.getType() != ResourceType.COW)
+            ResourceType type = resource.getType();
+
+            if (type != ResourceType.COW && type != ResourceType.COPY)
             {
                 boolean toggled = current.contains(resource);
                 this.add(resource, toggled);
@@ -94,9 +107,21 @@ public class ResourcesEditDialog extends ChildDialog<CowActivity> implements Vie
             {
                 if (entry.isToggled())
                 {
-                    enabled.add(entry.getResource());
+                    Resource resource = entry.getResource();
+                    enabled.add(resource);
+
+                    /* Replace copy resource */
+                    Resource copy = resource.getCopy();
+
+                    if (copy != null)
+                    {
+                        this.copyResources.remove(copy);
+                    }
                 }
             }
+
+            /* Add copy resources */
+            enabled.addAll(this.copyResources);
 
             this.diagnosis.setResources(enabled);
             this.diagnosis.update();

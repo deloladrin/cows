@@ -34,7 +34,7 @@ public class DiagnosisContainer extends LinearLayout
         /* Create empty diagnosis in horizontal views */
         if (this.getOrientation() == HORIZONTAL)
         {
-            Diagnosis empty = new Diagnosis(null, -1, null, "", "", "", "", DiagnosisState.NONE, 0, null);
+            Diagnosis empty = new Diagnosis(null);
             this.add(empty);
         }
     }

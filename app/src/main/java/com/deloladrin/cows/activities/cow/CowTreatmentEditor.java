@@ -11,12 +11,16 @@ import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
+import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.views.SelectDialog;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CowTreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
@@ -92,18 +96,37 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
                 /* Copy previous diagnosis */
                 for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                 {
-                    if (diagnosis.getState() != DiagnosisState.HEALED)
+                    Diagnosis copy = new Diagnosis(activity.getDatabase());
+                    copy.setTreatment(treatment);
+                    copy.setHealedName(diagnosis.getHealedName());
+                    copy.setTreatedName(diagnosis.getTreatedName());
+                    copy.setNewName(diagnosis.getNewName());
+                    copy.setShortName(diagnosis.getShortName());
+                    copy.setState(diagnosis.getState());
+                    copy.setTarget(diagnosis.getTarget());
+
+                    /* Copy some resources */
+                    List<Resource> resources = new ArrayList<>();
+
+                    for (Resource resource : diagnosis.getResources())
                     {
-                        Diagnosis copy = new Diagnosis(activity.getDatabase());
-                        copy.setTreatment(treatment);
-                        copy.setHealedName(diagnosis.getHealedName());
-                        copy.setTreatedName(diagnosis.getTreatedName());
-                        copy.setNewName(diagnosis.getNewName());
-                        copy.setShortName(diagnosis.getShortName());
-                        copy.setState(diagnosis.getState());
-                        copy.setTarget(diagnosis.getTarget());
-                        copy.insert();
+                        Resource resourceCopy = resource.getCopy();
+
+                        /* Copyable resources */
+                        if (resourceCopy != null)
+                        {
+                            resources.add(resourceCopy);
+                        }
+
+                        /* Copy-typed resources */
+                        else if (resource.getType() == ResourceType.COPY)
+                        {
+                            resources.add(resource);
+                        }
                     }
+
+                    copy.setResources(resources);
+                    copy.insert();
                 }
 
                 activity.refreshFull();
@@ -138,7 +161,7 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         {
             /* Set treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
-            String date = treatment.getDate().format(dateFormatter);
+            String date = treatment.timestampToDate().format(dateFormatter);
             this.date.setText(date);
 
             /* Set comment */

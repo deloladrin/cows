@@ -18,6 +18,7 @@ import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.DatabaseActivity;
@@ -52,6 +53,22 @@ public class CowActivity extends DatabaseActivity
         this.history = new CowTreatmentHistory(this, R.id.cow_treatment_history);
 
         this.database.onUpgrade(this.database.getWritableDatabase(), 0, 0);
+
+        /* Default resources */
+        new Resource(this.database, -1, this.getString(R.string.resource_bandage), ResourceType.HOOF, 0, false, new DatabaseBitmap(this, R.drawable.resource_bandage)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_wood), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood_xxl)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_tp), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp_xxl)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron_half)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_block_iron), ResourceType.HOOF, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_synulox), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_synulox_2x), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox_2x)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_antibiotics), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_antibiotics)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_checkup), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_checkup)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_no_bathing), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_no_bathing)).insert();
+        new Resource(this.database, -1, this.getString(R.string.resource_take_out), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_take_out)).insert();
+
         Company company = new Company(this.database, 1, "AGRAS BOHDALOV", null);
         company.insert();
 
@@ -66,7 +83,7 @@ public class CowActivity extends DatabaseActivity
 
         List<Resource> resources = new ArrayList<>();
         resources.add(this.database.getResourceTable().select(1));
-        resources.add(this.database.getResourceTable().select(4));
+        resources.add(this.database.getResourceTable().select(7));
 
         new Diagnosis(this.database, -1, treatment, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisState.NEW, 0b00000001, resources).insert();
         new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.TREATED, 0b00000010, null).insert();

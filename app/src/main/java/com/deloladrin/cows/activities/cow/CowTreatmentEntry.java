@@ -1,17 +1,13 @@
 package com.deloladrin.cows.activities.cow;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
-import com.deloladrin.cows.data.Cow;
-import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.Treatment;
-import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.views.YesNoDialog;
 
 import java.time.format.DateTimeFormatter;
@@ -63,7 +59,7 @@ public class CowTreatmentEntry implements View.OnClickListener
 
             /* Treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            String date = this.treatment.getDate().format(dateFormatter);
+            String date = this.treatment.timestampToDate().format(dateFormatter);
 
             dialog.setText(R.string.dialog_treatment_delete_text, date);
 
@@ -104,11 +100,11 @@ public class CowTreatmentEntry implements View.OnClickListener
         this.type.setText(type);
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String date = treatment.getDate().format(dateFormatter);
+        String date = treatment.timestampToDate().format(dateFormatter);
         this.date.setText(date);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        String time = treatment.getDate().format(timeFormatter);
+        String time = treatment.timestampToDate().format(timeFormatter);
         this.time.setText(time);
 
         String user = treatment.getUser();
