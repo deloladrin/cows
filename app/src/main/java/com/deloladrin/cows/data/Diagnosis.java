@@ -9,6 +9,7 @@ import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
 import java.io.StringReader;
+import java.lang.annotation.Target;
 import java.util.List;
 
 public class Diagnosis
@@ -185,9 +186,14 @@ public class Diagnosis
         this.state = state;
     }
 
-    public int getTarget()
+    public TargetMask getTarget()
     {
-        return this.target;
+        return TargetMask.parse(this.target);
+    }
+
+    public void setTarget(TargetMask target)
+    {
+        this.target = target.getMask();
     }
 
     public void setTarget(int target)

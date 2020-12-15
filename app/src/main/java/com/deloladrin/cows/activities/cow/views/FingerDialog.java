@@ -67,10 +67,8 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
         for (Diagnosis diagnosis : this.treatment.getDiagnoses())
         {
             /* Load only valid diagnoses */
-            int target = diagnosis.getTarget();
 
-            if (target == this.mask.getMask() ||
-                target == this.mask.getHoof().getMask())
+            if (this.mask.contains(diagnosis.getTarget()))
             {
                 this.add(diagnosis);
             }

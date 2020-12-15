@@ -8,6 +8,7 @@ import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
 
 public class CowTreatmentHoof extends ChildActivity<CowActivity>
@@ -74,10 +75,10 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
     private void addDiagnosis(Diagnosis diagnosis)
     {
         DiagnosisState state = diagnosis.getState();
-        int target = diagnosis.getTarget();
+        TargetMask target = diagnosis.getTarget();
 
         /* Add diagnosis to correct finger */
-        if (target == this.mask.getMask())
+        if (target == this.mask)
         {
             this.left.setState(state);
             this.right.setState(state);
@@ -85,13 +86,13 @@ public class CowTreatmentHoof extends ChildActivity<CowActivity>
             this.diagnosesAll.add(diagnosis);
         }
 
-        else if (target == this.mask.getLeftFinger().getMask())
+        else if (target == this.mask.getLeftFinger())
         {
             this.left.setState(state);
             this.diagnosesLeft.add(diagnosis);
         }
 
-        else if (target == this.mask.getRightFinger().getMask())
+        else if (target == this.mask.getRightFinger())
         {
             this.right.setState(state);
             this.diagnosesRight.add(diagnosis);

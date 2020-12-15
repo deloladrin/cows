@@ -37,18 +37,9 @@ public enum FingerMask implements TargetMask
         return null;
     }
 
-    public static TargetMask parseUnknown(int mask)
+    public boolean contains(TargetMask mask)
     {
-        /* Is it a hoof mask? */
-        HoofMask hoofMask = HoofMask.parse(mask);
-
-        if (hoofMask == null)
-        {
-            /* It's probably finger mask */
-            return FingerMask.parse(mask);
-        }
-
-        return hoofMask;
+        return this.contains(mask.getMask());
     }
 
     public boolean contains(int value)

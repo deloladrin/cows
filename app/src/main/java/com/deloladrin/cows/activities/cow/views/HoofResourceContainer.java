@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.ResourceType;
+import com.deloladrin.cows.data.TargetMask;
 
 import java.util.Arrays;
 
@@ -24,7 +25,7 @@ public class HoofResourceContainer extends FrameLayout
         super(context, attrs);
     }
 
-    public void add(Resource resource, int target)
+    public void add(Resource resource, TargetMask target)
     {
         /* Create ImageView */
         HoofResourceEntry view = new HoofResourceEntry(this.getContext());
@@ -44,7 +45,7 @@ public class HoofResourceContainer extends FrameLayout
 
             case FINGER:
 
-                if (target == this.mask.getRightFinger().getMask())
+                if (target == this.mask.getRightFinger())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;
@@ -54,7 +55,7 @@ public class HoofResourceContainer extends FrameLayout
 
             case FINGER_INVERTED:
 
-                if (target == this.mask.getLeftFinger().getMask())
+                if (target == this.mask.getLeftFinger())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;

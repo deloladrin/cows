@@ -35,7 +35,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         this.setContentView(R.layout.dialog_cow_diagnosis_edit);
 
         this.diagnosis = diagnosis;
-        this.mask = FingerMask.parseUnknown(diagnosis.getTarget());
+        this.mask = diagnosis.getTarget();
 
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);

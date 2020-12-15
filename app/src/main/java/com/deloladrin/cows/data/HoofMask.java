@@ -35,9 +35,9 @@ public enum HoofMask implements TargetMask
         return null;
     }
 
-    public static TargetMask parseUnknown(int mask)
+    public boolean contains(TargetMask mask)
     {
-        return FingerMask.parseUnknown(mask);
+        return this.contains(mask.getMask());
     }
 
     public boolean contains(int value)

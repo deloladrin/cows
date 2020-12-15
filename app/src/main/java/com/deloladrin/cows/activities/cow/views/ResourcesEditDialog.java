@@ -44,7 +44,7 @@ public class ResourcesEditDialog extends ChildDialog<CowActivity> implements Vie
         this.setContentView(R.layout.dialog_cow_resources_edit);
 
         this.diagnosis = diagnosis;
-        this.mask = FingerMask.parseUnknown(diagnosis.getTarget());
+        this.mask = diagnosis.getTarget();
         this.copyResources = new ArrayList<>();
 
         /* Get copy resources */
