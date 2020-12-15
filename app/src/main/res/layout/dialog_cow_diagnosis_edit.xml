@@ -51,6 +51,16 @@
             android:textSize="@dimen/text_small"
             android:text="@string/diagnosis_treated" />
 
+        <Button
+            android:id="@+id/dialog_new"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_new"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/diagnosis_new" />
+
     </LinearLayout>
 
     <Button

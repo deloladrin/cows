@@ -13,7 +13,12 @@ import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.FingerMask;
+import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.TargetMask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
@@ -24,8 +29,9 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     private TextView name;
 
     private Button cancel;
-    private Button healed;
-    private Button treated;
+    private Button healedType;
+    private Button treatedType;
+    private Button newType;
 
     private OnSubmitListener onSubmitListener;
 
@@ -42,13 +48,15 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         this.name = this.findViewById(R.id.dialog_name);
 
         this.cancel = this.findViewById(R.id.dialog_cancel);
-        this.healed = this.findViewById(R.id.dialog_healed);
-        this.treated = this.findViewById(R.id.dialog_treated);
+        this.healedType = this.findViewById(R.id.dialog_healed);
+        this.treatedType = this.findViewById(R.id.dialog_treated);
+        this.newType = this.findViewById(R.id.dialog_new);
 
         /* Add events */
         this.cancel.setOnClickListener(this);
-        this.healed.setOnClickListener(this);
-        this.treated.setOnClickListener(this);
+        this.healedType.setOnClickListener(this);
+        this.treatedType.setOnClickListener(this);
+        this.newType.setOnClickListener(this);
 
         /* Load default values */
         this.initialize();
@@ -74,17 +82,30 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     {
         Context context = this.getContext();
 
-        if (view.equals(this.healed))
+        if (view.equals(this.healedType))
         {
             /* Change to healed and submit */
             this.diagnosis.setState(DiagnosisState.HEALED);
-            this.diagnosis.setResources(null);
+
+            /* Remove all non-copy resources */
+            List<Resource> oldResources = this.diagnosis.getResources();
+            List<Resource> newResources = new ArrayList<>();
+
+            for (Resource resource : oldResources)
+            {
+                if (resource.getType() == ResourceType.COPY)
+                {
+                    newResources.add(resource);
+                }
+            }
+
+            this.diagnosis.setResources(newResources);
             this.diagnosis.update();
 
             this.onSubmitListener.onSubmit(this);
         }
 
-        if (view.equals(this.treated))
+        if (view.equals(this.treatedType))
         {
             /* Show resources edit dialog */
             ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
@@ -93,6 +114,25 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
             {
                 /* Change to treated and submit */
                 this.diagnosis.setState(DiagnosisState.TREATED);
+                this.diagnosis.update();
+
+                this.onSubmitListener.onSubmit(this);
+                this.dismiss();
+            });
+
+            dialog.show();
+            return;
+        }
+
+        if (view.equals(this.newType))
+        {
+            /* Show resources edit dialog */
+            ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
+
+            dialog.setOnSubmitListener((ResourcesEditDialog d) ->
+            {
+                /* Change to new and submit */
+                this.diagnosis.setState(DiagnosisState.NEW);
                 this.diagnosis.update();
 
                 this.onSubmitListener.onSubmit(this);
