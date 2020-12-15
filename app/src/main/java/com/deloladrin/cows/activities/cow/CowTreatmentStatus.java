@@ -103,13 +103,13 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
     }
 
     @Override
-    public void onToggle(final Resource resource)
+    public void onToggle(Resource resource)
     {
         /* Toggle after secondary check */
         YesNoDialog dialog = new YesNoDialog(this.getContext());
 
-        final List<Resource> treatmentResources = this.treatment.getResources();
-        final boolean contains = treatmentResources.contains(resource);
+        List<Resource> treatmentResources = this.treatment.getResources();
+        boolean contains = treatmentResources.contains(resource);
 
         if (contains)
         {
@@ -132,7 +132,9 @@ public class CowTreatmentStatus extends ChildActivity<CowActivity> implements Vi
                 treatmentResources.add(resource);
             }
 
+            this.treatment.setResources(treatmentResources);
             this.treatment.update();
+
             this.activity.refresh();
         });
 
