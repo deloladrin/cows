@@ -1,22 +1,21 @@
 package com.deloladrin.cows.data;
 
-public enum ResourceType
+public enum DiagnosisType
 {
     NONE(0),
     FINGER(1),
-    FINGER_INVERTED(2),
     HOOF(3);
 
     private int id;
 
-    ResourceType(int id)
+    DiagnosisType(int id)
     {
         this.id = id;
     }
 
-    public static ResourceType parse(int typeID)
+    public static DiagnosisType parse(int typeID)
     {
-        for (ResourceType type : values())
+        for (DiagnosisType type : values())
         {
             if (type.id == typeID)
             {

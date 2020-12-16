@@ -1,33 +1,34 @@
 package com.deloladrin.cows.activities.cow;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
+import com.deloladrin.cows.data.DiagnosisTemplate;
+import com.deloladrin.cows.data.DiagnosisType;
+import com.deloladrin.cows.data.FingerMask;
+import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.ResourceType;
+import com.deloladrin.cows.data.Status;
+import com.deloladrin.cows.data.StatusTemplate;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.DatabaseActivity;
 import com.deloladrin.cows.database.DatabaseBitmap;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CowActivity extends DatabaseActivity
 {
@@ -38,8 +39,8 @@ public class CowActivity extends DatabaseActivity
     private String user;
 
     private CowHeader header;
-    private CowTreatmentEditor editor;
-    private CowTreatmentHistory history;
+    private TreatmentEditor editor;
+    private TreatmentHistory history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,45 +50,45 @@ public class CowActivity extends DatabaseActivity
 
         /* Load all children */
         this.header = new CowHeader(this, R.id.cow_header);
-        this.editor = new CowTreatmentEditor(this, R.id.cow_treatment_editor);
-        this.history = new CowTreatmentHistory(this, R.id.cow_treatment_history);
+        this.editor = new TreatmentEditor(this, R.id.cow_treatment_editor);
+        this.history = new TreatmentHistory(this, R.id.cow_treatment_history);
 
         this.database.onUpgrade(this.database.getWritableDatabase(), 0, 0);
 
         /* Default resources */
-        new Resource(this.database, -1, this.getString(R.string.resource_bandage), ResourceType.HOOF, 0, false, new DatabaseBitmap(this, R.drawable.resource_bandage)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_wood), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood_xxl)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_tp), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp_xxl)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron_half)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_block_iron), ResourceType.HOOF, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_synulox), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_synulox_2x), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox_2x)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_antibiotics), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_antibiotics)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_checkup), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_checkup)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_no_bathing), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_no_bathing)).insert();
-        new Resource(this.database, -1, this.getString(R.string.resource_take_out), ResourceType.COW, 0, false, new DatabaseBitmap(this, R.drawable.resource_take_out)).insert();
+        Company company = new Company(this.database, 0, "AGRAS BOHDALOV", null); company.insert();
+        Cow cow = new Cow(this.database, 582344, 86, company, null); cow.insert();
 
-        Company company = new Company(this.database, 1, "AGRAS BOHDALOV", null);
-        company.insert();
+        ResourceTemplate resource_bandage = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_bandage), ResourceType.HOOF, 0, false, new DatabaseBitmap(this, R.drawable.resource_bandage)); resource_bandage.insert();
+        ResourceTemplate resource_block_wood = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_wood), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood)); resource_block_wood.insert();
+        ResourceTemplate resource_block_wood_xxl = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_wood_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_wood_xxl)); resource_block_wood_xxl.insert();
+        ResourceTemplate resource_block_tp = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_tp), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp)); resource_block_tp.insert();
+        ResourceTemplate resource_block_tp_xxl = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_tp_xxl), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_tp_xxl)); resource_block_tp_xxl.insert();
+        ResourceTemplate resource_block_iron_half = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_iron_half), ResourceType.FINGER_INVERTED, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron_half)); resource_block_iron_half.insert();
+        ResourceTemplate resource_block_iron = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_block_iron), ResourceType.HOOF, 1, true, new DatabaseBitmap(this, R.drawable.resource_block_iron)); resource_block_iron.insert();
+        ResourceTemplate resource_synulox = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_synulox), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox)); resource_synulox.insert();
+        ResourceTemplate resource_synulox_2x = new ResourceTemplate(this.database, 0, this.getString(R.string.resource_synulox_2x), ResourceType.HOOF, 2, false, new DatabaseBitmap(this, R.drawable.resource_synulox_2x)); resource_synulox_2x.insert();
 
-        Cow cow = new Cow(this.database, 582344, 86, company, null);
-        cow.insert();
+        StatusTemplate status_antibiotics = new StatusTemplate(this.database, 0, this.getString(R.string.resource_antibiotics), new DatabaseBitmap(this, R.drawable.resource_antibiotics)); status_antibiotics.insert();
+        StatusTemplate status_checkup = new StatusTemplate(this.database, 0, this.getString(R.string.resource_checkup), new DatabaseBitmap(this, R.drawable.resource_checkup)); status_checkup.insert();
+        StatusTemplate status_no_bathing = new StatusTemplate(this.database, 0, this.getString(R.string.resource_no_bathing), new DatabaseBitmap(this, R.drawable.resource_no_bathing)); status_no_bathing.insert();
+        StatusTemplate status_take_out = new StatusTemplate(this.database, 0, this.getString(R.string.resource_take_out), new DatabaseBitmap(this, R.drawable.resource_take_out)); status_take_out.insert();
 
-        List<Resource> cowResources = new ArrayList<>();
-        cowResources.add(this.database.getResourceTable().select(10));
-        cowResources.add(this.database.getResourceTable().select(11));
-        Treatment treatment = new Treatment(this.database, 1, cow, TreatmentType.WHOLE, LocalDateTime.of(2020, 12, 2, 8, 45), null, "Bohous", cowResources);
-        treatment.insert();
+        DiagnosisTemplate hnisave_volna_stena = new DiagnosisTemplate(this.database, 0, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisType.FINGER); hnisave_volna_stena.insert();
+        DiagnosisTemplate rusterholzuv_vred_iii = new DiagnosisTemplate(this.database, 0, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisType.FINGER); rusterholzuv_vred_iii.insert();
+        DiagnosisTemplate dermatitis_digitalis_ii = new DiagnosisTemplate(this.database, 0, "Dermatitis digitalis II.st.", "Rozléčený dermatitis digitalis", "Dermatitis digitalis - doléčení", "DD", DiagnosisType.HOOF); dermatitis_digitalis_ii.insert();
 
-        List<Resource> resources = new ArrayList<>();
-        resources.add(this.database.getResourceTable().select(1));
-        resources.add(this.database.getResourceTable().select(7));
+        Treatment treatment = new Treatment(this.database, 0, cow, TreatmentType.WHOLE, LocalDateTime.of(2020, 12, 2, 8, 45), null, "Bohous"); treatment.insert();
 
-        new Diagnosis(this.database, -1, treatment, "Hnisavě volná stěna", "Rozléčená H.v. stěna - opak. ošetření", "Vyhojená H.v. stěna - doléčení", "HVS", DiagnosisState.NEW, 0b00000001, resources).insert();
-        new Diagnosis(this.database, -1, treatment, "Rusterholzův vřed III. st.", "Rozléčený R.V. - opak. ošetření", "Vyhoený R.V. - doléčení", "RV3", DiagnosisState.TREATED, 0b00000010, null).insert();
-        new Diagnosis(this.database, -1, treatment, "DKWAOPDKWAOPDOP", "DWAKODWAKPDOWAKOP", "DWOKDWAPODKWOP", "DD", DiagnosisState.HEALED, 0b00000011, null).insert();
+        Diagnosis diagnosis1 = new Diagnosis(this.database, 0, treatment, hnisave_volna_stena, FingerMask.RB_RF, DiagnosisState.NEW); diagnosis1.insert();
+        Diagnosis diagnosis2 = new Diagnosis(this.database, 0, treatment, rusterholzuv_vred_iii, FingerMask.RB_LF, DiagnosisState.TREATED); diagnosis2.insert();
+        Diagnosis diagnosis3 = new Diagnosis(this.database, 0, treatment, dermatitis_digitalis_ii, HoofMask.RB, DiagnosisState.HEALED); diagnosis3.insert();
+
+        Resource resource1 = new Resource(this.database, 0, treatment, resource_bandage, HoofMask.RB, false); resource1.insert();
+        Resource resource2 = new Resource(this.database, 0, treatment, resource_block_tp, FingerMask.RB_RF, false); resource2.insert();
+
+        Status status1 = new Status(this.database, 0, treatment, status_antibiotics); status1.insert();
+        Status status2 = new Status(this.database, 0, treatment, status_no_bathing); status2.insert();
 
         /* Load requested cow */
         Intent intent = this.getIntent();
@@ -199,12 +200,12 @@ public class CowActivity extends DatabaseActivity
         return this.header;
     }
 
-    public CowTreatmentEditor getEditor()
+    public TreatmentEditor getEditor()
     {
         return this.editor;
     }
 
-    public CowTreatmentHistory getHistory()
+    public TreatmentHistory getHistory()
     {
         return this.history;
     }

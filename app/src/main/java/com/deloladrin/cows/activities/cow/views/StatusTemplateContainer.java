@@ -3,23 +3,20 @@ package com.deloladrin.cows.activities.cow.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.deloladrin.cows.R;
-import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.ResourceType;
+import com.deloladrin.cows.data.StatusTemplate;
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.views.CircleImageView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ToggleResourceContainer extends LinearLayout implements View.OnClickListener
+public class StatusTemplateContainer extends LinearLayout implements View.OnClickListener
 {
-    private HashMap<Resource, CircleImageView> views;
+    private HashMap<StatusTemplate, CircleImageView> views;
 
     private float strokeWidth;
     private int strokeColor;
@@ -27,18 +24,18 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
 
     private OnToggleListener onToggleListener;
 
-    public ToggleResourceContainer(Context context, AttributeSet attrs)
+    public StatusTemplateContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
         /* Get attributes */
-        TypedArray attrArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ToggleResourceContainer, 0, 0);
+        TypedArray attrArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.StatusTemplateContainer, 0, 0);
 
         try
         {
-            this.strokeWidth = attrArray.getFloat(R.styleable.ToggleResourceContainer_strokeWidth, 1.0f);
-            this.strokeColor = attrArray.getColor(R.styleable.ToggleResourceContainer_strokeColor, 0xFFFFFFFF);
-            this.disabledStrokeColor = attrArray.getColor(R.styleable.ToggleResourceContainer_disabledStrokeColor, 0xFFFFFFFF);
+            this.strokeWidth = attrArray.getFloat(R.styleable.StatusTemplateContainer_strokeWidth, 1.0f);
+            this.strokeColor = attrArray.getColor(R.styleable.StatusTemplateContainer_strokeColor, 0xFFFFFFFF);
+            this.disabledStrokeColor = attrArray.getColor(R.styleable.StatusTemplateContainer_disabledStrokeColor, 0xFFFFFFFF);
         }
         finally
         {
@@ -51,11 +48,8 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
         this.views = new HashMap<>();
         this.removeAllViews();
 
-        /* Load all resources */
-        ValueParams resParams = new ValueParams();
-        resParams.put(Resource.Table.COLUMN_TYPE, ResourceType.COW.getID());
-
-        for (Resource resource : database.getResourceTable().selectAll(resParams))
+        /* Load all templates */
+        for (StatusTemplate template : database.getStatusTemplateTable().selectAll())
         {
             CircleImageView view = new CircleImageView(this.getContext());
             view.setStrokeWidth(this.strokeWidth);
@@ -63,7 +57,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
             view.setClickable(true);
             view.setOnClickListener(this);
 
-            view.setImageBitmap(resource.getImage().getBitmap());
+            view.setImageBitmap(template.getImage().getBitmap());
             view.setAdjustViewBounds(true);
 
             int size = this.getLayoutParams().height;
@@ -74,7 +68,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
 
             view.setLayoutParams(params);
 
-            this.views.put(resource, view);
+            this.views.put(template, view);
             this.addView(view);
         }
 
@@ -82,9 +76,9 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
         this.reset();
     }
 
-    public void setEnabled(Resource resource, boolean enabled)
+    public void setEnabled(StatusTemplate template, boolean enabled)
     {
-        CircleImageView view = this.views.get(resource);
+        CircleImageView view = this.views.get(template);
 
         if (view != null)
         {
@@ -118,7 +112,7 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
     public void onClick(View view)
     {
         /* Check, which is clicked */
-        for (Map.Entry<Resource, CircleImageView> entry : this.views.entrySet())
+        for (Map.Entry<StatusTemplate, CircleImageView> entry : this.views.entrySet())
         {
             if (view.equals(entry.getValue()))
             {
@@ -172,6 +166,6 @@ public class ToggleResourceContainer extends LinearLayout implements View.OnClic
 
     public interface OnToggleListener
     {
-        void onToggle(Resource resource);
+        void onToggle(StatusTemplate template);
     }
 }

@@ -12,9 +12,9 @@ import com.deloladrin.cows.views.YesNoDialog;
 
 import java.time.format.DateTimeFormatter;
 
-public class CowTreatmentEntry implements View.OnClickListener
+public class TreatmentEntry implements View.OnClickListener
 {
-    private CowTreatmentHistory parent;
+    private TreatmentHistory parent;
     private Treatment treatment;
 
     private View view;
@@ -25,7 +25,7 @@ public class CowTreatmentEntry implements View.OnClickListener
     private ImageButton show;
     private ImageButton delete;
 
-    public CowTreatmentEntry(CowTreatmentHistory parent, LayoutInflater inflater)
+    public TreatmentEntry(TreatmentHistory parent, LayoutInflater inflater)
     {
         this.parent = parent;
         this.view = inflater.inflate(R.layout.activity_cow_entry, null);
@@ -59,7 +59,7 @@ public class CowTreatmentEntry implements View.OnClickListener
 
             /* Treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            String date = this.treatment.timestampToDate().format(dateFormatter);
+            String date = this.treatment.getDate().format(dateFormatter);
 
             dialog.setText(R.string.dialog_treatment_delete_text, date);
 
@@ -74,7 +74,7 @@ public class CowTreatmentEntry implements View.OnClickListener
         }
     }
 
-    public CowTreatmentHistory getParent()
+    public TreatmentHistory getParent()
     {
         return this.parent;
     }
@@ -100,11 +100,11 @@ public class CowTreatmentEntry implements View.OnClickListener
         this.type.setText(type);
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String date = treatment.timestampToDate().format(dateFormatter);
+        String date = treatment.getDate().format(dateFormatter);
         this.date.setText(date);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        String time = treatment.timestampToDate().format(timeFormatter);
+        String time = treatment.getDate().format(timeFormatter);
         this.time.setText(time);
 
         String user = treatment.getUser();

@@ -1,7 +1,6 @@
 package com.deloladrin.cows.activities.cow.views;
 
 import android.content.Context;
-import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 

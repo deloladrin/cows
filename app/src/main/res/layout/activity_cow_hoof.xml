@@ -48,7 +48,7 @@
 
             </LinearLayout>
 
-            <com.deloladrin.cows.activities.cow.views.HoofResourceContainer
+            <com.deloladrin.cows.activities.cow.views.ResourceContainer
                 android:id="@+id/hoof_resources"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <com.deloladrin.cows.activities.cow.views.DiagnosisContainer
-        android:id="@+id/hoof_diagnoses_all"
+        android:id="@+id/hoof_diagnoses_hoof"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"

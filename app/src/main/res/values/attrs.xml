@@ -22,13 +22,13 @@
         <attr name="textSize" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="ToggleResourceContainer">
+    <declare-styleable name="StatusTemplateContainer">
         <attr name="disabledStrokeColor" format="color" />
         <attr name="strokeColor" />
         <attr name="strokeWidth" />
     </declare-styleable>
 
-    <declare-styleable name="HoofResourceContainer">
+    <declare-styleable name="ResourceContainer">
     </declare-styleable>
 
 </resources>

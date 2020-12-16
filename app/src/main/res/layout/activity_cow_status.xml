@@ -17,8 +17,8 @@
         android:textColor="@color/text_tint_dark"
         android:textSize="@dimen/text_big" />
 
-    <com.deloladrin.cows.activities.cow.views.ToggleResourceContainer
-        android:id="@+id/status_resources"
+    <com.deloladrin.cows.activities.cow.views.StatusTemplateContainer
+        android:id="@+id/status_templates"
         android:layout_width="0dp"
         android:layout_height="@dimen/size_cow_status"
         android:layout_weight="1"

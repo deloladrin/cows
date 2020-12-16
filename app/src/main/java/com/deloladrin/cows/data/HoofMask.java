@@ -6,6 +6,7 @@ import com.deloladrin.cows.R;
 
 public enum HoofMask implements TargetMask
 {
+    NONE(FingerMask.NONE, FingerMask.NONE, 0),
     LF(FingerMask.LF_LF, FingerMask.LF_RF, R.string.mask_lf),
     RF(FingerMask.RF_LF, FingerMask.RF_RF, R.string.mask_rf),
     LB(FingerMask.LB_LF, FingerMask.LB_RF, R.string.mask_lb),

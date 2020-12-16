@@ -9,36 +9,33 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Diagnosis;
-import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
+import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.views.SelectDialog;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CowTreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
+public class TreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
     private Treatment treatment;
 
     private TextView date;
     private TextView comment;
 
-    private CowTreatmentStatus status;
+    private TreatmentStatus status;
 
-    private CowTreatmentHoof frontLeft;
-    private CowTreatmentHoof frontRight;
-    private CowTreatmentHoof backLeft;
-    private CowTreatmentHoof backRight;
+    private EditorHoof frontLeft;
+    private EditorHoof frontRight;
+    private EditorHoof backLeft;
+    private EditorHoof backRight;
 
     private Button add;
 
-    public CowTreatmentEditor(CowActivity parent, int layout)
+    public TreatmentEditor(CowActivity parent, int layout)
     {
         super(parent, layout);
 
@@ -46,12 +43,12 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         this.date = this.findViewById(R.id.editor_date);
         this.comment = this.findViewById(R.id.editor_comment);
 
-        this.status = new CowTreatmentStatus(this, R.id.editor_status);
+        this.status = new TreatmentStatus(this, R.id.editor_status);
 
-        this.frontLeft = new CowTreatmentHoof(this, HoofMask.LF, R.id.editor_front_left);
-        this.frontRight = new CowTreatmentHoof(this, HoofMask.RF, R.id.editor_front_right);
-        this.backLeft = new CowTreatmentHoof(this, HoofMask.LB, R.id.editor_back_left);
-        this.backRight = new CowTreatmentHoof(this, HoofMask.RB, R.id.editor_back_right);
+        this.frontLeft = new EditorHoof(this, HoofMask.LF, R.id.editor_front_left);
+        this.frontRight = new EditorHoof(this, HoofMask.RF, R.id.editor_front_right);
+        this.backLeft = new EditorHoof(this, HoofMask.LB, R.id.editor_back_left);
+        this.backRight = new EditorHoof(this, HoofMask.RB, R.id.editor_back_right);
 
         this.add = this.findViewById(R.id.editor_add);
 
@@ -84,49 +81,43 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
             {
                 /* Create and refresh */
                 TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
+
                 CowActivity activity = this.getActivity();
+                Database database = activity.getDatabase();
 
-                Treatment treatment = new Treatment(activity.getDatabase());
-                treatment.setCow(activity.getCow());
-                treatment.setType(entry.getValue());
-                treatment.setDate(LocalDateTime.now());
-                treatment.setUser(activity.getUser());
-                treatment.insert();
+                Treatment treatmentCopy = new Treatment(database);
+                treatmentCopy.setCow(activity.getCow());
+                treatmentCopy.setType(entry.getValue());
+                treatmentCopy.setDate(LocalDateTime.now());
+                treatmentCopy.setUser(activity.getUser());
+                treatmentCopy.insert();
 
-                /* Copy previous diagnosis */
-                for (Diagnosis diagnosis : this.treatment.getDiagnoses())
+                if (this.treatment != null)
                 {
-                    Diagnosis copy = new Diagnosis(activity.getDatabase());
-                    copy.setTreatment(treatment);
-                    copy.setHealedName(diagnosis.getHealedName());
-                    copy.setTreatedName(diagnosis.getTreatedName());
-                    copy.setNewName(diagnosis.getNewName());
-                    copy.setShortName(diagnosis.getShortName());
-                    copy.setState(diagnosis.getState());
-                    copy.setTarget(diagnosis.getTarget());
-
-                    /* Copy some resources */
-                    List<Resource> resources = new ArrayList<>();
-
-                    for (Resource resource : diagnosis.getResources())
+                    /* Copy diagnoses */
+                    for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                     {
-                        Resource resourceCopy = resource.getCopy();
-
-                        /* Copyable resources */
-                        if (resourceCopy != null)
-                        {
-                            resources.add(resourceCopy);
-                        }
-
-                        /* Copy-typed resources */
-                        else if (resource.getType() == ResourceType.COPY)
-                        {
-                            resources.add(resource);
-                        }
+                        Diagnosis diagnosisCopy = new Diagnosis(database);
+                        diagnosisCopy.setTreatment(treatmentCopy);
+                        diagnosisCopy.setTemplate(diagnosis.getTemplate());
+                        diagnosisCopy.setTarget(diagnosis.getTarget());
+                        diagnosisCopy.setState(diagnosis.getState());
+                        diagnosisCopy.insert();
                     }
 
-                    copy.setResources(resources);
-                    copy.insert();
+                    /* Copy some resources */
+                    for (Resource resource : this.treatment.getResources())
+                    {
+                        if (resource.getTemplate().isCopying())
+                        {
+                            Resource resourceCopy = new Resource(database);
+                            resourceCopy.setTreatment(treatmentCopy);
+                            resourceCopy.setTemplate(resource.getTemplate());
+                            resourceCopy.setTarget(resource.getTarget());
+                            resourceCopy.setCopy(true);
+                            resourceCopy.insert();
+                        }
+                    }
                 }
 
                 activity.refreshFull();
@@ -161,12 +152,13 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         {
             /* Set treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
-            String date = treatment.timestampToDate().format(dateFormatter);
+            String date = treatment.getDate().format(dateFormatter);
             this.date.setText(date);
 
             /* Set comment */
             String comment = treatment.getComment();
             this.comment.setText(comment);
+            this.comment.setEnabled(true);
 
             /* Update children */
             this.status.setTreatment(treatment);
@@ -179,7 +171,9 @@ public class CowTreatmentEditor extends ChildActivity<CowActivity> implements Vi
         else
         {
             this.date.setText("—");
+
             this.comment.setText("");
+            this.comment.setEnabled(false);
 
             this.status.setTreatment(null);
 

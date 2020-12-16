@@ -16,10 +16,6 @@ import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.Treatment;
 import com.wefika.flowlayout.FlowLayout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class FingerDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
     private Treatment treatment;
@@ -67,7 +63,6 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
         for (Diagnosis diagnosis : this.treatment.getDiagnoses())
         {
             /* Load only valid diagnoses */
-
             if (this.mask.contains(diagnosis.getTarget()))
             {
                 this.add(diagnosis);
@@ -92,12 +87,11 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
             dialog.setOnSubmitListener((DiagnosisEditDialog d) ->
             {
                 /* Close on submit */
-                this.onSubmitListener.onSubmit(FingerDialog.this);
+                this.onSubmitListener.onSubmit(this);
                 this.dismiss();
             });
 
             dialog.show();
-
             return;
         }
 
@@ -137,6 +131,16 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
         button.setDiagnosis(diagnosis);
 
         this.container.addView(button);
+    }
+
+    public Treatment getTreatment()
+    {
+        return this.treatment;
+    }
+
+    public FingerMask getMask()
+    {
+        return this.mask;
     }
 
     public String getName()

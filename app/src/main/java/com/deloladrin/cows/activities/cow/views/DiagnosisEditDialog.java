@@ -1,6 +1,5 @@
 package com.deloladrin.cows.activities.cow.views;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +11,7 @@ import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
-import com.deloladrin.cows.data.FingerMask;
-import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.TargetMask;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
@@ -29,9 +22,9 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     private TextView name;
 
     private Button cancel;
-    private Button healedType;
-    private Button treatedType;
-    private Button newType;
+    private Button healedState;
+    private Button treatedState;
+    private Button newState;
 
     private OnSubmitListener onSubmitListener;
 
@@ -48,15 +41,15 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         this.name = this.findViewById(R.id.dialog_name);
 
         this.cancel = this.findViewById(R.id.dialog_cancel);
-        this.healedType = this.findViewById(R.id.dialog_healed);
-        this.treatedType = this.findViewById(R.id.dialog_treated);
-        this.newType = this.findViewById(R.id.dialog_new);
+        this.healedState = this.findViewById(R.id.dialog_healed);
+        this.treatedState = this.findViewById(R.id.dialog_treated);
+        this.newState = this.findViewById(R.id.dialog_new);
 
         /* Add events */
         this.cancel.setOnClickListener(this);
-        this.healedType.setOnClickListener(this);
-        this.treatedType.setOnClickListener(this);
-        this.newType.setOnClickListener(this);
+        this.healedState.setOnClickListener(this);
+        this.treatedState.setOnClickListener(this);
+        this.newState.setOnClickListener(this);
 
         /* Load default values */
         this.initialize();
@@ -82,35 +75,21 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     {
         Context context = this.getContext();
 
-        if (view.equals(this.healedType))
+        if (view.equals(this.healedState))
         {
             /* Change to healed and submit */
             this.diagnosis.setState(DiagnosisState.HEALED);
-
-            /* Remove all non-copy resources */
-            List<Resource> oldResources = this.diagnosis.getResources();
-            List<Resource> newResources = new ArrayList<>();
-
-            for (Resource resource : oldResources)
-            {
-                if (resource.getType() == ResourceType.COPY)
-                {
-                    newResources.add(resource);
-                }
-            }
-
-            this.diagnosis.setResources(newResources);
             this.diagnosis.update();
 
             this.onSubmitListener.onSubmit(this);
         }
 
-        if (view.equals(this.treatedType))
+        if (view.equals(this.treatedState))
         {
-            /* Show resources edit dialog */
-            ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
+            /* Show resources editor */
+            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
 
-            dialog.setOnSubmitListener((ResourcesEditDialog d) ->
+            dialog.setOnSubmitListener((ResourceEditDialog d) ->
             {
                 /* Change to treated and submit */
                 this.diagnosis.setState(DiagnosisState.TREATED);
@@ -124,12 +103,12 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
             return;
         }
 
-        if (view.equals(this.newType))
+        if (view.equals(this.newState))
         {
-            /* Show resources edit dialog */
-            ResourcesEditDialog dialog = new ResourcesEditDialog(this.parent, this.diagnosis);
+            /* Show resources editor */
+            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
 
-            dialog.setOnSubmitListener((ResourcesEditDialog d) ->
+            dialog.setOnSubmitListener((ResourceEditDialog d) ->
             {
                 /* Change to new and submit */
                 this.diagnosis.setState(DiagnosisState.NEW);

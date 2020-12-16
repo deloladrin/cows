@@ -4,48 +4,43 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.ResourceType;
-import com.deloladrin.cows.data.TargetMask;
 
 import java.util.Arrays;
 
-public class HoofResourceContainer extends FrameLayout
+public class ResourceContainer extends FrameLayout
 {
     private HoofMask mask;
 
-    public HoofResourceContainer(Context context, AttributeSet attrs)
+    public ResourceContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    public void add(Resource resource, TargetMask target)
+    public void add(Resource resource)
     {
         /* Create ImageView */
-        HoofResourceEntry view = new HoofResourceEntry(this.getContext());
+        ResourceEntry view = new ResourceEntry(this.getContext());
         view.setResource(resource);
 
-        Bitmap bitmap = resource.getImage().getBitmap();
+        Bitmap bitmap = resource.getTemplate().getImage().getBitmap();
         view.setImageBitmap(bitmap);
         view.setAdjustViewBounds(true);
 
         /* Set correct location and scale */
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 
-        switch (resource.getType())
+        switch (resource.getTemplate().getType())
         {
             case HOOF:
                 break;
 
             case FINGER:
 
-                if (target == this.mask.getRightFinger())
+                if (resource.getTarget() == this.mask.getRightFinger())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;
@@ -55,7 +50,7 @@ public class HoofResourceContainer extends FrameLayout
 
             case FINGER_INVERTED:
 
-                if (target == this.mask.getLeftFinger())
+                if (resource.getTarget() == this.mask.getLeftFinger())
                 {
                     view.setScaleX(-1);
                     params.gravity = Gravity.RIGHT;
@@ -72,23 +67,23 @@ public class HoofResourceContainer extends FrameLayout
     {
         /* Get all children */
         int childCount = this.getChildCount();
-        HoofResourceEntry[] children = new HoofResourceEntry[childCount];
+        ResourceEntry[] children = new ResourceEntry[childCount];
 
         for (int i = 0; i < childCount; i++)
         {
-            children[i] = (HoofResourceEntry)this.getChildAt(i);
+            children[i] = (ResourceEntry)this.getChildAt(i);
         }
 
         /* Sort children */
-        Arrays.sort(children, (HoofResourceEntry a, HoofResourceEntry b) ->
+        Arrays.sort(children, (ResourceEntry a, ResourceEntry b) ->
         {
-            return a.getResource().getLayer() - b.getResource().getLayer();
+            return a.getResource().getTemplate().getLayer() - b.getResource().getTemplate().getLayer();
         });
 
         /* Put children back */
         this.clear();
 
-        for (HoofResourceEntry view : children)
+        for (ResourceEntry view : children)
         {
             this.addView(view);
         }

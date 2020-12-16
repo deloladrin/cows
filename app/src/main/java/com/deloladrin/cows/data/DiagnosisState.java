@@ -2,8 +2,6 @@ package com.deloladrin.cows.data;
 
 import android.content.Context;
 
-import androidx.core.content.ContextCompat;
-
 import com.deloladrin.cows.R;
 
 public enum DiagnosisState
@@ -59,7 +57,7 @@ public enum DiagnosisState
 
     public int getColor(Context context)
     {
-        return ContextCompat.getColor(context, this.color);
+        return context.getColor(this.color);
     }
 
     public String getShortName(Context context)

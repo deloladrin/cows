@@ -40,10 +40,10 @@ public class Cow
     {
         this.database = database;
 
-        this.id = id;
-        this.collar = collar;
-        this.company = company.getID();
-        this.group = group;
+        this.setID(id);
+        this.setCollar(collar);
+        this.setCompany(company);
+        this.setGroup(group);
     }
 
     public List<Treatment> getTreatments()

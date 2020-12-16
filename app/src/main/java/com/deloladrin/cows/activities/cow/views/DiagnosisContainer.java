@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.data.Diagnosis;
-import com.deloladrin.cows.data.DiagnosisState;
 
 public class DiagnosisContainer extends LinearLayout
 {
@@ -34,8 +33,7 @@ public class DiagnosisContainer extends LinearLayout
         /* Create empty diagnosis in horizontal views */
         if (this.getOrientation() == HORIZONTAL)
         {
-            Diagnosis empty = new Diagnosis(null);
-            this.add(empty);
+            this.add(null);
         }
     }
 
@@ -44,8 +42,13 @@ public class DiagnosisContainer extends LinearLayout
         /* Create with params */
         TextView view = new TextView(this.getContext());
         view.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.textSize);
-        view.setTextColor(diagnosis.getState().getColor(this.getContext()));
-        view.setText(diagnosis.getShortName());
+
+        /* Check for empty diagnosis */
+        if (diagnosis != null)
+        {
+            view.setTextColor(diagnosis.getState().getColor(this.getContext()));
+            view.setText(diagnosis.getShortName());
+        }
 
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(params);

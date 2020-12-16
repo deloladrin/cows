@@ -5,7 +5,9 @@ import android.content.Context;
 public interface TargetMask
 {
     int getMask();
+
     String getName(Context context);
+    boolean contains(TargetMask mask);
 
     static TargetMask parse(int mask)
     {

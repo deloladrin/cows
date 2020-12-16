@@ -23,14 +23,13 @@ public class Treatment
     private long date;
     private String comment;
     private String user;
-    private int resources;
 
     public Treatment(Database database)
     {
         this.database = database;
     }
 
-    public Treatment(Database database, int id, int cow, int type, long date, String comment, String user, int resources)
+    public Treatment(Database database, int id, int cow, int type, long date, String comment, String user)
     {
         this.database = database;
 
@@ -40,20 +39,18 @@ public class Treatment
         this.date = date;
         this.comment = comment;
         this.user = user;
-        this.resources = resources;
     }
 
-    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user, List<Resource> resources)
+    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user)
     {
         this.database = database;
 
-        this.id = id;
-        this.cow = cow.getID();
-        this.type = type.getID();
-        this.date = this.dateToTimestamp(date);
-        this.comment = comment;
-        this.user = user;
-        this.resources = Resource.valueOf(resources);
+        this.setID(id);
+        this.setCow(cow);
+        this.setType(type);
+        this.setDate(date);
+        this.setComment(comment);
+        this.setUser(user);
     }
 
     public List<Diagnosis> getDiagnoses()
@@ -62,6 +59,22 @@ public class Treatment
         params.put(Diagnosis.Table.COLUMN_TREATMENT, this.getID());
 
         return this.database.getDiagnosesTable().selectAll(params);
+    }
+
+    public List<Resource> getResources()
+    {
+        ValueParams params = new ValueParams();
+        params.put(Resource.Table.COLUMN_TREATMENT, this.getID());
+
+        return this.database.getResourceTable().selectAll(params);
+    }
+
+    public List<Status> getStatuses()
+    {
+        ValueParams params = new ValueParams();
+        params.put(Status.Table.COLUMN_TREATMENT, this.getID());
+
+        return this.database.getStatusTable().selectAll(params);
     }
 
     public void insert()
@@ -82,17 +95,19 @@ public class Treatment
             diagnosis.delete();
         }
 
+        /* Delete all resources */
+        for (Resource resource : this.getResources())
+        {
+            resource.delete();
+        }
+
+        /* Delete all statuses */
+        for (Status status : this.getStatuses())
+        {
+            status.delete();
+        }
+
         this.database.getTreatmentTable().delete(this);
-    }
-
-    private long dateToTimestamp(LocalDateTime date)
-    {
-        return date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000;
-    }
-
-    private LocalDateTime timestampToDate(long timestamp)
-    {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
     @Override
@@ -153,14 +168,14 @@ public class Treatment
         this.type = type;
     }
 
-    public LocalDateTime timestampToDate()
+    public LocalDateTime getDate()
     {
-        return this.timestampToDate(this.date);
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(this.date), ZoneId.systemDefault());
     }
 
     public void setDate(LocalDateTime date)
     {
-        this.date = this.dateToTimestamp(date);
+        this.date = date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000;
     }
 
     public void setDate(long date)
@@ -188,21 +203,6 @@ public class Treatment
         this.user = user;
     }
 
-    public List<Resource> getResources()
-    {
-        return Resource.parse(this.database, this.resources);
-    }
-
-    public void setResources(List<Resource> resources)
-    {
-        this.resources = Resource.valueOf(resources);
-    }
-
-    public void setResources(int resources)
-    {
-        this.resources = resources;
-    }
-
     public static class Table extends TableBase<Treatment>
     {
         public static final String TABLE_NAME = "treatments";
@@ -213,7 +213,6 @@ public class Treatment
         public static final TableColumn COLUMN_DATE = new TableColumn(3, "date", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_COMMENT = new TableColumn(4, "comment", ValueType.TEXT, true);
         public static final TableColumn COLUMN_USER = new TableColumn(5, "user", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_RESOURCES = new TableColumn(6, "resources", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -225,7 +224,6 @@ public class Treatment
             this.columns.add(COLUMN_DATE);
             this.columns.add(COLUMN_COMMENT);
             this.columns.add(COLUMN_USER);
-            this.columns.add(COLUMN_RESOURCES);
         }
 
         @Override
@@ -239,7 +237,6 @@ public class Treatment
             params.put(COLUMN_DATE, object.date);
             params.put(COLUMN_COMMENT, object.comment);
             params.put(COLUMN_USER, object.user);
-            params.put(COLUMN_RESOURCES, object.resources);
 
             return params;
         }
@@ -253,9 +250,8 @@ public class Treatment
             long date = cursor.getLong(COLUMN_DATE.getID());
             String comment = cursor.getString(COLUMN_COMMENT.getID());
             String user = cursor.getString(COLUMN_USER.getID());
-            int resources = cursor.getInt(COLUMN_RESOURCES.getID());
 
-            return new Treatment(this.database, id, cow, type, date, comment, user, resources);
+            return new Treatment(this.database, id, cow, type, date, comment, user);
         }
     }
 }

@@ -6,15 +6,14 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.data.Treatment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class CowTreatmentHistory extends ChildActivity<CowActivity>
+public class TreatmentHistory extends ChildActivity<CowActivity>
 {
     private List<Treatment> treatments;
-    private List<CowTreatmentEntry> views;
+    private List<TreatmentEntry> views;
 
-    public CowTreatmentHistory(CowActivity parent, int layout)
+    public TreatmentHistory(CowActivity parent, int layout)
     {
         super(parent, layout);
     }
@@ -39,7 +38,7 @@ public class CowTreatmentHistory extends ChildActivity<CowActivity>
             {
                 Treatment treatment = treatments.get(i);
 
-                CowTreatmentEntry entry = new CowTreatmentEntry(this, inflater);
+                TreatmentEntry entry = new TreatmentEntry(this, inflater);
                 entry.setTreatment(treatment);
 
                 this.views.add(entry);
