@@ -192,7 +192,7 @@ public class DiagnosisTemplate
             String nameTreated = cursor.getString(COLUMN_NAME_TREATED.getID());
             String nameHealed = cursor.getString(COLUMN_NAME_HEALED.getID());
             String nameShort = cursor.getString(COLUMN_NAME_SHORT.getID());
-            int type = cursor.getType(COLUMN_TYPE.getID());
+            int type = cursor.getInt(COLUMN_TYPE.getID());
 
             return new DiagnosisTemplate(this.database, id, nameNew, nameTreated, nameHealed, nameShort, type);
         }

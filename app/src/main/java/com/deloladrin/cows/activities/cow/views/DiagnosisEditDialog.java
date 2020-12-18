@@ -77,52 +77,41 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
         if (view.equals(this.healedState))
         {
-            /* Change to healed and submit */
-            this.diagnosis.setState(DiagnosisState.HEALED);
-            this.diagnosis.update();
-
-            this.onSubmitListener.onSubmit(this);
+            this.changeDiagnosisState(DiagnosisState.HEALED);
+            return;
         }
 
         if (view.equals(this.treatedState))
         {
-            /* Show resources editor */
-            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
-
-            dialog.setOnSubmitListener((ResourceEditDialog d) ->
-            {
-                /* Change to treated and submit */
-                this.diagnosis.setState(DiagnosisState.TREATED);
-                this.diagnosis.update();
-
-                this.onSubmitListener.onSubmit(this);
-                this.dismiss();
-            });
-
-            dialog.show();
+            this.changeDiagnosisState(DiagnosisState.TREATED);
             return;
         }
 
         if (view.equals(this.newState))
         {
-            /* Show resources editor */
-            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
-
-            dialog.setOnSubmitListener((ResourceEditDialog d) ->
-            {
-                /* Change to new and submit */
-                this.diagnosis.setState(DiagnosisState.NEW);
-                this.diagnosis.update();
-
-                this.onSubmitListener.onSubmit(this);
-                this.dismiss();
-            });
-
-            dialog.show();
+            this.changeDiagnosisState(DiagnosisState.NEW);
             return;
         }
 
         this.dismiss();
+    }
+
+    private void changeDiagnosisState(DiagnosisState state)
+    {
+        /* Show resources editor */
+        ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
+
+        dialog.setOnSubmitListener((ResourceEditDialog d) ->
+        {
+            /* Update and submit */
+            this.diagnosis.setState(state);
+            this.diagnosis.update();
+
+            this.onSubmitListener.onSubmit(this);
+            this.dismiss();
+        });
+
+        dialog.show();
     }
 
     public String getFingerName()

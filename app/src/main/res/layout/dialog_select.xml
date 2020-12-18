@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cows="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/size_dialog"
     android:layout_height="wrap_content"
     android:background="@color/back_light"
@@ -19,11 +20,18 @@
             android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
-        <LinearLayout
-            android:id="@+id/dialog_container"
+        <com.deloladrin.cows.views.LimitedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            cows:maxHeight="@dimen/size_dialog">
+
+            <LinearLayout
+                android:id="@+id/dialog_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </com.deloladrin.cows.views.LimitedScrollView>
 
     </LinearLayout>
 

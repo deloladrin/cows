@@ -42,8 +42,7 @@ public class EditorFinger implements View.OnClickListener
         /* Add events */
         this.view.setOnClickListener(this);
 
-        /* Set default state */
-        this.setState(DiagnosisState.NONE, true);
+        this.reset();
     }
 
     @Override
@@ -69,6 +68,12 @@ public class EditorFinger implements View.OnClickListener
         }
     }
 
+    public void reset()
+    {
+        /* Force reset finger state */
+        this.setState(DiagnosisState.NONE, true);
+    }
+
     public EditorHoof getParent()
     {
         return this.parent;
@@ -86,10 +91,8 @@ public class EditorFinger implements View.OnClickListener
 
     public void setDiagnoses(List<Diagnosis> diagnoses)
     {
-        this.diagnoses = this.diagnoses;
+        this.diagnoses = diagnoses;
         this.diagnosisContainer.clear();
-
-        this.setState(DiagnosisState.NONE, true);
 
         if (diagnoses != null)
         {

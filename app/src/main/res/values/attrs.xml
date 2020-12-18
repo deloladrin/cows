@@ -18,6 +18,10 @@
         <attr name="strokeWidth" />
     </declare-styleable>
 
+    <declare-styleable name="LimitedScrollView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="DiagnosisContainer">
         <attr name="textSize" format="dimension" />
     </declare-styleable>

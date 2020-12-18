@@ -98,8 +98,17 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
         /* Add new diagnosis */
         if (view.equals(this.add))
         {
+            /* Show create dialog */
+            DiagnosisCreateDialog dialog = new DiagnosisCreateDialog(this.parent, this.treatment, this.mask);
 
+            dialog.setOnSubmitListener((DiagnosisCreateDialog d) ->
+            {
+                /* Close on submit */
+                this.onSubmitListener.onSubmit(this);
+                this.dismiss();
+            });
 
+            dialog.show();
             return;
         }
 

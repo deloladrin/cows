@@ -58,6 +58,10 @@ public class EditorHoof extends ChildActivity<CowActivity>
         this.diagnosisContainer.clear();
         this.resourceContainer.clear();
 
+        /* Reset fingers */
+        this.left.reset();
+        this.right.reset();
+
         if (treatment != null)
         {
             /* Get all diagnoses */
