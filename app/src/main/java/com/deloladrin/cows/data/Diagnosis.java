@@ -12,8 +12,8 @@ public class Diagnosis
 {
     private Database database;
 
-    private int id;
-    private int treatment;
+    private long id;
+    private long treatment;
     private int template;
     private int target;
     private int state;
@@ -23,7 +23,7 @@ public class Diagnosis
         this.database = database;
     }
 
-    public Diagnosis(Database database, int id, int treatment, int template, int target, int state)
+    public Diagnosis(Database database, long id, long treatment, int template, int target, int state)
     {
         this.database = database;
 
@@ -34,7 +34,7 @@ public class Diagnosis
         this.state = state;
     }
 
-    public Diagnosis(Database database, int id, Treatment treatment, DiagnosisTemplate template, TargetMask target, DiagnosisState state)
+    public Diagnosis(Database database, long id, Treatment treatment, DiagnosisTemplate template, TargetMask target, DiagnosisState state)
     {
         this.database = database;
 
@@ -94,15 +94,15 @@ public class Diagnosis
     @Override
     public int hashCode()
     {
-        return this.id;
+        return Long.hashCode(this.id);
     }
 
-    public int getID()
+    public long getID()
     {
         return this.id;
     }
 
-    public void setID(int id)
+    public void setID(long id)
     {
         this.id = id;
     }
@@ -117,7 +117,7 @@ public class Diagnosis
         this.treatment = treatment.getID();
     }
 
-    public void setTreatment(int treatment)
+    public void setTreatment(long treatment)
     {
         this.treatment = treatment;
     }
@@ -205,8 +205,8 @@ public class Diagnosis
         @Override
         protected Diagnosis getObject(Cursor cursor)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            int treatment = cursor.getInt(COLUMN_TREATMENT.getID());
+            long id = cursor.getLong(COLUMN_ID.getID());
+            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
             int template = cursor.getInt(COLUMN_TEMPLATE.getID());
             int target = cursor.getInt(COLUMN_TARGET.getID());
             int state = cursor.getInt(COLUMN_STATE.getID());

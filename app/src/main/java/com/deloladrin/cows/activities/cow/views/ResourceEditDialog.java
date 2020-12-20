@@ -11,6 +11,7 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
+import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.TargetMask;
@@ -23,8 +24,7 @@ import java.util.List;
 public class ResourceEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
     private Treatment treatment;
-    private Diagnosis diagnosis;
-    private TargetMask mask;
+    private FingerMask mask;
 
     private TextView finger;
     private FlowLayout container;
@@ -37,14 +37,13 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
 
     private OnSubmitListener onSubmitListener;
 
-    public ResourceEditDialog(ChildActivity<CowActivity> parent, Diagnosis diagnosis)
+    public ResourceEditDialog(ChildActivity<CowActivity> parent, Treatment treatment, FingerMask mask)
     {
         super(parent);
         this.setContentView(R.layout.dialog_cow_resource_edit);
 
-        this.diagnosis = diagnosis;
-        this.treatment = diagnosis.getTreatment();
-        this.mask = diagnosis.getTarget();
+        this.treatment = treatment;
+        this.mask = mask;
 
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
@@ -67,7 +66,7 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
         Context context = this.getContext();
 
         /* Set finger name */
-        String fingerName = this.diagnosis.getTarget().getName(context);
+        String fingerName = this.mask.getName(context);
         this.setFingerName(R.string.dialog_finger_name, fingerName);
 
         /* Get current resources */
@@ -221,12 +220,7 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
         return this.treatment;
     }
 
-    public Diagnosis getDiagnosis()
-    {
-        return this.diagnosis;
-    }
-
-    public TargetMask getMask()
+    public FingerMask getMask()
     {
         return this.mask;
     }

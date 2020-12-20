@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
+import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
@@ -62,68 +63,73 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
     {
         if (view.equals(this.add))
         {
-            /* Create new treatment */
-            Context context = this.getContext();
-            SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
+            Cow cow = this.activity.getCow();
 
-            dialog.setText(R.string.dialog_treatment_type);
-
-            for (TreatmentType type : TreatmentType.values())
+            if (cow != null)
             {
-                if (type != TreatmentType.NONE)
+                /* Create new treatment */
+                Context context = this.getContext();
+                SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
+
+                dialog.setText(R.string.dialog_treatment_type);
+
+                for (TreatmentType type : TreatmentType.values())
                 {
-                    TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
-                    dialog.add(entry);
-                }
-            }
-
-            dialog.setOnSelectListener((View v) ->
-            {
-                /* Create and refresh */
-                TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
-
-                CowActivity activity = this.getActivity();
-                Database database = activity.getDatabase();
-
-                Treatment treatmentCopy = new Treatment(database);
-                treatmentCopy.setCow(activity.getCow());
-                treatmentCopy.setType(entry.getValue());
-                treatmentCopy.setDate(LocalDateTime.now());
-                treatmentCopy.setUser(activity.getUser());
-                treatmentCopy.insert();
-
-                if (this.treatment != null)
-                {
-                    /* Copy diagnoses */
-                    for (Diagnosis diagnosis : this.treatment.getDiagnoses())
+                    if (type != TreatmentType.NONE)
                     {
-                        Diagnosis diagnosisCopy = new Diagnosis(database);
-                        diagnosisCopy.setTreatment(treatmentCopy);
-                        diagnosisCopy.setTemplate(diagnosis.getTemplate());
-                        diagnosisCopy.setTarget(diagnosis.getTarget());
-                        diagnosisCopy.setState(diagnosis.getState());
-                        diagnosisCopy.insert();
+                        TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
+                        dialog.add(entry);
                     }
+                }
 
-                    /* Copy some resources */
-                    for (Resource resource : this.treatment.getResources())
+                dialog.setOnSelectListener((View v) ->
+                {
+                    /* Create and refresh */
+                    TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
+
+                    CowActivity activity = this.getActivity();
+                    Database database = activity.getDatabase();
+
+                    Treatment treatmentCopy = new Treatment(database);
+                    treatmentCopy.setCow(cow);
+                    treatmentCopy.setType(entry.getValue());
+                    treatmentCopy.setDate(LocalDateTime.now());
+                    treatmentCopy.setUser(activity.getUser());
+                    treatmentCopy.insert();
+
+                    if (this.treatment != null)
                     {
-                        if (resource.getTemplate().isCopying())
+                        /* Copy diagnoses */
+                        for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                         {
-                            Resource resourceCopy = new Resource(database);
-                            resourceCopy.setTreatment(treatmentCopy);
-                            resourceCopy.setTemplate(resource.getTemplate());
-                            resourceCopy.setTarget(resource.getTarget());
-                            resourceCopy.setCopy(true);
-                            resourceCopy.insert();
+                            Diagnosis diagnosisCopy = new Diagnosis(database);
+                            diagnosisCopy.setTreatment(treatmentCopy);
+                            diagnosisCopy.setTemplate(diagnosis.getTemplate());
+                            diagnosisCopy.setTarget(diagnosis.getTarget());
+                            diagnosisCopy.setState(diagnosis.getState());
+                            diagnosisCopy.insert();
+                        }
+
+                        /* Copy some resources */
+                        for (Resource resource : this.treatment.getResources())
+                        {
+                            if (resource.getTemplate().isCopying())
+                            {
+                                Resource resourceCopy = new Resource(database);
+                                resourceCopy.setTreatment(treatmentCopy);
+                                resourceCopy.setTemplate(resource.getTemplate());
+                                resourceCopy.setTarget(resource.getTarget());
+                                resourceCopy.setCopy(true);
+                                resourceCopy.insert();
+                            }
                         }
                     }
-                }
 
-                activity.refreshFull();
-            });
+                    activity.refreshFull();
+                });
 
-            dialog.show();
+                dialog.show();
+            }
         }
     }
 

@@ -82,7 +82,7 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
             Diagnosis diagnosis = entry.getDiagnosis();
 
             /* Show edit dialog */
-            DiagnosisEditDialog dialog = new DiagnosisEditDialog(this.parent, diagnosis);
+            DiagnosisEditDialog dialog = new DiagnosisEditDialog(this.parent, diagnosis, this.mask);
 
             dialog.setOnSubmitListener((DiagnosisEditDialog d) ->
             {

@@ -11,12 +11,15 @@ import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
+import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.TargetMask;
+import com.deloladrin.cows.data.Treatment;
 
 public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
+    private Treatment treatment;
     private Diagnosis diagnosis;
-    private TargetMask mask;
+    private FingerMask mask;
 
     private TextView finger;
     private TextView name;
@@ -28,13 +31,14 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
     private OnSubmitListener onSubmitListener;
 
-    public DiagnosisEditDialog(ChildActivity<CowActivity> parent, Diagnosis diagnosis)
+    public DiagnosisEditDialog(ChildActivity<CowActivity> parent, Diagnosis diagnosis, FingerMask mask)
     {
         super(parent);
         this.setContentView(R.layout.dialog_cow_diagnosis_edit);
 
+        this.treatment = diagnosis.getTreatment();
         this.diagnosis = diagnosis;
-        this.mask = diagnosis.getTarget();
+        this.mask = mask;
 
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
@@ -99,7 +103,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     private void changeDiagnosisState(DiagnosisState state)
     {
         /* Show resources editor */
-        ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.diagnosis);
+        ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.treatment, this.mask);
 
         dialog.setOnSubmitListener((ResourceEditDialog d) ->
         {

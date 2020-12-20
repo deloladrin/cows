@@ -97,7 +97,7 @@ public class DiagnosisCreateDialog extends ChildDialog<CowActivity> implements V
             }
 
             /* Show resource editor */
-            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, diagnosis);
+            ResourceEditDialog dialog = new ResourceEditDialog(this.parent, this.treatment, this.mask);
 
             dialog.setOnSubmitListener((ResourceEditDialog d) ->
             {

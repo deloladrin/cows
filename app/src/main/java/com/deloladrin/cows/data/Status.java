@@ -12,8 +12,8 @@ public class Status
 {
     private Database database;
 
-    private int id;
-    private int treatment;
+    private long id;
+    private long treatment;
     private int template;
 
     public Status(Database database)
@@ -21,7 +21,7 @@ public class Status
         this.database = database;
     }
 
-    public Status(Database database, int id, int treatment, int template)
+    public Status(Database database, long id, long treatment, int template)
     {
         this.database = database;
 
@@ -30,7 +30,7 @@ public class Status
         this.template = template;
     }
 
-    public Status(Database database, int id, Treatment treatment, StatusTemplate template)
+    public Status(Database database, long id, Treatment treatment, StatusTemplate template)
     {
         this.database = database;
 
@@ -69,15 +69,15 @@ public class Status
     @Override
     public int hashCode()
     {
-        return this.id;
+        return Long.hashCode(this.id);
     }
 
-    public int getID()
+    public long getID()
     {
         return this.id;
     }
 
-    public void setID(int id)
+    public void setID(long id)
     {
         this.id = id;
     }
@@ -92,7 +92,7 @@ public class Status
         this.treatment = treatment.getID();
     }
 
-    public void setTreatment(int treatment)
+    public void setTreatment(long treatment)
     {
         this.treatment = treatment;
     }
@@ -144,8 +144,8 @@ public class Status
         @Override
         protected Status getObject(Cursor cursor)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            int treatment = cursor.getInt(COLUMN_TREATMENT.getID());
+            long id = cursor.getLong(COLUMN_ID.getID());
+            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
             int template = cursor.getInt(COLUMN_TEMPLATE.getID());
 
             return new Status(this.database, id, treatment, template);

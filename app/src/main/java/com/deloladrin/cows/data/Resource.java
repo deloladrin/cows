@@ -12,8 +12,8 @@ public class Resource
 {
     private Database database;
 
-    private int id;
-    private int treatment;
+    private long id;
+    private long treatment;
     private int template;
     private int target;
     private int copy;
@@ -23,7 +23,7 @@ public class Resource
         this.database = database;
     }
 
-    public Resource(Database database, int id, int treatment, int template, int target, int copy)
+    public Resource(Database database, long id, long treatment, int template, int target, int copy)
     {
         this.database = database;
 
@@ -34,7 +34,7 @@ public class Resource
         this.copy = copy;
     }
 
-    public Resource(Database database, int id, Treatment treatment, ResourceTemplate template, TargetMask target, boolean copy)
+    public Resource(Database database, long id, Treatment treatment, ResourceTemplate template, TargetMask target, boolean copy)
     {
         this.database = database;
 
@@ -75,15 +75,15 @@ public class Resource
     @Override
     public int hashCode()
     {
-        return this.id;
+        return Long.hashCode(this.id);
     }
 
-    public int getID()
+    public long getID()
     {
         return this.id;
     }
 
-    public void setID(int id)
+    public void setID(long id)
     {
         this.id = id;
     }
@@ -98,7 +98,7 @@ public class Resource
         this.treatment = treatment.getID();
     }
 
-    public void setTreatment(int treatment)
+    public void setTreatment(long treatment)
     {
         this.treatment = treatment;
     }
@@ -186,8 +186,8 @@ public class Resource
         @Override
         protected Resource getObject(Cursor cursor)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            int treatment = cursor.getInt(COLUMN_TREATMENT.getID());
+            long id = cursor.getLong(COLUMN_ID.getID());
+            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
             int template = cursor.getInt(COLUMN_TEMPLATE.getID());
             int target = cursor.getInt(COLUMN_TARGET.getID());
             int copy = cursor.getInt(COLUMN_COPY.getID());

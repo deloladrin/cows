@@ -17,7 +17,7 @@ public class Treatment
 {
     private Database database;
 
-    private int id;
+    private long id;
     private int cow;
     private int type;
     private long date;
@@ -29,7 +29,7 @@ public class Treatment
         this.database = database;
     }
 
-    public Treatment(Database database, int id, int cow, int type, long date, String comment, String user)
+    public Treatment(Database database, long id, int cow, int type, long date, String comment, String user)
     {
         this.database = database;
 
@@ -41,7 +41,7 @@ public class Treatment
         this.user = user;
     }
 
-    public Treatment(Database database, int id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user)
+    public Treatment(Database database, long id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user)
     {
         this.database = database;
 
@@ -125,15 +125,15 @@ public class Treatment
     @Override
     public int hashCode()
     {
-        return this.id;
+        return Long.hashCode(this.id);
     }
 
-    public int getID()
+    public long getID()
     {
         return this.id;
     }
 
-    public void setID(int id)
+    public void setID(long id)
     {
         this.id = id;
     }
@@ -244,7 +244,7 @@ public class Treatment
         @Override
         protected Treatment getObject(Cursor cursor)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
+            long id = cursor.getLong(COLUMN_ID.getID());
             int cow = cursor.getInt(COLUMN_COW.getID());
             int type = cursor.getInt(COLUMN_TYPE.getID());
             long date = cursor.getLong(COLUMN_DATE.getID());
