@@ -8,6 +8,8 @@ import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
+import java.util.List;
+
 public class Status
 {
     private Database database;
@@ -37,6 +39,16 @@ public class Status
         this.setID(id);
         this.setTreatment(treatment);
         this.setTemplate(template);
+    }
+
+    public static Status get(Database database, long id)
+    {
+        return database.getStatusTable().select(id);
+    }
+
+    public static List<Status> getAll(Database database)
+    {
+        return database.getStatusTable().selectAll();
     }
 
     public void insert()

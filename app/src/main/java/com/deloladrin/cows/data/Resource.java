@@ -8,6 +8,8 @@ import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
+import java.util.List;
+
 public class Resource
 {
     private Database database;
@@ -43,6 +45,16 @@ public class Resource
         this.setTemplate(template);
         this.setTarget(target);
         this.setCopy(copy);
+    }
+
+    public static Resource get(Database database, long id)
+    {
+        return database.getResourceTable().select(id);
+    }
+
+    public static List<Resource> getAll(Database database)
+    {
+        return database.getResourceTable().selectAll();
     }
 
     public void insert()

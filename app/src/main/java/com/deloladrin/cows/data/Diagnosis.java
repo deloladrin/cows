@@ -8,6 +8,8 @@ import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
+import java.util.List;
+
 public class Diagnosis
 {
     private Database database;
@@ -43,6 +45,16 @@ public class Diagnosis
         this.setTemplate(template);
         this.setTarget(target);
         this.setState(state);
+    }
+
+    public static Diagnosis get(Database database, long id)
+    {
+        return database.getDiagnosesTable().select(id);
+    }
+
+    public static List<Diagnosis> getAll(Database database)
+    {
+        return database.getDiagnosesTable().selectAll();
     }
 
     public String getName()

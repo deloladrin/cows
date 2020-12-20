@@ -3,6 +3,7 @@
     <dimen name="text_small">6pt</dimen>
     <dimen name="text_medium">8pt</dimen>
     <dimen name="text_big">12pt</dimen>
+    <dimen name="text_huge">18pt</dimen>
 
     <dimen name="size_dialog">300dp</dimen>
     <dimen name="size_cow_hoof">100dp</dimen>

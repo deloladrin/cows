@@ -65,7 +65,7 @@ public class DiagnosisCreateDialog extends ChildDialog<CowActivity> implements V
         this.setFingerName(R.string.dialog_finger_name, fingerName);
 
         /* Load all templates */
-        for (DiagnosisTemplate template : this.getDatabase().getDiagnosesTemplateTable().selectAll())
+        for (DiagnosisTemplate template : DiagnosisTemplate.getAll(this.getDatabase()))
         {
             this.add(template);
         }

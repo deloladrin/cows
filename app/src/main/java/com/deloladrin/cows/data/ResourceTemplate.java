@@ -9,6 +9,8 @@ import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
+import java.util.List;
+
 public class ResourceTemplate
 {
     private Database database;
@@ -47,6 +49,16 @@ public class ResourceTemplate
         this.setLayer(layer);
         this.setCopying(copying);
         this.setImage(image);
+    }
+
+    public static ResourceTemplate get(Database database, long id)
+    {
+        return database.getResourceTemplateTable().select(id);
+    }
+
+    public static List<ResourceTemplate> getAll(Database database)
+    {
+        return database.getResourceTemplateTable().selectAll();
     }
 
     public void insert()

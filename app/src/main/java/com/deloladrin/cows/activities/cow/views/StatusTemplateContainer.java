@@ -49,7 +49,7 @@ public class StatusTemplateContainer extends LinearLayout implements View.OnClic
         this.removeAllViews();
 
         /* Load all templates */
-        for (StatusTemplate template : database.getStatusTemplateTable().selectAll())
+        for (StatusTemplate template : StatusTemplate.getAll(database))
         {
             CircleImageView view = new CircleImageView(this.getContext());
             view.setStrokeWidth(this.strokeWidth);

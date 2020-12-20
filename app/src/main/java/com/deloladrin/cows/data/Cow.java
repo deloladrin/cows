@@ -46,6 +46,16 @@ public class Cow
         this.setGroup(group);
     }
 
+    public static Cow get(Database database, int id)
+    {
+        return database.getCowTable().select(id);
+    }
+
+    public static List<Cow> getAll(Database database)
+    {
+        return database.getCowTable().selectAll();
+    }
+
     public List<Treatment> getTreatments()
     {
         ValueParams params = new ValueParams();

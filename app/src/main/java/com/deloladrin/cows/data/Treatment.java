@@ -53,6 +53,11 @@ public class Treatment
         this.setUser(user);
     }
 
+    public static List<Treatment> getAll(Database database)
+    {
+        return database.getTreatmentTable().selectAll();
+    }
+
     public List<Diagnosis> getDiagnoses()
     {
         ValueParams params = new ValueParams();

@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:supportsRtl="true">
 
-        <activity android:name=".activities.cow.CowActivity">
+        <activity android:name=".activities.main.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,6 +17,8 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".activities.cow.CowActivity" />
 
     </application>
 
