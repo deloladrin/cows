@@ -1,4 +1,4 @@
-package com.deloladrin.cows.views;
+package com.deloladrin.cows.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;

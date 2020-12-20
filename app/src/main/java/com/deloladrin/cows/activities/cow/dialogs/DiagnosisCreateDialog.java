@@ -1,4 +1,4 @@
-package com.deloladrin.cows.activities.cow.views;
+package com.deloladrin.cows.activities.cow.dialogs;
 
 import android.content.Context;
 import android.view.View;
@@ -10,16 +10,13 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
+import com.deloladrin.cows.activities.cow.views.DiagnosisTemplateEntry;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.DiagnosisTemplate;
 import com.deloladrin.cows.data.DiagnosisType;
 import com.deloladrin.cows.data.FingerMask;
-import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
-
-import java.util.List;
 
 public class DiagnosisCreateDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {

@@ -2,33 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back_dark"
-    android:orientation="vertical" >
+    android:background="@color/back_light"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/main_company_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/text_light"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_big" />
+            android:layout_margin="24dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/main_company_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/text_dark"
-            android:textStyle="italic"
-            android:textSize="@dimen/text_medium" />
+            <TextView
+                android:id="@+id/main_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text_light"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_big" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/main_company_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:textColor="@color/text_dark"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_medium" />
+
+            <com.wefika.flowlayout.FlowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <com.deloladrin.cows.views.ImageTextButton
+                    android:id="@+id/main_activity_cow"
+                    android:layout_width="@dimen/size_main_button"
+                    android:layout_height="@dimen/size_main_button"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@color/button_dark"
+                    android:textColor="@color/text_light"
+                    android:textSize="@dimen/text_medium"
+                    android:text="@string/activity_cow"
+                    android:src="@drawable/icon_cow" />
+
+            </com.wefika.flowlayout.FlowLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

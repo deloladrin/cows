@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.data.Treatment;
-import com.deloladrin.cows.views.YesNoDialog;
+import com.deloladrin.cows.dialogs.YesNoDialog;
 
 import java.time.format.DateTimeFormatter;
 

@@ -12,8 +12,8 @@ import com.deloladrin.cows.data.StatusTemplate;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.views.CircleTextView;
-import com.deloladrin.cows.views.SelectDialog;
-import com.deloladrin.cows.views.YesNoDialog;
+import com.deloladrin.cows.dialogs.SelectDialog;
+import com.deloladrin.cows.dialogs.YesNoDialog;
 
 import java.util.List;
 

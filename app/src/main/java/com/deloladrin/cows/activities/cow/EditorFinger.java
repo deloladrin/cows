@@ -1,11 +1,10 @@
 package com.deloladrin.cows.activities.cow;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.deloladrin.cows.activities.cow.views.DiagnosisContainer;
-import com.deloladrin.cows.activities.cow.views.FingerDialog;
+import com.deloladrin.cows.activities.cow.dialogs.FingerDialog;
 import com.deloladrin.cows.activities.cow.views.ResourceContainer;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;

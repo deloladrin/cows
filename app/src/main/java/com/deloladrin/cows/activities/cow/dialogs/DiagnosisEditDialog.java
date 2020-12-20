@@ -1,4 +1,4 @@
-package com.deloladrin.cows.activities.cow.views;
+package com.deloladrin.cows.activities.cow.dialogs;
 
 import android.content.Context;
 import android.view.View;
@@ -12,9 +12,8 @@ import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.FingerMask;
-import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
-import com.deloladrin.cows.views.YesNoDialog;
+import com.deloladrin.cows.dialogs.YesNoDialog;
 
 public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {

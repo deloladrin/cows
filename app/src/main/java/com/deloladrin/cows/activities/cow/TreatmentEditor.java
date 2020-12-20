@@ -15,7 +15,7 @@ import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.views.SelectDialog;
+import com.deloladrin.cows.dialogs.SelectDialog;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

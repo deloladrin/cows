@@ -1,6 +1,5 @@
-package com.deloladrin.cows.activities.cow.views;
+package com.deloladrin.cows.activities.cow.dialogs;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
@@ -11,6 +10,7 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
+import com.deloladrin.cows.activities.cow.views.FingerEntry;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.Treatment;

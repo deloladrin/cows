@@ -247,7 +247,7 @@ public abstract class TableBase<T>
             values.add(column.getName() + " = " + params.getValueString(column));
         }
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(", ", values) : ""), null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(" AND ", values) : ""), null);
 
         if (cursor.getCount() > 0)
         {

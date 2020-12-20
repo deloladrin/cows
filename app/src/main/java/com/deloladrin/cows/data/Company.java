@@ -57,15 +57,10 @@ public class Company
 
     public static Company getActive(Database database)
     {
-        for (Company company : getAll(database))
-        {
-            if (company.isActive())
-            {
-                return company;
-            }
-        }
+        ValueParams params = new ValueParams();
+        params.put(Table.COLUMN_ACTIVE, 1);
 
-        return null;
+        return database.getCompanyTable().select(params);
     }
 
     public List<Cow> getCows()

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cows="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/size_dialog"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/back_light"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+        <EditText
+            android:id="@+id/dialog_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_dark"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/dialog_cancel" />
+
+        <Button
+            android:id="@+id/dialog_continue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_tint"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/dialog_continue" />
+
+    </LinearLayout>
+
+</LinearLayout>

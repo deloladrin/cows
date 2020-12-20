@@ -51,6 +51,15 @@ public class Cow
         return database.getCowTable().select(id);
     }
 
+    public static Cow get(Database database, Company company, int collar)
+    {
+        ValueParams params = new ValueParams();
+        params.put(Table.COLUMN_COMPANY, company.getID());
+        params.put(Table.COLUMN_COLLAR, collar);
+
+        return database.getCowTable().select(params);
+    }
+
     public static List<Cow> getAll(Database database)
     {
         return database.getCowTable().selectAll();

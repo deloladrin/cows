@@ -17,7 +17,7 @@ public class TreatmentTypeEntry extends LinearLayout
     public TreatmentTypeEntry(Context context, TreatmentType value)
     {
         super(context);
-        inflate(this.getContext(), R.layout.entry_cow_treatment_type, this);
+        inflate(context, R.layout.entry_cow_treatment_type, this);
 
         /* Load all children */
         this.icon = this.findViewById(R.id.entry_icon);
