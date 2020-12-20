@@ -14,6 +14,7 @@ import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
+import com.deloladrin.cows.views.YesNoDialog;
 
 public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements View.OnClickListener
 {
@@ -24,10 +25,12 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
     private TextView finger;
     private TextView name;
 
-    private Button cancel;
     private Button healedState;
     private Button treatedState;
     private Button newState;
+
+    private Button cancel;
+    private Button delete;
 
     private OnSubmitListener onSubmitListener;
 
@@ -44,16 +47,20 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         this.finger = this.findViewById(R.id.dialog_finger);
         this.name = this.findViewById(R.id.dialog_name);
 
-        this.cancel = this.findViewById(R.id.dialog_cancel);
         this.healedState = this.findViewById(R.id.dialog_healed);
         this.treatedState = this.findViewById(R.id.dialog_treated);
         this.newState = this.findViewById(R.id.dialog_new);
 
+        this.cancel = this.findViewById(R.id.dialog_cancel);
+        this.delete = this.findViewById(R.id.dialog_delete);
+
         /* Add events */
-        this.cancel.setOnClickListener(this);
         this.healedState.setOnClickListener(this);
         this.treatedState.setOnClickListener(this);
         this.newState.setOnClickListener(this);
+
+        this.cancel.setOnClickListener(this);
+        this.delete.setOnClickListener(this);
 
         /* Load default values */
         this.initialize();
@@ -94,6 +101,35 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         if (view.equals(this.newState))
         {
             this.changeDiagnosisState(DiagnosisState.NEW);
+            return;
+        }
+
+        if (view.equals(this.delete))
+        {
+            /* Request delete of diagnosis */
+            YesNoDialog dialog = new YesNoDialog(context);
+            dialog.setText(R.string.dialog_diagonsis_delete, this.diagnosis.getName(), this.diagnosis.getTarget().getName(context));
+
+            dialog.setOnYesListener((YesNoDialog d) ->
+            {
+                /* Show resources editor */
+                ResourceEditDialog dialog2 = new ResourceEditDialog(this.parent, this.treatment, this.mask);
+
+                dialog2.setOnSubmitListener((ResourceEditDialog d2) ->
+                {
+                    /* Delete dialog and submit */
+                    this.diagnosis.delete();
+
+                    this.onSubmitListener.onSubmit(this);
+                    this.dismiss();
+                    dialog.dismiss();
+                });
+
+                dialog2.show();
+                dialog.cancelDismiss();
+            });
+
+            dialog.show();
             return;
         }
 

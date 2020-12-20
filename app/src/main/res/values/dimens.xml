@@ -8,6 +8,7 @@
     <dimen name="size_cow_hoof">100dp</dimen>
     <dimen name="size_cow_status">24pt</dimen>
     <dimen name="size_cow_entry">24pt</dimen>
+    <dimen name="size_cow_diagnosis_delete">48dp</dimen>
     <dimen name="size_cow_finger">216dp</dimen>
     <dimen name="size_cow_finger_entry">64dp</dimen>
 

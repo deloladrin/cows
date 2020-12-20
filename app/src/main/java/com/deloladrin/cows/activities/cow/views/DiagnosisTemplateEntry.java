@@ -17,7 +17,7 @@ public class DiagnosisTemplateEntry extends LinearLayout
     public DiagnosisTemplateEntry(Context context, DiagnosisTemplate value)
     {
         super(context);
-        inflate(context, R.layout.entry_diagnosis_template, this);
+        inflate(context, R.layout.entry_cow_diagnosis_template, this);
 
         /* Load all children */
         this.shortName = this.findViewById(R.id.entry_short_name);

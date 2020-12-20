@@ -61,7 +61,7 @@ public class TreatmentEntry implements View.OnClickListener
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String date = this.treatment.getDate().format(dateFormatter);
 
-            dialog.setText(R.string.dialog_treatment_delete_text, date);
+            dialog.setText(R.string.dialog_treatment_delete, date);
 
             dialog.setOnYesListener((YesNoDialog d) ->
             {

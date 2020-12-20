@@ -16,6 +16,7 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
     private Button yes;
 
     private OnYesListener onYesListener;
+    private boolean dismissCanceled;
 
     public YesNoDialog(Context context)
     {
@@ -36,13 +37,23 @@ public class YesNoDialog extends Dialog implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
+        this.dismissCanceled = false;
+
         /* On yes click */
         if (view.equals(this.yes))
         {
             this.onYesListener.onYesClick(this);
         }
 
-        this.dismiss();
+        if (!this.dismissCanceled)
+        {
+            this.dismiss();
+        }
+    }
+
+    public void cancelDismiss()
+    {
+        this.dismissCanceled = true;
     }
 
     public String getText()

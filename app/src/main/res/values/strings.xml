@@ -4,8 +4,9 @@
     <string name="section_history">Historie</string>
     <string name="section_comment">Komentář</string>
 
-    <string name="dialog_treatment_delete_text">Opravdu chcete odstranit ošetření z \'%s\'?</string>
+    <string name="dialog_treatment_delete">Opravdu chcete odstranit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_type">Vyberte typ ošetření:</string>
+    <string name="dialog_diagonsis_delete">Opravdu chcete odstanit diagnózu \'%s\' (%s)?</string>
     <string name="dialog_resource_toggle_add">Opravdu chcete přidat položku \'%s\'?</string>
     <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
     <string name="dialog_finger_name">%s:</string>
