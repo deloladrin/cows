@@ -15,7 +15,9 @@
     <string name="dialog_diagonsis_delete">Opravdu chcete odstanit diagnózu \'%s\' (%s)?</string>
     <string name="dialog_resource_toggle_add">Opravdu chcete přidat položku \'%s\'?</string>
     <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
-    <string name="dialog_finger_name">%s:</string>
+    <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
+    <string name="dialog_diagnosis_select">%s — Vybete stav:</string>
+    <string name="dialog_resources_select">%s — Vyberte položky</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>

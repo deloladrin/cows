@@ -58,7 +58,7 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
 
         /* Set name */
         String name = this.mask.getName(context);
-        this.setName(R.string.dialog_finger_name, name);
+        this.setName(R.string.dialog_finger_select, name);
 
         for (Diagnosis diagnosis : this.treatment.getDiagnoses())
         {

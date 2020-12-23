@@ -3,12 +3,16 @@ package com.deloladrin.cows.activities.main.dialogs;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.text.method.KeyListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -66,6 +70,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         this.next.setOnClickListener(this);
 
         /* Load default values */
+        this.focusInput();
         this.initialize();
     }
 
@@ -91,12 +96,17 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
             case ID:
 
                 /* Find first cow with correct collar and company */
-                cow = Cow.get(database, this.cow.getCompany(), this.cow.getCollar());
+                int collar = this.cow.getCollar();
                 String id = "";
 
-                if (cow != null)
+                if (collar != 0)
                 {
-                    id = Integer.toString(cow.getID());
+                    cow = Cow.get(database, this.cow.getCompany(), this.cow.getCollar());
+
+                    if (cow != null)
+                    {
+                        id = Integer.toString(cow.getID());
+                    }
                 }
 
                 /* Display id message */
@@ -227,6 +237,18 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         }
 
         this.dismiss();
+    }
+
+    public void focusInput()
+    {
+        /* Simulate click */
+        Handler handler = new Handler();
+        handler.postDelayed(() ->
+        {
+            this.input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
+            this.input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+
+        }, 100);
     }
 
     public Company getCompany()

@@ -71,7 +71,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
         /* Set finger and diagnosis name */
         String fingerName = this.mask.getName(context);
-        this.setFingerName(R.string.dialog_finger_name, fingerName);
+        this.setFingerName(R.string.dialog_diagnosis_select, fingerName);
 
         String name = this.diagnosis.getName();
         int color = this.diagnosis.getState().getColor(context);

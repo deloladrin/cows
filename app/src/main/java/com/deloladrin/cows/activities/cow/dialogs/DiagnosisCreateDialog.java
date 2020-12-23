@@ -59,7 +59,7 @@ public class DiagnosisCreateDialog extends ChildDialog<CowActivity> implements V
 
         /* Set finger and diagnosis name */
         String fingerName = this.mask.getName(context);
-        this.setFingerName(R.string.dialog_finger_name, fingerName);
+        this.setFingerName(R.string.dialog_finger_select, fingerName);
 
         /* Load all templates */
         for (DiagnosisTemplate template : DiagnosisTemplate.getAll(this.getDatabase()))

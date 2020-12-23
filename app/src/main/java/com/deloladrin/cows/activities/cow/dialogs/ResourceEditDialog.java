@@ -15,6 +15,7 @@ import com.deloladrin.cows.activities.cow.views.ResourceTemplateState;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.ResourceTemplate;
+import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.Treatment;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -67,7 +68,7 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
 
         /* Set finger name */
         String fingerName = this.mask.getName(context);
-        this.setFingerName(R.string.dialog_finger_name, fingerName);
+        this.setFingerName(R.string.dialog_resources_select, fingerName);
 
         /* Get current resources */
         this.resources = new ArrayList<>();
@@ -132,7 +133,17 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
                             occurrence = new Resource(this.getDatabase());
                             occurrence.setTreatment(this.treatment);
                             occurrence.setTemplate(template);
-                            occurrence.setTarget(this.mask);
+
+                            /* Hoof vs finger */
+                            if (template.getType() == ResourceType.HOOF)
+                            {
+                                occurrence.setTarget(this.mask.getHoof());
+                            }
+                            else
+                            {
+                                occurrence.setTarget(this.mask);
+                            }
+
                             occurrence.insert();
                         }
 
