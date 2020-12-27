@@ -10,13 +10,7 @@ import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.activities.main.dialogs.CowDialog;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.data.Cow;
-import com.deloladrin.cows.data.DiagnosisTemplate;
-import com.deloladrin.cows.data.DiagnosisType;
-import com.deloladrin.cows.data.ResourceTemplate;
-import com.deloladrin.cows.data.ResourceType;
-import com.deloladrin.cows.data.StatusTemplate;
 import com.deloladrin.cows.database.DatabaseActivity;
-import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.views.ImageTextButton;
 
 public class MainActivity extends DatabaseActivity implements View.OnClickListener

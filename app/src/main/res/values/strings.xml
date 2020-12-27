@@ -6,18 +6,20 @@
     <string name="section_history">Historie</string>
     <string name="section_comment">Komentář</string>
 
+    <string name="digits_numbers">0123456789</string>
+
     <string name="dialog_cow_collar">Zadejte číslo obojku:</string>
-    <string name="dialog_cow_id">Zadejte číslo krávy:</string>
+    <string name="dialog_cow_number">Zadejte číslo krávy:</string>
     <string name="dialog_cow_group">Zadejte skupinu krávy:</string>
     <string name="dialog_cow_add">Kráva nebyla nalezena v databázi, chcete ji přidat?</string>
     <string name="dialog_treatment_delete">Opravdu chcete odstranit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_type">Vyberte typ ošetření:</string>
     <string name="dialog_diagonsis_delete">Opravdu chcete odstanit diagnózu \'%s\' (%s)?</string>
+    <string name="dialog_diagnosis_select">%s — Vybete stav:</string>
     <string name="dialog_resource_toggle_add">Opravdu chcete přidat položku \'%s\'?</string>
     <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
+    <string name="dialog_resources_select">%s — Vyberte položky:</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
-    <string name="dialog_diagnosis_select">%s — Vybete stav:</string>
-    <string name="dialog_resources_select">%s — Vyberte položky</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>
@@ -25,6 +27,9 @@
     <string name="dialog_submit">Potvrdit</string>
     <string name="dialog_no">Ne</string>
     <string name="dialog_yes">Ano</string>
+
+    <string name="error_cow_number_empty">Číslo krávy nemůže být prázdné!</string>
+    <string name="error_cow_number_length">Číslo krávy musí mít 6 znaků!</string>
 
     <string name="treatment_limp">Kulhá</string>
     <string name="treatment_whole">Celková úprava paznehtů</string>

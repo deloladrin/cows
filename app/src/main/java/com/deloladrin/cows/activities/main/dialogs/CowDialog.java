@@ -1,20 +1,20 @@
 package com.deloladrin.cows.activities.main.dialogs;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.text.method.KeyListener;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
@@ -25,52 +25,67 @@ import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.dialogs.YesNoDialog;
 
-public class CowDialog extends ChildDialog<MainActivity> implements View.OnClickListener
+public class CowDialog extends ChildDialog<MainActivity> implements View.OnClickListener, TextWatcher
 {
-    private static final String NUMBER_DIGITS = "0123456789";
-
+    private CowDialogStage stage;
     private Company company;
-    private CowDialogState state;
     private Cow cow;
 
-    private TextView text;
-    private EditText input;
+    private LinearLayout collarStage;
+    private TextView collarText;
+    private EditText collarInput;
+
+    private LinearLayout numberStage;
+    private TextView numberText;
+    private TextView numberError;
+    private EditText numberInput;
+
+    private LinearLayout groupStage;
+    private TextView groupText;
+    private EditText groupInput;
 
     private Button cancel;
     private Button next;
 
     private OnSubmitListener onSubmitListener;
 
-    private KeyListener defaultListener;
-    private Animation animation;
-
     public CowDialog(MainActivity parent, Company company)
     {
         super(parent);
         this.setContentView(R.layout.dialog_main_cow);
 
+        this.stage = CowDialogStage.COLLAR;
         this.company = company;
-        this.state = CowDialogState.COLLAR;
 
         this.cow = new Cow(this.getDatabase());
         this.cow.setCompany(company);
 
         /* Load all children */
-        this.text = this.findViewById(R.id.dialog_text);
-        this.input = this.findViewById(R.id.dialog_input);
+        this.collarStage = this.findViewById(R.id.dialog_stage_collar);
+        this.collarText = this.findViewById(R.id.dialog_collar_text);
+        this.collarInput = this.findViewById(R.id.dialog_collar_input);
+
+        this.numberStage = this.findViewById(R.id.dialog_stage_number);
+        this.numberText = this.findViewById(R.id.dialog_number_text);
+        this.numberError = this.findViewById(R.id.dialog_number_error);
+        this.numberInput = this.findViewById(R.id.dialog_number_input);
+
+        this.groupStage = this.findViewById(R.id.dialog_stage_group);
+        this.groupText = this.findViewById(R.id.dialog_group_text);
+        this.groupInput = this.findViewById(R.id.dialog_group_input);
 
         this.cancel = this.findViewById(R.id.dialog_cancel);
         this.next = this.findViewById(R.id.dialog_continue);
-
-        this.defaultListener = this.input.getKeyListener();
-        this.animation = AnimationUtils.loadAnimation(this.getContext(), R.anim.slide_in_right);
 
         /* Add events */
         this.cancel.setOnClickListener(this);
         this.next.setOnClickListener(this);
 
+        this.collarInput.addTextChangedListener(this);
+        this.numberInput.addTextChangedListener(this);
+        this.groupInput.addTextChangedListener(this);
+
         /* Load default values */
-        this.focusInput();
         this.initialize();
     }
 
@@ -79,53 +94,55 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         Context context = this.getContext();
         Database database = this.getDatabase();
 
-        Cow cow;
+        this.setCollarText(R.string.dialog_cow_collar);
+        this.setNumberText(R.string.dialog_cow_number);
+        this.setGroupText(R.string.dialog_cow_group);
 
-        switch (this.state)
+        switch (this.stage)
         {
             case COLLAR:
 
-                /* Display collar message */
-                this.setText(R.string.dialog_cow_collar);
+                /* Set visibilities */
+                this.collarStage.setVisibility(View.VISIBLE);
+                this.numberStage.setVisibility(View.GONE);
+                this.groupStage.setVisibility(View.GONE);
 
-                this.input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                this.input.setKeyListener(DigitsKeyListener.getInstance(NUMBER_DIGITS));
-
+                this.focusInput(this.collarInput);
                 break;
 
-            case ID:
+            case NUMBER:
 
-                /* Find first cow with correct collar and company */
+                /* Set visibilities */
+                this.collarStage.setVisibility(View.GONE);
+                this.numberStage.setVisibility(View.VISIBLE);
+                this.groupStage.setVisibility(View.GONE);
+
                 int collar = this.cow.getCollar();
-                String id = "";
+                String number = "";
 
                 if (collar != 0)
                 {
-                    cow = Cow.get(database, this.cow.getCompany(), this.cow.getCollar());
+                    Cow cow = Cow.get(database, this.cow.getCompany(), collar);
 
                     if (cow != null)
                     {
-                        id = Integer.toString(cow.getID());
+                        number = Integer.toString(cow.getID());
                     }
                 }
 
-                /* Display id message */
-                this.setText(R.string.dialog_cow_id);
-                this.input.setText(id);
-                this.input.selectAll();
-
-                this.input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                this.input.setKeyListener(DigitsKeyListener.getInstance(NUMBER_DIGITS));
-
-                this.text.startAnimation(this.animation);
-                this.input.startAnimation(this.animation);
+                this.numberInput.setText(number);
+                this.focusInput(this.numberInput);
 
                 break;
 
             case GROUP:
 
-                /* Find cow with correct id */
-                cow = Cow.get(database, this.cow.getID());
+                /* Set visibilities */
+                this.collarStage.setVisibility(View.GONE);
+                this.numberStage.setVisibility(View.GONE);
+                this.groupStage.setVisibility(View.VISIBLE);
+
+                Cow cow = Cow.get(database, this.cow.getID());
                 String group = "";
 
                 if (cow != null)
@@ -133,16 +150,8 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                     group = cow.getGroup();
                 }
 
-                /* Display group message */
-                this.setText(R.string.dialog_cow_group);
-                this.input.setText(group);
-                this.input.selectAll();
-
-                this.input.setInputType(InputType.TYPE_CLASS_TEXT);
-                this.input.setKeyListener(this.defaultListener);
-
-                this.text.startAnimation(this.animation);
-                this.input.startAnimation(this.animation);
+                this.groupInput.setText(group);
+                this.focusInput(this.groupInput);
 
                 break;
         }
@@ -153,12 +162,13 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
     {
         if (view.equals(this.next))
         {
-            String input = this.input.getText().toString();
+            String input;
 
-            /* Change current state */
-            switch (this.state)
+            switch (this.stage)
             {
                 case COLLAR:
+
+                    input = this.collarInput.getText().toString();
 
                     /* Store collar if any */
                     int collar = 0;
@@ -170,28 +180,37 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                     this.cow.setCollar(collar);
 
-                    /* Goto ID */
-                    this.state = CowDialogState.ID;
-                    this.initialize();
-
+                    this.setStage(CowDialogStage.NUMBER);
                     break;
 
-                case ID:
+                case NUMBER:
 
-                    /* Cow id cannot be empty! */
-                    if (!input.isEmpty())
+                    input = this.numberInput.getText().toString();
+
+                    /* Cow number restrictions */
+                    if (input.isEmpty())
                     {
-                        int id = Integer.parseInt(input);
-                        this.cow.setID(id);
-
-                        /* Goto GROUP */
-                        this.state = CowDialogState.GROUP;
-                        this.initialize();
+                        this.setNumberError(R.string.error_cow_number_empty);
+                        break;
                     }
 
+
+                    if (input.length() != 6)
+                    {
+                        this.setNumberError(R.string.error_cow_number_length);
+                        break;
+                    }
+
+                    /* Store number */
+                    int number = Integer.parseInt(input);
+                    this.cow.setID(number);
+
+                    this.setStage(CowDialogStage.GROUP);
                     break;
 
                 case GROUP:
+
+                    input = this.groupInput.getText().toString();
 
                     /* Store group if any */
                     String group = null;
@@ -203,10 +222,9 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                     this.cow.setGroup(group);
 
-                    /* Does the cow exist? */
+                    /* Update existing / Create new */
                     if (Cow.get(this.getDatabase(), this.cow.getID()) != null)
                     {
-                        /* Update group and submit */
                         this.cow.update();
 
                         this.onSubmitListener.onSubmit(this.cow);
@@ -214,13 +232,12 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                     }
                     else
                     {
-                        /* Request to create new cow */
+                        /* Ask to create new one */
                         YesNoDialog dialog = new YesNoDialog(this.getContext());
                         dialog.setText(R.string.dialog_cow_add);
 
                         dialog.setOnYesListener((YesNoDialog d) ->
                         {
-                            /* Insert cow and submit */
                             this.cow.insert();
 
                             this.onSubmitListener.onSubmit(this.cow);
@@ -239,16 +256,119 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         this.dismiss();
     }
 
-    public void focusInput()
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after)
     {
-        /* Simulate click */
-        Handler handler = new Handler();
-        handler.postDelayed(() ->
-        {
-            this.input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-            this.input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+    }
 
+    @Override
+    public void afterTextChanged(Editable s)
+    {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count)
+    {
+        this.resetErrors();
+    }
+
+    private void setNumberError(int errorID)
+    {
+        Resources resources = this.getContext().getResources();
+        String error = resources.getString(errorID);
+
+        this.numberError.setText(error);
+        this.numberError.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimensionPixelSize(R.dimen.text_small));
+    }
+
+    private void resetErrors()
+    {
+        this.numberError.setText("");
+        this.numberError.setTextSize(0);
+    }
+
+    public void focusInput(EditText input)
+    {
+        new Handler().postDelayed(() ->
+        {
+            input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0 ,0));
+            input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0 ,0));
+            input.selectAll();
         }, 100);
+    }
+
+    public String getCollarText()
+    {
+        return this.collarText.getText().toString();
+    }
+
+    public void setCollarText(String text)
+    {
+        this.collarText.setText(text);
+    }
+
+    public void setCollarText(int text)
+    {
+        this.setCollarText(this.getContext().getResources().getString(text));
+    }
+
+    public void setCollarText(int text, Object... args)
+    {
+        String format = this.getContext().getResources().getString(text);
+        this.setCollarText(String.format(format, args));
+    }
+
+    public String getNumberText()
+    {
+        return this.numberText.getText().toString();
+    }
+
+    public void setNumberText(String text)
+    {
+        this.numberText.setText(text);
+    }
+
+    public void setNumberText(int text)
+    {
+        this.setNumberText(this.getContext().getResources().getString(text));
+    }
+
+    public void setNumberText(int text, Object... args)
+    {
+        String format = this.getContext().getResources().getString(text);
+        this.setNumberText(String.format(format, args));
+    }
+
+    public String getGroupText()
+    {
+        return this.groupText.getText().toString();
+    }
+
+    public void setGroupText(String text)
+    {
+        this.groupText.setText(text);
+    }
+
+    public void setGroupText(int text)
+    {
+        this.setGroupText(this.getContext().getResources().getString(text));
+    }
+
+    public void setGroupText(int text, Object... args)
+    {
+        String format = this.getContext().getResources().getString(text);
+        this.setGroupText(String.format(format, args));
+    }
+
+    public CowDialogStage getStage()
+    {
+        return this.stage;
+    }
+
+    public void setStage(CowDialogStage stage)
+    {
+        this.stage = stage;
+        this.initialize();
     }
 
     public Company getCompany()
@@ -256,25 +376,9 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         return this.company;
     }
 
-    public String getText()
+    public Cow getCow()
     {
-        return this.text.getText().toString();
-    }
-
-    public void setText(String text)
-    {
-        this.text.setText(text);
-    }
-
-    public void setText(int text)
-    {
-        this.setText(this.getContext().getResources().getString(text));
-    }
-
-    public void setText(int text, Object... args)
-    {
-        String format = this.getContext().getResources().getString(text);
-        this.setText(String.format(format, args));
+        return this.cow;
     }
 
     public OnSubmitListener getOnSubmitListener()

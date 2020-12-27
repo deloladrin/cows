@@ -8,13 +8,14 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/dialog_stage_collar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_text"
+            android:id="@+id/dialog_collar_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -22,7 +23,68 @@
             android:textColor="@color/text_light" />
 
         <EditText
-            android:id="@+id/dialog_input"
+            android:id="@+id/dialog_collar_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="@string/digits_numbers"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_stage_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_number_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+        <TextView
+            android:id="@+id/dialog_number_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textSize="0pt"
+            android:textColor="@color/text_bad" />
+
+        <EditText
+            android:id="@+id/dialog_number_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:digits="@string/digits_numbers"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_stage_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_group_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/text_light" />
+
+        <EditText
+            android:id="@+id/dialog_group_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"

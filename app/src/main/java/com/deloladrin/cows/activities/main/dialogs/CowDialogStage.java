@@ -1,8 +1,8 @@
 package com.deloladrin.cows.activities.main.dialogs;
 
-public enum CowDialogState
+public enum CowDialogStage
 {
     COLLAR,
-    ID,
+    NUMBER,
     GROUP
 }
