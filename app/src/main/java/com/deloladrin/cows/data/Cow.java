@@ -17,6 +17,7 @@ public class Cow
     private Database database;
 
     private int id;
+    private int number;
     private int collar;
     private int company;
     private String group;
@@ -26,21 +27,23 @@ public class Cow
         this.database = database;
     }
 
-    public Cow(Database database, int id, int collar, int company, String group)
+    public Cow(Database database, int id, int number, int collar, int company, String group)
     {
         this.database = database;
 
         this.id = id;
+        this.number = number;
         this.collar = collar;
         this.company = company;
         this.group = group;
     }
 
-    public Cow(Database database, int id, int collar, Company company, String group)
+    public Cow(Database database, int id, int number, int collar, Company company, String group)
     {
         this.database = database;
 
         this.setID(id);
+        this.setNumber(number);
         this.setCollar(collar);
         this.setCompany(company);
         this.setGroup(group);
@@ -51,13 +54,21 @@ public class Cow
         return database.getCowTable().select(id);
     }
 
-    public static Cow get(Database database, Company company, int collar)
+    public static Cow getByNumber(Database database, int number)
+    {
+        ValueParams params = new ValueParams();
+        params.put(Table.COLUMN_NUMBER, number);
+
+        return database.getCowTable().selectReverse(params);
+    }
+
+    public static Cow getByCollar(Database database, Company company, int collar)
     {
         ValueParams params = new ValueParams();
         params.put(Table.COLUMN_COMPANY, company.getID());
         params.put(Table.COLUMN_COLLAR, collar);
 
-        return database.getCowTable().select(params);
+        return database.getCowTable().selectReverse(params);
     }
 
     public static List<Cow> getAll(Database database)
@@ -73,22 +84,9 @@ public class Cow
         return this.database.getTreatmentTable().selectAll(params);
     }
 
-    public Treatment getLastTreatment()
-    {
-        List<Treatment> treatments = this.getTreatments();
-
-        if (treatments != null && treatments.size() != 0)
-        {
-            int lastIndex = treatments.size() - 1;
-            return treatments.get(lastIndex);
-        }
-
-        return null;
-    }
-
     public void insert()
     {
-        this.database.getCowTable().insert(this);
+        this.id = this.database.getCowTable().insert(this);
     }
 
     public void update()
@@ -127,6 +125,16 @@ public class Cow
     public void setID(int id)
     {
         this.id = id;
+    }
+
+    public int getNumber()
+    {
+        return this.number;
+    }
+
+    public void setNumber(int number)
+    {
+        this.number = number;
     }
 
     public int getCollar()
@@ -168,16 +176,18 @@ public class Cow
     {
         public static final String TABLE_NAME = "cows";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, false);
-        public static final TableColumn COLUMN_COLLAR = new TableColumn(1, "collar", ValueType.INTEGER, true);
-        public static final TableColumn COLUMN_COMPANY = new TableColumn(2, "company", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_GROUP = new TableColumn(3, "grp", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_NUMBER = new TableColumn(1, "number", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COLLAR = new TableColumn(2, "collar", ValueType.INTEGER, true);
+        public static final TableColumn COLUMN_COMPANY = new TableColumn(3, "company", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_GROUP = new TableColumn(4, "grp", ValueType.TEXT, true);
 
         public Table(Database database)
         {
             super(database, TABLE_NAME);
 
             this.columns.add(COLUMN_ID);
+            this.columns.add(COLUMN_NUMBER);
             this.columns.add(COLUMN_COLLAR);
             this.columns.add(COLUMN_COMPANY);
             this.columns.add(COLUMN_GROUP);
@@ -189,6 +199,7 @@ public class Cow
             ValueParams params = new ValueParams();
 
             params.put(COLUMN_ID, object.id);
+            params.put(COLUMN_NUMBER, object.number);
             params.put(COLUMN_COLLAR, object.collar);
             params.put(COLUMN_COMPANY, object.company);
             params.put(COLUMN_GROUP, object.group);
@@ -200,11 +211,12 @@ public class Cow
         protected Cow getObject(Cursor cursor)
         {
             int id = cursor.getInt(COLUMN_ID.getID());
+            int number = cursor.getInt(COLUMN_NUMBER.getID());
             int collar = cursor.getInt(COLUMN_COLLAR.getID());
             int company = cursor.getInt(COLUMN_COMPANY.getID());
             String group = cursor.getString(COLUMN_GROUP.getID());
 
-            return new Cow(this.database, id, collar, company, group);
+            return new Cow(this.database, id, number, collar, company, group);
         }
     }
 }

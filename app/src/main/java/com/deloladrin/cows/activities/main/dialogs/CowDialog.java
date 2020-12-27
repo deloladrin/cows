@@ -122,11 +122,11 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                 if (collar != 0)
                 {
-                    Cow cow = Cow.get(database, this.cow.getCompany(), collar);
+                    Cow cow = Cow.getByCollar(database, this.cow.getCompany(), collar);
 
                     if (cow != null)
                     {
-                        number = Integer.toString(cow.getID());
+                        number = Integer.toString(cow.getNumber());
                     }
                 }
 
@@ -142,7 +142,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                 this.numberStage.setVisibility(View.GONE);
                 this.groupStage.setVisibility(View.VISIBLE);
 
-                Cow cow = Cow.get(database, this.cow.getID());
+                Cow cow = Cow.getByNumber(database, this.cow.getNumber());
                 String group = "";
 
                 if (cow != null)
@@ -194,7 +194,6 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                         break;
                     }
 
-
                     if (input.length() != 6)
                     {
                         this.setNumberError(R.string.error_cow_number_length);
@@ -203,7 +202,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                     /* Store number */
                     int number = Integer.parseInt(input);
-                    this.cow.setID(number);
+                    this.cow.setNumber(number);
 
                     this.setStage(CowDialogStage.GROUP);
                     break;
@@ -223,8 +222,11 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                     this.cow.setGroup(group);
 
                     /* Update existing / Create new */
-                    if (Cow.get(this.getDatabase(), this.cow.getID()) != null)
+                    Cow previous = Cow.getByNumber(this.getDatabase(), this.cow.getNumber());
+
+                    if (previous != null)
                     {
+                        this.cow.setID(previous.getID());
                         this.cow.update();
 
                         this.onSubmitListener.onSubmit(this.cow);

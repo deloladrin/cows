@@ -10,7 +10,7 @@ public class CowHeader extends ChildActivity<CowActivity>
 {
     private Cow cow;
 
-    private TextView id;
+    private TextView number;
     private TextView collar;
     private TextView company;
     private TextView group;
@@ -20,7 +20,7 @@ public class CowHeader extends ChildActivity<CowActivity>
         super(parent, layout);
 
         /* Load all children */
-        this.id = this.findViewById(R.id.header_id);
+        this.number = this.findViewById(R.id.header_number);
         this.collar = this.findViewById(R.id.header_collar);
         this.company = this.findViewById(R.id.header_company);
         this.group = this.findViewById(R.id.header_group);
@@ -37,20 +37,20 @@ public class CowHeader extends ChildActivity<CowActivity>
 
         if (cow != null)
         {
-            int id = cow.getID();
+            int number = cow.getNumber();
             int collar = cow.getCollar();
             String company = cow.getCompany().getName();
             String group = cow.getGroup();
 
             /* Convert to required format */
-            this.id.setText(Integer.toString(id));
+            this.number.setText(Integer.toString(number));
             this.collar.setText(collar != 0 ? Integer.toString(collar) : "—");
             this.company.setText(company);
             this.group.setText(group != null ? group : "—");
         }
         else
         {
-            this.id.setText("0");
+            this.number.setText("0");
             this.collar.setText("—");
             this.company.setText("—");
             this.group.setText("—");

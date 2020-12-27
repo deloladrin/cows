@@ -187,13 +187,33 @@ public abstract class TableBase<T>
 
     public T select(ValueParams params)
     {
+        return this.select(params, false);
+    }
+
+    public T selectReverse(ValueParams params)
+    {
+        return this.select(params, true);
+    }
+
+    public T select(ValueParams params, boolean reverse)
+    {
         SQLiteDatabase db = this.database.getWritableDatabase();
         return this.select(db, params);
     }
 
     public T select(SQLiteDatabase db, ValueParams params)
     {
-        Cursor cursor = this.selectValues(db, params);
+        return this.select(db, params, false);
+    }
+
+    public T selectReverse(SQLiteDatabase db, ValueParams params)
+    {
+        return this.select(db, params, true);
+    }
+
+    public T select(SQLiteDatabase db, ValueParams params, boolean reverse)
+    {
+        Cursor cursor = this.selectValues(db, params, reverse);
 
         if (cursor != null)
         {
@@ -223,7 +243,7 @@ public abstract class TableBase<T>
 
     public List<T> selectAll(SQLiteDatabase db, ValueParams params)
     {
-        Cursor cursor = this.selectValues(db, params);
+        Cursor cursor = this.selectValues(db, params, false);
         List<T> values = new ArrayList<>();
 
         if (cursor != null)
@@ -238,7 +258,7 @@ public abstract class TableBase<T>
         return values;
     }
 
-    private Cursor selectValues(SQLiteDatabase db, ValueParams params)
+    private Cursor selectValues(SQLiteDatabase db, ValueParams params, boolean reverse)
     {
         List<String> values = new ArrayList<>();
 
@@ -247,7 +267,7 @@ public abstract class TableBase<T>
             values.add(column.getName() + " = " + params.getValueString(column));
         }
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(" AND ", values) : ""), null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(" AND ", values) : "") + (reverse ? " DESC" : ""), null);
 
         if (cursor.getCount() > 0)
         {
