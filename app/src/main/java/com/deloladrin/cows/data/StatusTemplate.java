@@ -67,6 +67,14 @@ public class StatusTemplate
         this.database.getStatusTemplateTable().delete(this);
     }
 
+    public void refresh()
+    {
+        StatusTemplate refreshed = this.database.getStatusTemplateTable().select(this.id);
+
+        this.name = refreshed.name;
+        this.image = refreshed.image;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

@@ -91,6 +91,16 @@ public class Diagnosis
         this.database.getDiagnosesTable().delete(this);
     }
 
+    public void refresh()
+    {
+        Diagnosis refreshed = this.database.getDiagnosesTable().select(this.id);
+
+        this.treatment = refreshed.treatment;
+        this.template = refreshed.template;
+        this.target = refreshed.target;
+        this.state = refreshed.state;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

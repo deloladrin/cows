@@ -115,6 +115,17 @@ public class Treatment
         this.database.getTreatmentTable().delete(this);
     }
 
+    public void refresh()
+    {
+        Treatment refreshed = this.database.getTreatmentTable().select(this.id);
+
+        this.cow = refreshed.cow;
+        this.type = refreshed.type;
+        this.date = refreshed.date;
+        this.comment = refreshed.comment;
+        this.user = refreshed.user;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

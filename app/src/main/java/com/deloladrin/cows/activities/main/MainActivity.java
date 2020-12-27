@@ -83,32 +83,32 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         StatusTemplate status_no_bathing = new StatusTemplate(this.database, 0, "Nekoupat", new DatabaseBitmap(this, R.drawable.resource_no_bathing)); status_no_bathing.insert();
         StatusTemplate status_take_out = new StatusTemplate(this.database, 0, "Vyřadit z chovu", new DatabaseBitmap(this, R.drawable.resource_take_out)); status_take_out.insert();
 
-        Company company_agras_bohdalov = new Company(this.database, 0, "AGRAS BOHDALOV", null, true); company_agras_bohdalov.insert();
-        Company company_bonagro_as = new Company(this.database, 0, "BONAGRO a.s.", null, false); company_bonagro_as.insert();
-        Company company_spolecnost_bohunov = new Company(this.database, 0, "SPOLEČNOST BOHUŇOV", null, false); company_spolecnost_bohunov.insert();
-        Company company_vkk_cernov = new Company(this.database, 0, "VKK ČERNOV", null, false); company_vkk_cernov.insert();
-        Company company_dalecin = new Company(this.database, 0, "DALEČÍN", null, false); company_dalecin.insert();
-        Company company_dvorek_karel_pometlo = new Company(this.database, 0, "DVOREK – KAREL POMETLO", null, false); company_dvorek_karel_pometlo.insert();
-        Company company_havlickova_nizkov = new Company(this.database, 0, "f. HAVLÍČKOVÁ - NÍŽKOV", null, false); company_havlickova_nizkov.insert();
-        Company company_zdv_hodiskov = new Company(this.database, 0, "ZDV HODIŠKOV", null, false); company_zdv_hodiskov.insert();
-        Company company_chroust_jan = new Company(this.database, 0, "CHROUST Jan", null, false); company_chroust_jan.insert();
-        Company company_hos_jablonov = new Company(this.database, 0, "HOS JABLOŇOV", null, false); company_hos_jablonov.insert();
-        Company company_vkk_krucemburk = new Company(this.database, 0, "VKK KRUCEMBURK", null, false); company_vkk_krucemburk.insert();
-        Company company_zas_lipa = new Company(this.database, 0, "ZAS LÍPA", null, false); company_zas_lipa.insert();
-        Company company_vkk_nove_veseli = new Company(this.database, 0, "VKK NOVÉ VESELÍ", null, false); company_vkk_nove_veseli.insert();
-        Company company_as_netin = new Company(this.database, 0, "a.s. NETÍN", null, false); company_as_netin.insert();
-        Company company_zd_nizkov = new Company(this.database, 0, "ZD NÍŽKOV", null, false); company_zd_nizkov.insert();
-        Company company_vkk_slavkovice = new Company(this.database, 0, "VKK SLAVKOVICE", null, false); company_vkk_slavkovice.insert();
-        Company company_vkk_pavlov = new Company(this.database, 0, "VKK PAVLOV", null, false); company_vkk_pavlov.insert();
-        Company company_slama_podesin = new Company(this.database, 0, "SLÁMA - PODĚŠÍN", null, false); company_slama_podesin.insert();
-        Company company_zd_nove_mesto_na_morave = new Company(this.database, 0, "ZD Nové Město na Moravě", null, false); company_zd_nove_mesto_na_morave.insert();
-        Company company_vkk_radostin = new Company(this.database, 0, "VKK RADOSTÍN", null, false); company_vkk_radostin.insert();
-        Company company_zd_sazava = new Company(this.database, 0, "ZD SÁZAVA", null, false); company_zd_sazava.insert();
-        Company company_seneco_polna = new Company(this.database, 0, "SENECO POLNÁ", null, false); company_seneco_polna.insert();
-        Company company_svetnov_tepla_marie = new Company(this.database, 0, "SVĚTNOV - TEPLÁ MARIE", null, false); company_svetnov_tepla_marie.insert();
-        Company company_zd_velka_losenice = new Company(this.database, 0, "ZD VELKÁ LOSENICE", null, false); company_zd_velka_losenice.insert();
-        Company company_vkk_zabcice = new Company(this.database, 0, "VKK ŽABČICE", null, false); company_vkk_zabcice.insert();
-        Company company_zd_snezne = new Company(this.database, 0, "ZD SNĚŽNÉ", null, false); company_zd_snezne.insert();
+        Company company_agras_bohdalov = new Company(this.database, 0, "AGRAS BOHDALOV", null, null, true); company_agras_bohdalov.insert();
+        Company company_bonagro_as = new Company(this.database, 0, "BONAGRO a.s.", null, null, false); company_bonagro_as.insert();
+        Company company_spolecnost_bohunov = new Company(this.database, 0, "SPOLEČNOST BOHUŇOV", null, null, false); company_spolecnost_bohunov.insert();
+        Company company_vkk_cernov = new Company(this.database, 0, "VKK ČERNOV", null, null, false); company_vkk_cernov.insert();
+        Company company_dalecin = new Company(this.database, 0, "DALEČÍN", null, null, false); company_dalecin.insert();
+        Company company_dvorek_karel_pometlo = new Company(this.database, 0, "DVOREK – KAREL POMETLO", null, null, false); company_dvorek_karel_pometlo.insert();
+        Company company_havlickova_nizkov = new Company(this.database, 0, "f. HAVLÍČKOVÁ - NÍŽKOV", null, null, false); company_havlickova_nizkov.insert();
+        Company company_zdv_hodiskov = new Company(this.database, 0, "ZDV HODIŠKOV", null, null, false); company_zdv_hodiskov.insert();
+        Company company_chroust_jan = new Company(this.database, 0, "CHROUST Jan", null, null, false); company_chroust_jan.insert();
+        Company company_hos_jablonov = new Company(this.database, 0, "HOS JABLOŇOV", null, null, false); company_hos_jablonov.insert();
+        Company company_vkk_krucemburk = new Company(this.database, 0, "VKK KRUCEMBURK", null, null, false); company_vkk_krucemburk.insert();
+        Company company_zas_lipa = new Company(this.database, 0, "ZAS LÍPA", null, null, false); company_zas_lipa.insert();
+        Company company_vkk_nove_veseli = new Company(this.database, 0, "VKK NOVÉ VESELÍ", null, null, false); company_vkk_nove_veseli.insert();
+        Company company_as_netin = new Company(this.database, 0, "a.s. NETÍN", null, null, false); company_as_netin.insert();
+        Company company_zd_nizkov = new Company(this.database, 0, "ZD NÍŽKOV", null, null, false); company_zd_nizkov.insert();
+        Company company_vkk_slavkovice = new Company(this.database, 0, "VKK SLAVKOVICE", null, null, false); company_vkk_slavkovice.insert();
+        Company company_vkk_pavlov = new Company(this.database, 0, "VKK PAVLOV", null, null, false); company_vkk_pavlov.insert();
+        Company company_slama_podesin = new Company(this.database, 0, "SLÁMA - PODĚŠÍN", null, null, false); company_slama_podesin.insert();
+        Company company_zd_nove_mesto_na_morave = new Company(this.database, 0, "ZD Nové Město na Moravě", null, null, false); company_zd_nove_mesto_na_morave.insert();
+        Company company_vkk_radostin = new Company(this.database, 0, "VKK RADOSTÍN", null, null, false); company_vkk_radostin.insert();
+        Company company_zd_sazava = new Company(this.database, 0, "ZD SÁZAVA", null, null, false); company_zd_sazava.insert();
+        Company company_seneco_polna = new Company(this.database, 0, "SENECO POLNÁ", null, null, false); company_seneco_polna.insert();
+        Company company_svetnov_tepla_marie = new Company(this.database, 0, "SVĚTNOV - TEPLÁ MARIE", null, null, false); company_svetnov_tepla_marie.insert();
+        Company company_zd_velka_losenice = new Company(this.database, 0, "ZD VELKÁ LOSENICE", null, null, false); company_zd_velka_losenice.insert();
+        Company company_vkk_zabcice = new Company(this.database, 0, "VKK ŽABČICE", null, null, false); company_vkk_zabcice.insert();
+        Company company_zd_snezne = new Company(this.database, 0, "ZD SNĚŽNÉ", null, null, false); company_zd_snezne.insert();
 
         /* Load active company */
         Company company = Company.getActive(this.database);
@@ -138,6 +138,16 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
             dialog.show();
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        /* Refresh company data */
+        this.company.refresh();
+        this.setCompany(this.company);
     }
 
     public Company getCompany()

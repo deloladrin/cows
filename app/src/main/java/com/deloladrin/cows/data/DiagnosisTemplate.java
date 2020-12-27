@@ -75,6 +75,17 @@ public class DiagnosisTemplate
         this.database.getDiagnosesTemplateTable().delete(this);
     }
 
+    public void refresh()
+    {
+        DiagnosisTemplate refreshed = this.database.getDiagnosesTemplateTable().select(this.id);;
+
+        this.nameNew = refreshed.nameNew;
+        this.nameTreated = refreshed.nameTreated;
+        this.nameHealed = refreshed.nameHealed;
+        this.nameShort = refreshed.nameShort;
+        this.type = refreshed.type;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

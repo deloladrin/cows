@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
     private LinearLayout groupStage;
     private TextView groupText;
     private EditText groupInput;
+    private ImageButton groupCopy;
 
     private Button cancel;
     private Button next;
@@ -73,11 +75,14 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
         this.groupStage = this.findViewById(R.id.dialog_stage_group);
         this.groupText = this.findViewById(R.id.dialog_group_text);
         this.groupInput = this.findViewById(R.id.dialog_group_input);
+        this.groupCopy = this.findViewById(R.id.dialog_group_copy);
 
         this.cancel = this.findViewById(R.id.dialog_cancel);
         this.next = this.findViewById(R.id.dialog_continue);
 
         /* Add events */
+        this.groupCopy.setOnClickListener(this);
+
         this.cancel.setOnClickListener(this);
         this.next.setOnClickListener(this);
 
@@ -251,6 +256,17 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                     break;
             }
+
+            return;
+        }
+
+        if (view.equals(this.groupCopy))
+        {
+            /* Copy companies last group if any */
+            String last = this.company.getLastGroup();
+
+            this.groupInput.setText(last);
+            this.focusInput(this.groupInput);
 
             return;
         }

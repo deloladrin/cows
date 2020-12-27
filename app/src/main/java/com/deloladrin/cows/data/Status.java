@@ -66,6 +66,14 @@ public class Status
         this.database.getStatusTable().delete(this);
     }
 
+    public void refresh()
+    {
+        Status refreshed = this.database.getStatusTable().select(this.id);
+
+        this.treatment = refreshed.treatment;
+        this.template = refreshed.template;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

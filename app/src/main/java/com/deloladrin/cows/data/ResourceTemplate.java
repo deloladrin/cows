@@ -76,6 +76,17 @@ public class ResourceTemplate
         this.database.getResourceTemplateTable().delete(this);
     }
 
+    public void refresh()
+    {
+        ResourceTemplate refreshed = this.database.getResourceTemplateTable().select(this.id);
+
+        this.name = refreshed.name;
+        this.type = refreshed.type;
+        this.layer = refreshed.layer;
+        this.copying = refreshed.copying;
+        this.image = refreshed.image;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

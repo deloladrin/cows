@@ -87,16 +87,36 @@ public class Cow
     public void insert()
     {
         this.id = this.database.getCowTable().insert(this);
+        this.updateLastGroup();
     }
 
     public void update()
     {
         this.database.getCowTable().update(this);
+        this.updateLastGroup();
+    }
+
+    private void updateLastGroup()
+    {
+        Company company = this.getCompany();
+        company.setLastGroup(this.group);
+
+        company.update();
     }
 
     public void delete()
     {
         this.database.getCowTable().delete(this);
+    }
+
+    public void refresh()
+    {
+        Cow refreshed = this.database.getCowTable().select(this.id);
+
+        this.number = refreshed.number;
+        this.collar = refreshed.collar;
+        this.company = refreshed.company;
+        this.group = refreshed.group;
     }
 
     @Override

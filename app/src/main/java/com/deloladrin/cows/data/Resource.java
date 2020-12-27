@@ -72,6 +72,16 @@ public class Resource
         this.database.getResourceTable().delete(this);
     }
 
+    public void refresh()
+    {
+        Resource refreshed = this.database.getResourceTable().select(this.id);
+
+        this.treatment = refreshed.treatment;
+        this.template = refreshed.template;
+        this.target = refreshed.target;
+        this.copy = refreshed.copy;
+    }
+
     @Override
     public boolean equals(Object obj)
     {

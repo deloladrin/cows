@@ -83,12 +83,29 @@
             android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
-        <EditText
-            android:id="@+id/dialog_group_input"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/text_light" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/dialog_group_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/text_light" />
+
+            <ImageButton
+                android:id="@+id/dialog_group_copy"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/icon_copy"
+                android:backgroundTint="@color/button_treated"
+                android:backgroundTintMode="screen"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
