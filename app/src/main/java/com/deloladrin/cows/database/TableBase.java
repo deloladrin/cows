@@ -225,25 +225,65 @@ public abstract class TableBase<T>
 
     public List<T> selectAll()
     {
+        return this.selectAll(false);
+    }
+
+    public List<T> selectAllReverse()
+    {
+        return this.selectAll(true);
+    }
+
+    public List<T> selectAll(boolean reverse)
+    {
         SQLiteDatabase db = this.database.getWritableDatabase();
-        return this.selectAll(db);
+        return this.selectAll(db, reverse);
     }
 
     public List<T> selectAll(SQLiteDatabase db)
     {
+        return this.selectAll(db, false);
+    }
+
+    public List<T> selectAllReverse(SQLiteDatabase db)
+    {
+        return this.selectAll(db, true);
+    }
+
+    public List<T> selectAll(SQLiteDatabase db, boolean reverse)
+    {
         ValueParams empty = new ValueParams();
-        return this.selectAll(db, empty);
+        return this.selectAll(db, empty, reverse);
     }
 
     public List<T> selectAll(ValueParams params)
     {
+        return this.selectAll(params, false);
+    }
+
+    public List<T> selectAllReverse(ValueParams params)
+    {
+        return this.selectAll(params, true);
+    }
+
+    public List<T> selectAll(ValueParams params, boolean reverse)
+    {
         SQLiteDatabase db = this.database.getWritableDatabase();
-        return this.selectAll(db, params);
+        return this.selectAll(db, params, reverse);
     }
 
     public List<T> selectAll(SQLiteDatabase db, ValueParams params)
     {
-        Cursor cursor = this.selectValues(db, params, false);
+        return this.selectAll(db, params, false);
+    }
+
+    public List<T> selectAllReverse(SQLiteDatabase db, ValueParams params)
+    {
+        return this.selectAll(db, params, true);
+    }
+
+    public List<T> selectAll(SQLiteDatabase db, ValueParams params, boolean reverse)
+    {
+        Cursor cursor = this.selectValues(db, params, reverse);
         List<T> values = new ArrayList<>();
 
         if (cursor != null)
@@ -267,7 +307,8 @@ public abstract class TableBase<T>
             values.add(column.getName() + " = " + params.getValueString(column));
         }
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(" AND ", values) : "") + (reverse ? " DESC" : ""), null);
+        String order = " ORDER BY " + this.getPrimaryColumn().getName() + (reverse ? " DESC" : " ASC");
+        Cursor cursor = db.rawQuery("SELECT * FROM " + this.getName() + (values.size() > 0 ? " WHERE " + String.join(" AND ", values) : "") + order, null);
 
         if (cursor.getCount() > 0)
         {
@@ -305,5 +346,18 @@ public abstract class TableBase<T>
     public List<TableColumn> getColumns()
     {
         return this.columns;
+    }
+
+    public TableColumn getPrimaryColumn()
+    {
+        for (TableColumn column : this.columns)
+        {
+            if (column.isPrimary())
+            {
+                return column;
+            }
+        }
+
+        return null;
     }
 }

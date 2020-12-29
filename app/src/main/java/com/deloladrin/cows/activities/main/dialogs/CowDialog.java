@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +28,9 @@ import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.dialogs.YesNoDialog;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CowDialog extends ChildDialog<MainActivity> implements View.OnClickListener, TextWatcher
 {
     private CowDialogStage stage;
@@ -39,7 +44,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
     private LinearLayout numberStage;
     private TextView numberText;
     private TextView numberError;
-    private EditText numberInput;
+    private AutoCompleteTextView numberInput;
 
     private LinearLayout groupStage;
     private TextView groupText;
@@ -123,16 +128,31 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                 this.groupStage.setVisibility(View.GONE);
 
                 int collar = this.cow.getCollar();
-                String number = "";
+                Integer[] numbers = new Integer[0];
 
+                /* Get all numbers with collar */
                 if (collar != 0)
                 {
-                    Cow cow = Cow.getByCollar(database, this.cow.getCompany(), collar);
+                    List<Cow> cows = Cow.getByCollar(database, this.company, collar);
+                    numbers = new Integer[cows.size()];
 
-                    if (cow != null)
+                    /* Copy cow numbers */
+                    for (int i = 0; i < cows.size(); i++)
                     {
-                        number = Integer.toString(cow.getNumber());
+                        numbers[i] = cows.get(i).getNumber();
                     }
+                }
+
+                /* Update number suggestion list */
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, numbers);
+                this.numberInput.setAdapter(adapter);
+
+                /* Select first number if any */
+                String number = "";
+
+                if (numbers.length > 0)
+                {
+                    number = Integer.toString(numbers[0]);
                 }
 
                 this.numberInput.setText(number);

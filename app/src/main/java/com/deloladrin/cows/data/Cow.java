@@ -62,13 +62,13 @@ public class Cow
         return database.getCowTable().selectReverse(params);
     }
 
-    public static Cow getByCollar(Database database, Company company, int collar)
+    public static List<Cow> getByCollar(Database database, Company company, int collar)
     {
         ValueParams params = new ValueParams();
         params.put(Table.COLUMN_COMPANY, company.getID());
         params.put(Table.COLUMN_COLLAR, collar);
 
-        return database.getCowTable().selectReverse(params);
+        return database.getCowTable().selectAllReverse(params);
     }
 
     public static List<Cow> getAll(Database database)

@@ -39,72 +39,75 @@ public class CowHeader extends ChildActivity<CowActivity> implements View.OnClic
     {
         Context context = this.getContext();
 
-        if (view.equals(this.collar))
+        if (this.cow != null)
         {
-            /* Show collar change dialog */
-            ValueDialog dialog = new ValueDialog(context, ValueDialogType.NUMBER);
-            dialog.setText(R.string.dialog_cow_collar);
-            dialog.setCopyEnabled(false);
-
-            int collar = this.cow.getCollar();
-
-            if (collar != 0)
+            if (view.equals(this.collar))
             {
-                dialog.setInput(Integer.toString(collar));
+                /* Show collar change dialog */
+                ValueDialog dialog = new ValueDialog(context, ValueDialogType.NUMBER);
+                dialog.setText(R.string.dialog_cow_collar);
+                dialog.setCopyEnabled(false);
+
+                int collar = this.cow.getCollar();
+
+                if (collar != 0)
+                {
+                    dialog.setInput(Integer.toString(collar));
+                }
+
+                dialog.setOnSubmitListener((d, value) ->
+                {
+                    /* Update and refresh */
+                    int newCollar = 0;
+
+                    if (!value.isEmpty())
+                    {
+                        newCollar = Integer.parseInt(value);
+                    }
+
+                    this.cow.setCollar(newCollar);
+                    this.cow.update();
+
+                    this.activity.refresh();
+                });
+
+                dialog.show();
             }
 
-            dialog.setOnSubmitListener((d, value) ->
+            if (view.equals(this.group))
             {
-                /* Update and refresh */
-                int newCollar = 0;
+                /* Show group change dialog */
+                ValueDialog dialog = new ValueDialog(context, ValueDialogType.TEXT);
+                dialog.setText(R.string.dialog_cow_group);
+                dialog.setCopyEnabled(true);
 
-                if (!value.isEmpty())
+                dialog.setInput(this.cow.getGroup());
+
+                dialog.setOnSubmitListener((d, value) ->
                 {
-                    newCollar = Integer.parseInt(value);
-                }
+                    /* Update and refresh */
+                    String newGroup = null;
 
-                this.cow.setCollar(newCollar);
-                this.cow.update();
+                    if (!value.isEmpty())
+                    {
+                        newGroup = value;
+                    }
 
-                this.activity.refresh();
-            });
+                    this.cow.setGroup(newGroup);
+                    this.cow.update();
 
-            dialog.show();
-        }
+                    this.activity.refresh();
+                });
 
-        if (view.equals(this.group))
-        {
-            /* Show group change dialog */
-            ValueDialog dialog = new ValueDialog(context, ValueDialogType.TEXT);
-            dialog.setText(R.string.dialog_cow_group);
-            dialog.setCopyEnabled(true);
-
-            dialog.setInput(this.cow.getGroup());
-
-            dialog.setOnSubmitListener((d, value) ->
-            {
-                /* Update and refresh */
-                String newGroup = null;
-
-                if (!value.isEmpty())
+                dialog.setOnCopyListener((d) ->
                 {
-                    newGroup = value;
-                }
+                    /* Copy last group */
+                    String lastGroup = this.cow.getCompany().getLastGroup();
+                    d.setInput(lastGroup);
+                });
 
-                this.cow.setGroup(newGroup);
-                this.cow.update();
-
-                this.activity.refresh();
-            });
-
-            dialog.setOnCopyListener((d) ->
-            {
-                /* Copy last group */
-                String lastGroup = this.cow.getCompany().getLastGroup();
-                d.setInput(lastGroup);
-            });
-
-            dialog.show();
+                dialog.show();
+            }
         }
     }
 

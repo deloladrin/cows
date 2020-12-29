@@ -36,14 +36,14 @@
 
             <TextView
                 android:id="@+id/header_number"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_light"
                 android:textSize="@dimen/text_medium" />
 
             <TextView
                 android:id="@+id/header_collar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_tint"
                 android:textSize="@dimen/text_medium" />

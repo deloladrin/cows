@@ -32,7 +32,7 @@
     <string name="error_cow_number_length">Číslo krávy musí mít 6 znaků!</string>
 
     <string name="treatment_limp">Kulhá</string>
-    <string name="treatment_whole">Celková úprava paznehtů</string>
+    <string name="treatment_whole">CÚP</string>
     <string name="treatment_repeat">Převaz</string>
 
     <string name="diagnosis_healed">Vyhojený</string>

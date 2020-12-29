@@ -57,12 +57,13 @@
             android:textSize="0pt"
             android:textColor="@color/text_bad" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/dialog_number_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:digits="@string/digits_numbers"
+            android:completionThreshold="1"
             android:textSize="@dimen/text_medium"
             android:textColor="@color/text_light" />
 
