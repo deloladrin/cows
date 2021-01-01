@@ -3,6 +3,7 @@ package com.deloladrin.cows.activities.cow.dialogs;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
@@ -23,6 +24,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
     private TextView finger;
     private TextView name;
+    private EditText comment;
 
     private Button healedState;
     private Button treatedState;
@@ -45,6 +47,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
         this.name = this.findViewById(R.id.dialog_name);
+        this.comment = this.findViewById(R.id.dialog_comment);
 
         this.healedState = this.findViewById(R.id.dialog_healed);
         this.treatedState = this.findViewById(R.id.dialog_treated);
@@ -78,6 +81,10 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
         this.name.setText(name);
         this.name.setTextColor(color);
+
+        /* Set comment */
+        String comment = this.diagnosis.getComment();
+        this.comment.setText(comment);
     }
 
     @Override
@@ -143,7 +150,10 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         dialog.setOnSubmitListener((ResourceEditDialog d) ->
         {
             /* Update and submit */
+            String comment = this.comment.getText().toString();
+
             this.diagnosis.setState(state);
+            this.diagnosis.setComment(comment);
             this.diagnosis.update();
 
             this.onSubmitListener.onSubmit(this);

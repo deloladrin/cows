@@ -17,7 +17,7 @@ import com.deloladrin.cows.data.Treatment;
 public class Database extends SQLiteOpenHelper
 {
     private static final String DATABASE_NAME = "Cows.db";
-    private static final int DATABASE_VERSION = 25;
+    private static final int DATABASE_VERSION = 1;
 
     private Context context;
 

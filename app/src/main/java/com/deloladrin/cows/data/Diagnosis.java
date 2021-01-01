@@ -19,13 +19,14 @@ public class Diagnosis
     private int template;
     private int target;
     private int state;
+    private String comment;
 
     public Diagnosis(Database database)
     {
         this.database = database;
     }
 
-    public Diagnosis(Database database, long id, long treatment, int template, int target, int state)
+    public Diagnosis(Database database, long id, long treatment, int template, int target, int state, String comment)
     {
         this.database = database;
 
@@ -34,9 +35,10 @@ public class Diagnosis
         this.template = template;
         this.target = target;
         this.state = state;
+        this.comment = comment;
     }
 
-    public Diagnosis(Database database, long id, Treatment treatment, DiagnosisTemplate template, TargetMask target, DiagnosisState state)
+    public Diagnosis(Database database, long id, Treatment treatment, DiagnosisTemplate template, TargetMask target, DiagnosisState state, String comment)
     {
         this.database = database;
 
@@ -45,6 +47,7 @@ public class Diagnosis
         this.setTemplate(template);
         this.setTarget(target);
         this.setState(state);
+        this.setComment(comment);
     }
 
     public static Diagnosis get(Database database, long id)
@@ -189,6 +192,16 @@ public class Diagnosis
         this.state = state;
     }
 
+    public String getComment()
+    {
+        return this.comment;
+    }
+
+    public void setComment(String comment)
+    {
+        this.comment = comment;
+    }
+
     public static class Table extends TableBase<Diagnosis>
     {
         public static final String TABLE_NAME = "diagnoses";
@@ -198,6 +211,7 @@ public class Diagnosis
         public static final TableColumn COLUMN_TEMPLATE = new TableColumn(2, "template", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_TARGET = new TableColumn(3, "target", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_STATE = new TableColumn(4, "state", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COMMENT = new TableColumn(5, "comment", ValueType.TEXT, true);
 
         public Table(Database database)
         {
@@ -208,6 +222,7 @@ public class Diagnosis
             this.columns.add(COLUMN_TEMPLATE);
             this.columns.add(COLUMN_TARGET);
             this.columns.add(COLUMN_STATE);
+            this.columns.add(COLUMN_COMMENT);
         }
 
         @Override
@@ -220,6 +235,7 @@ public class Diagnosis
             params.put(COLUMN_TEMPLATE, object.template);
             params.put(COLUMN_TARGET, object.target);
             params.put(COLUMN_STATE, object.state);
+            params.put(COLUMN_COMMENT, object.comment);
 
             return params;
         }
@@ -232,8 +248,9 @@ public class Diagnosis
             int template = cursor.getInt(COLUMN_TEMPLATE.getID());
             int target = cursor.getInt(COLUMN_TARGET.getID());
             int state = cursor.getInt(COLUMN_STATE.getID());
+            String comment = cursor.getString(COLUMN_COMMENT.getID());
 
-            return new Diagnosis(this.database, id, treatment, template, target, state);
+            return new Diagnosis(this.database, id, treatment, template, target, state, comment);
         }
     }
 }
