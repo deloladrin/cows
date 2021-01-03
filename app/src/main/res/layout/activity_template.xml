@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_dark"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@color/back_light">
+
+                <ImageView
+                    android:id="@+id/template_image"
+                    android:layout_width="24pt"
+                    android:layout_height="24pt" />
+
+                <TextView
+                    android:id="@+id/template_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/text_light"
+                    android:textSize="@dimen/text_medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/template_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/template_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/button_tint"
+                android:textColor="@color/text_light"
+                android:textSize="@dimen/text_small"
+                android:text="@string/dialog_add" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

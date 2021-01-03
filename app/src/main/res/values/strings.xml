@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Krávy</string>
 
+    <string name="activity_companies">Firmy</string>
     <string name="activity_cow">Kráva</string>
 
     <string name="section_history">Historie</string>

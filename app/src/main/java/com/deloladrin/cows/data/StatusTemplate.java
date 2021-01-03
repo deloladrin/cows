@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseBitmap;
+import com.deloladrin.cows.database.DatabaseEntry;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
@@ -11,7 +12,7 @@ import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class StatusTemplate
+public class StatusTemplate implements DatabaseEntry
 {
     private Database database;
 

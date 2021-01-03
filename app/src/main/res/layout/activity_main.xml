@@ -41,11 +41,23 @@
                 android:gravity="center">
 
                 <com.deloladrin.cows.views.ImageTextButton
-                    android:id="@+id/main_activity_cow"
+                    android:id="@+id/main_companies"
                     android:layout_width="@dimen/size_main_button"
                     android:layout_height="@dimen/size_main_button"
-                    android:layout_margin="4dp"
-                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:padding="16dp"
+                    android:background="@color/button_dark"
+                    android:textColor="@color/text_light"
+                    android:textSize="@dimen/text_medium"
+                    android:text="@string/activity_companies"
+                    android:src="@drawable/icon_companies" />
+
+                <com.deloladrin.cows.views.ImageTextButton
+                    android:id="@+id/main_cow"
+                    android:layout_width="@dimen/size_main_button"
+                    android:layout_height="@dimen/size_main_button"
+                    android:layout_margin="8dp"
+                    android:padding="16dp"
                     android:background="@color/button_dark"
                     android:textColor="@color/text_light"
                     android:textSize="@dimen/text_medium"

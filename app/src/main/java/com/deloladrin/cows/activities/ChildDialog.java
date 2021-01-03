@@ -5,7 +5,7 @@ import android.app.Dialog;
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseActivity;
 
-public class ChildDialog<T extends DatabaseActivity> extends Dialog
+public abstract class ChildDialog<T extends DatabaseActivity> extends Dialog
 {
     protected T activity;
     protected ChildActivity<T> parent;

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
+import com.deloladrin.cows.activities.company.CompanyActivity;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.activities.main.dialogs.CowDialog;
 import com.deloladrin.cows.data.Company;
@@ -26,6 +27,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
     private TextView companyName;
     private TextView companyGroup;
 
+    private ImageTextButton companies;
     private ImageTextButton cow;
 
     @Override
@@ -38,9 +40,11 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         this.companyName = this.findViewById(R.id.main_company_name);
         this.companyGroup = this.findViewById(R.id.main_company_group);
 
-        this.cow = this.findViewById(R.id.main_activity_cow);
+        this.companies = this.findViewById(R.id.main_companies);
+        this.cow = this.findViewById(R.id.main_cow);
 
         /* Add events */
+        this.companies.setOnClickListener(this);
         this.cow.setOnClickListener(this);
 
         /* TODO: Temporary code - will be removed in the future */
@@ -118,6 +122,15 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view)
     {
+        if (view.equals(this.companies))
+        {
+            /* Open company activity */
+            Intent intent = new Intent(this, CompanyActivity.class);
+            this.startActivity(intent);
+
+            return;
+        }
+
         if (view.equals(this.cow))
         {
             /* Show cow select dialog */
@@ -134,6 +147,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             });
 
             dialog.show();
+            return;
         }
     }
 
