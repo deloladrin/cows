@@ -11,11 +11,13 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.database.DatabaseActivity;
 import com.deloladrin.cows.database.DatabaseEntry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TemplateActivity<T extends DatabaseEntry> extends DatabaseActivity implements View.OnClickListener
 {
     protected List<T> values;
+    protected List<TemplateEntry<T>> views;
 
     protected ImageView image;
     protected TextView name;
@@ -38,11 +40,24 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
 
         /* Add events */
         this.add.setOnClickListener(this);
+
+        /* Load default values */
+        this.refresh();
     }
 
     @Override
     public void onClick(View view)
     {
+    }
+
+    public void refresh()
+    {
+    }
+
+    protected TemplateEntry<T> createEntry(T value)
+    {
+        TemplateEntry<T> entry = new TemplateEntry<>(this, value);
+        return entry;
     }
 
     public List<T> getValues()
@@ -53,5 +68,17 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
     public void setValues(List<T> values)
     {
         this.values = values;
+
+        this.views = new ArrayList<>();
+        this.container.removeAllViews();
+
+        /* Add entries */
+        for (T value : values)
+        {
+            TemplateEntry<T> entry = this.createEntry(value);
+
+            this.views.add(entry);
+            this.container.addView(entry.getView());
+        }
     }
 }

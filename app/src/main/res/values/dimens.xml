@@ -6,6 +6,7 @@
     <dimen name="text_huge">18pt</dimen>
 
     <dimen name="size_dialog">300dp</dimen>
+    <dimen name="size_template_entry">24pt</dimen>
     <dimen name="size_main_button">132dp</dimen>
     <dimen name="size_cow_hoof">100dp</dimen>
     <dimen name="size_cow_status">24pt</dimen>
