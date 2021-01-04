@@ -20,14 +20,13 @@ public class Company implements DatabaseEntry
     private String name;
     private String group;
     private String last;
-    private int active;
 
     public Company(Database database)
     {
         this.database = database;
     }
 
-    public Company(Database database, int id, String name, String group, String last, int active)
+    public Company(Database database, int id, String name, String group, String last)
     {
         this.database = database;
 
@@ -35,18 +34,6 @@ public class Company implements DatabaseEntry
         this.name = name;
         this.group = group;
         this.last = last;
-        this.active = active;
-    }
-
-    public Company(Database database, int id, String name, String group, String last, boolean active)
-    {
-        this.database = database;
-
-        this.setID(id);
-        this.setName(name);
-        this.setGroup(group);
-        this.setLastGroup(last);
-        this.setActive(active);
     }
 
     public static Company get(Database database, int id)
@@ -57,14 +44,6 @@ public class Company implements DatabaseEntry
     public static List<Company> getAll(Database database)
     {
         return database.getCompanyTable().selectAll();
-    }
-
-    public static Company getActive(Database database)
-    {
-        ValueParams params = new ValueParams();
-        params.put(Table.COLUMN_ACTIVE, 1);
-
-        return database.getCompanyTable().select(params);
     }
 
     public List<Cow> getCows()
@@ -97,7 +76,6 @@ public class Company implements DatabaseEntry
         this.name = refreshed.name;
         this.group = refreshed.group;
         this.last = refreshed.last;
-        this.active = refreshed.active;
     }
 
     @Override
@@ -158,21 +136,6 @@ public class Company implements DatabaseEntry
         this.last = last;
     }
 
-    public boolean isActive()
-    {
-        return this.active > 0;
-    }
-
-    public void setActive(boolean active)
-    {
-        this.active = active ? 1 : 0;
-    }
-
-    public void setActive(int active)
-    {
-        this.active = active;
-    }
-
     public static class Table extends TableBase<Company>
     {
         public static final String TABLE_NAME = "companies";
@@ -181,7 +144,6 @@ public class Company implements DatabaseEntry
         public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
         public static final TableColumn COLUMN_GROUP = new TableColumn(2, "grp", ValueType.TEXT, true);
         public static final TableColumn COLUMN_LAST = new TableColumn(3, "last", ValueType.TEXT, true);
-        public static final TableColumn COLUMN_ACTIVE = new TableColumn(4, "active", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -191,7 +153,6 @@ public class Company implements DatabaseEntry
             this.columns.add(COLUMN_NAME);
             this.columns.add(COLUMN_GROUP);
             this.columns.add(COLUMN_LAST);
-            this.columns.add(COLUMN_ACTIVE);
         }
 
         @Override
@@ -203,7 +164,6 @@ public class Company implements DatabaseEntry
             params.put(COLUMN_NAME, object.name);
             params.put(COLUMN_GROUP, object.group);
             params.put(COLUMN_LAST, object.last);
-            params.put(COLUMN_ACTIVE, object.active);
 
             return params;
         }
@@ -215,9 +175,8 @@ public class Company implements DatabaseEntry
             String name = cursor.getString(COLUMN_NAME.getID());
             String group = cursor.getString(COLUMN_GROUP.getID());
             String last = cursor.getString(COLUMN_LAST.getID());
-            int active = cursor.getInt(COLUMN_ACTIVE.getID());
 
-            return new Company(this.database, id, name, group, last, active);
+            return new Company(this.database, id, name, group, last);
         }
     }
 }

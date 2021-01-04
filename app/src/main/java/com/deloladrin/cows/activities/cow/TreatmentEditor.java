@@ -107,6 +107,7 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
                             diagnosisCopy.setTemplate(diagnosis.getTemplate());
                             diagnosisCopy.setTarget(diagnosis.getTarget());
                             diagnosisCopy.setState(diagnosis.getState());
+                            diagnosisCopy.setComment(diagnosis.getComment());
                             diagnosisCopy.insert();
                         }
 
