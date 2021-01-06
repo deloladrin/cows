@@ -63,11 +63,9 @@ public class TreatmentStatus extends ChildActivity<CowActivity> implements View.
                     }
                 }
 
-                dialog.setOnSelectListener((View v) ->
+                dialog.setOnSelectListener((TreatmentTypeEntry entry) ->
                 {
                     /* Update and refresh */
-                    TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
-
                     this.treatment.setType(entry.getValue());
                     this.treatment.update();
                     this.activity.refresh();

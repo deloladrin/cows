@@ -3,12 +3,14 @@ package com.deloladrin.cows.activities.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.CompanyActivity;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.activities.main.dialogs.CowDialog;
+import com.deloladrin.cows.activities.main.views.CompanyEntry;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.DiagnosisTemplate;
@@ -18,12 +20,14 @@ import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.StatusTemplate;
 import com.deloladrin.cows.database.DatabaseActivity;
 import com.deloladrin.cows.database.DatabaseBitmap;
+import com.deloladrin.cows.dialogs.SelectDialog;
 import com.deloladrin.cows.views.ImageTextButton;
 
 public class MainActivity extends DatabaseActivity implements View.OnClickListener
 {
     private Company company;
 
+    private LinearLayout currentCompany;
     private TextView companyName;
     private TextView companyGroup;
 
@@ -37,6 +41,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         this.setContentView(R.layout.activity_main);
 
         /* Load all children */
+        this.currentCompany = this.findViewById(R.id.main_company);
         this.companyName = this.findViewById(R.id.main_company_name);
         this.companyGroup = this.findViewById(R.id.main_company_group);
 
@@ -44,6 +49,8 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         this.cow = this.findViewById(R.id.main_cow);
 
         /* Add events */
+        this.currentCompany.setOnClickListener(this);
+
         this.companies.setOnClickListener(this);
         this.cow.setOnClickListener(this);
 
@@ -123,6 +130,28 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view)
     {
+        if (view.equals(this.currentCompany))
+        {
+            /* Show company select dialog */
+            SelectDialog<CompanyEntry> dialog = new SelectDialog<>(this);
+            dialog.setText(R.string.dialog_company);
+
+            for (Company company : Company.getAll(this.database))
+            {
+                CompanyEntry entry = new CompanyEntry(this, company);
+                dialog.add(entry);
+            }
+
+            dialog.setOnSelectListener((CompanyEntry entry) ->
+            {
+                /* Make company current and refresh */
+                this.preferences.setActiveCompany(entry.getValue());
+                this.refresh();
+            });
+
+            dialog.show();
+        }
+
         if (view.equals(this.companies))
         {
             /* Open company activity */
@@ -192,11 +221,17 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             {
                 this.companyGroup.setText("");
             }
+
+            /* Enable company based buttons */
+            this.cow.setEnabled(true);
         }
         else
         {
             this.companyName.setText("—");
             this.companyGroup.setText("");
+
+            /* Disable company based buttons */
+            this.cow.setEnabled(false);
         }
     }
 }

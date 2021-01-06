@@ -2,6 +2,8 @@ package com.deloladrin.cows.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -43,6 +45,29 @@ public class ImageTextButton extends LinearLayout
         finally
         {
             attrArray.recycle();
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);
+
+        if (!enabled)
+        {
+            /* Make image grayscale */
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);
+
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+
+            this.image.setColorFilter(filter);
+        }
+        else
+        {
+            /* Reset */
+            this.image.setImageAlpha(255);
+            this.image.setColorFilter(null);
         }
     }
 

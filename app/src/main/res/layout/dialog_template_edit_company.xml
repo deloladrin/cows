@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_medium"
                 android:textColor="@color/text_light"
-                android:text="@string/entry_company_name" />
+                android:text="@string/dialog_company_name" />
 
             <EditText
                 android:id="@+id/dialog_name"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_medium"
                 android:textColor="@color/text_light"
-                android:text="@string/entry_company_group" />
+                android:text="@string/dialog_company_group" />
 
             <EditText
                 android:id="@+id/dialog_group"

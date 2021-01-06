@@ -22,6 +22,9 @@
     <string name="dialog_resources_select">%s — Vyberte položky:</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
     <string name="dialog_entry_delete">Opravdu chcete odstranit položku \'%s\'?</string>
+    <string name="dialog_company">Vyberte firmu:</string>
+    <string name="dialog_company_name">Jméno:</string>
+    <string name="dialog_company_group">Skupina:</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>
@@ -29,9 +32,6 @@
     <string name="dialog_submit">Potvrdit</string>
     <string name="dialog_no">Ne</string>
     <string name="dialog_yes">Ano</string>
-
-    <string name="entry_company_name">Jméno:</string>
-    <string name="entry_company_group">Skupina:</string>
 
     <string name="error_cow_number_empty">Číslo krávy nemůže být prázdné!</string>
     <string name="error_cow_number_length">Číslo krávy musí mít 6 znaků!</string>

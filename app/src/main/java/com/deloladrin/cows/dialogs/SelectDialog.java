@@ -18,7 +18,7 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
 
     private Button cancel;
 
-    private OnSelectListener onSelectListener;
+    private OnSelectListener<T> onSelectListener;
 
     public SelectDialog(Context context)
     {
@@ -43,7 +43,7 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
         {
             if (view.equals(this.container.getChildAt(i)))
             {
-                this.onSelectListener.onSelect(view);
+                this.onSelectListener.onSelect((T)view);
             }
         }
 
@@ -111,18 +111,18 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
         this.setCancelText(this.getContext().getResources().getString(text));
     }
 
-    public OnSelectListener getOnSelectListener()
+    public OnSelectListener<T> getOnSelectListener()
     {
         return this.onSelectListener;
     }
 
-    public void setOnSelectListener(OnSelectListener onSelectListener)
+    public void setOnSelectListener(OnSelectListener<T> onSelectListener)
     {
         this.onSelectListener = onSelectListener;
     }
 
-    public interface OnSelectListener
+    public interface OnSelectListener<T extends View>
     {
-        void onSelect(View view);
+        void onSelect(T view);
     }
 }

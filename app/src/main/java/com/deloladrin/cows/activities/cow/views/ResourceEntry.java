@@ -34,7 +34,7 @@ public class ResourceEntry extends AppCompatImageView
 
         if (this.resource.isCopy())
         {
-            /* Copy resources are  */
+            /* Copy resources are grayscale */
             ColorMatrix matrix = new ColorMatrix();
             matrix.setSaturation(0);
 
@@ -44,7 +44,7 @@ public class ResourceEntry extends AppCompatImageView
         }
         else
         {
-            /* Reset  */
+            /* Reset */
             this.setImageAlpha(255);
             this.setColorFilter(null);
         }

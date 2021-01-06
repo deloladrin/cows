@@ -82,11 +82,9 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
                     }
                 }
 
-                dialog.setOnSelectListener((View v) ->
+                dialog.setOnSelectListener((TreatmentTypeEntry entry) ->
                 {
                     /* Create and refresh */
-                    TreatmentTypeEntry entry = (TreatmentTypeEntry) v;
-
                     CowActivity activity = this.getActivity();
                     Database database = activity.getDatabase();
 

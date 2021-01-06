@@ -16,24 +16,32 @@
             android:layout_margin="24dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/main_company_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_light"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_big" />
-
-            <TextView
-                android:id="@+id/main_company_group"
+            <LinearLayout
+                android:id="@+id/main_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:textColor="@color/text_dark"
-                android:textStyle="italic"
-                android:textSize="@dimen/text_medium" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/main_company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/text_light"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_big" />
+
+                <TextView
+                    android:id="@+id/main_company_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/text_dark"
+                    android:textStyle="italic"
+                    android:textSize="@dimen/text_medium" />
+
+            </LinearLayout>
 
             <com.wefika.flowlayout.FlowLayout
                 android:layout_width="match_parent"
