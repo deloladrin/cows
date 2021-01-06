@@ -1,5 +1,6 @@
 package com.deloladrin.cows.activities.company;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.deloladrin.cows.R;
@@ -16,8 +17,12 @@ public class CompanyActivity extends TemplateActivity<Company>
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         this.image.setImageResource(R.drawable.icon_companies);
-        this.name.setText(R.string.activity_companies);
+        this.name.setText(R.string.activity_company);
+
+        /* Load default values */
+        this.refresh();
     }
 
     @Override
@@ -42,13 +47,23 @@ public class CompanyActivity extends TemplateActivity<Company>
         Company company = new Company(this.database);
         CompanyEditDialog dialog = new CompanyEditDialog(this, company);
 
-        dialog.setOnSubmitListener((c) ->
+        dialog.setOnSubmitListener((Company edited) ->
         {
-            company.insert();
+            edited.insert();
             this.refresh();
         });
 
         dialog.show();
+    }
+
+    @Override
+    public void onShowClick(TemplateEntry<Company> entry)
+    {
+        /* Open Company's Cow activity */
+        Intent intent = new Intent(this, CompanyCowActivity.class);
+        intent.putExtra(CompanyCowActivity.EXTRA_COMPANY, entry.getValue().getID());
+
+        this.startActivity(intent);
     }
 
     @Override

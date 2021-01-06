@@ -57,7 +57,7 @@
                     android:background="@color/button_dark"
                     android:textColor="@color/text_light"
                     android:textSize="@dimen/text_medium"
-                    android:text="@string/activity_companies"
+                    android:text="@string/activity_company"
                     android:src="@drawable/icon_companies" />
 
                 <com.deloladrin.cows.views.ImageTextButton

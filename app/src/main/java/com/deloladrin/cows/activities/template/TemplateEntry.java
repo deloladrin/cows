@@ -144,6 +144,17 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
         this.name.setText(name);
     }
 
+    public void setName(int text)
+    {
+        this.setName(this.view.getContext().getResources().getString(text));
+    }
+
+    public void setName(int text, Object... args)
+    {
+        String format = this.view.getContext().getResources().getString(text);
+        this.setName(String.format(format, args));
+    }
+
     public ImageButton getShowButton()
     {
         return this.show;
@@ -160,9 +171,21 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
         return this.edit;
     }
 
+    public void setEditVisible(boolean visible)
+    {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        this.edit.setVisibility(visibility);
+    }
+
     public ImageButton getDeleteButton()
     {
         return this.delete;
+    }
+
+    public void setDeleteVisible(boolean visible)
+    {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        this.delete.setVisibility(visibility);
     }
 
     public OnActionListener<T> getOnActionListener()

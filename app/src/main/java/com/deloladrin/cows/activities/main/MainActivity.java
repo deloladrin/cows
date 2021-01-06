@@ -121,7 +121,18 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         Company company_vkk_zabcice = new Company(this.database, 0, "VKK ŽABČICE", null, null); company_vkk_zabcice.insert();
         Company company_zd_snezne = new Company(this.database, 0, "ZD SNĚŽNÉ", null, null); company_zd_snezne.insert();
 
+        Cow cow1 = new Cow(this.database, 0, 726533, 325, company_agras_bohdalov, "13"); cow1.insert();
+        Cow cow2 = new Cow(this.database, 0, 726125, 50, company_agras_bohdalov, "13"); cow2.insert();
+        Cow cow3 = new Cow(this.database, 0, 726885, 128, company_agras_bohdalov, "13"); cow3.insert();
+        Cow cow4 = new Cow(this.database, 0, 726568, 326, company_agras_bohdalov, "8"); cow4.insert();
+        Cow cow5 = new Cow(this.database, 0, 726256, 15, company_agras_bohdalov, "8"); cow5.insert();
+        Cow cow6 = new Cow(this.database, 0, 726100, 8, company_agras_bohdalov, "5"); cow6.insert();
+        Cow cow7 = new Cow(this.database, 0, 726658, 25, company_agras_bohdalov, "5"); cow7.insert();
+        Cow cow8 = new Cow(this.database, 0, 726324, 324, company_agras_bohdalov, "5"); cow8.insert();
+        Cow cow9 = new Cow(this.database, 0, 726612, 158, company_agras_bohdalov, "5"); cow9.insert();
+
         this.preferences.setActiveCompany(company_agras_bohdalov);
+        this.preferences.setActiveUser("Bohous");
 
         /* Load active company */
         this.refresh();
@@ -171,7 +182,6 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
                 /* Open cow activity */
                 Intent intent = new Intent(this, CowActivity.class);
                 intent.putExtra(CowActivity.EXTRA_COW_ID, cow.getID());
-                intent.putExtra(CowActivity.EXTRA_USER_NAME, "Bohous");
 
                 this.startActivity(intent);
             });

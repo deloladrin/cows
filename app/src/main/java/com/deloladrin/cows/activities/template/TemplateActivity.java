@@ -41,9 +41,6 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
 
         /* Add events */
         this.add.setOnClickListener(this);
-
-        /* Load default values */
-        this.refresh();
     }
 
     @Override
@@ -119,5 +116,11 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
             this.views.add(entry);
             this.container.addView(entry.getView());
         }
+    }
+
+    public void setAddVisible(boolean visible)
+    {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        this.add.setVisibility(visibility);
     }
 }

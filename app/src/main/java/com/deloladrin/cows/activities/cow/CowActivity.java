@@ -21,7 +21,6 @@ public class CowActivity extends DatabaseActivity
     public static final String EXTRA_USER_NAME = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_USER_NAME";
 
     private Cow cow;
-    private String user;
 
     private CowHeader header;
     private TreatmentEditor editor;
@@ -44,7 +43,6 @@ public class CowActivity extends DatabaseActivity
         int cowID = intent.getIntExtra(EXTRA_COW_ID, 0);
         String user = intent.getStringExtra(EXTRA_USER_NAME);
 
-        this.user = user;
         this.setCow(Cow.get(this.database, cowID));
     }
 
@@ -136,11 +134,6 @@ public class CowActivity extends DatabaseActivity
             this.history.setTreatments(null);
             this.editor.setTreatment(null);
         }
-    }
-
-    public String getUser()
-    {
-        return this.user;
     }
 
     public CowHeader getHeader()

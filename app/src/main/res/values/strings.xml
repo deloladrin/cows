@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Krávy</string>
 
-    <string name="activity_companies">Firmy</string>
+    <string name="activity_company">Firmy</string>
+    <string name="activity_company_cow">Krávy</string>
     <string name="activity_cow">Kráva</string>
 
     <string name="section_history">Historie</string>
@@ -25,6 +26,7 @@
     <string name="dialog_company">Vyberte firmu:</string>
     <string name="dialog_company_name">Jméno:</string>
     <string name="dialog_company_group">Skupina:</string>
+    <string name="dialog_company_cow_group">Skupina \'%s\'</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>

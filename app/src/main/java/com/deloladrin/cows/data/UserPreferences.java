@@ -8,6 +8,7 @@ import com.deloladrin.cows.database.Database;
 
 public class UserPreferences
 {
+    private static final String KEY_ACTIVE_USER = "com.deloladrin.cows.data.UserPreferences.ACTIVE_USER";
     private static final String KEY_ACTIVE_COMPANY = "com.deloladrin.cows.data.UserPreferences.ACTIVE_COMPANY";
 
     private Database database;
@@ -17,6 +18,16 @@ public class UserPreferences
     {
         this.database = database;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(database.getContext());
+    }
+
+    public String getActiveUser()
+    {
+        return this.preferences.getString(KEY_ACTIVE_USER, null);
+    }
+
+    public void setActiveUser(String user)
+    {
+        this.storeString(KEY_ACTIVE_USER, user);
     }
 
     public Company getActiveCompany()
@@ -47,6 +58,13 @@ public class UserPreferences
     {
         SharedPreferences.Editor editor = this.preferences.edit();
         editor.putInt(key, value);
+        editor.commit();
+    }
+
+    private void storeString(String key, String value)
+    {
+        SharedPreferences.Editor editor = this.preferences.edit();
+        editor.putString(key, value);
         editor.commit();
     }
 }
