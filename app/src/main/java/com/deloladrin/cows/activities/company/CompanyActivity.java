@@ -3,6 +3,7 @@ package com.deloladrin.cows.activities.company;
 import android.os.Bundle;
 
 import com.deloladrin.cows.R;
+import com.deloladrin.cows.activities.company.dialogs.CompanyEditDialog;
 import com.deloladrin.cows.activities.template.TemplateActivity;
 import com.deloladrin.cows.activities.template.TemplateEntry;
 import com.deloladrin.cows.data.Company;
@@ -35,10 +36,40 @@ public class CompanyActivity extends TemplateActivity<Company>
     }
 
     @Override
+    public void onAddClick()
+    {
+        /* Show edit dialog for new company */
+        Company company = new Company(this.database);
+        CompanyEditDialog dialog = new CompanyEditDialog(this, company);
+
+        dialog.setOnSubmitListener((c) ->
+        {
+            company.insert();
+            this.refresh();
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onEditClick(TemplateEntry<Company> entry)
+    {
+        /* Show edit dialog */
+        CompanyEditDialog dialog = new CompanyEditDialog(this, entry.getValue());
+
+        dialog.setOnSubmitListener((company) ->
+        {
+            /* Update and refresh */
+            company.update();
+            this.refresh();
+        });
+
+        dialog.show();
+    }
+
+    @Override
     public void refresh()
     {
-        super.refresh();
-
         /* Reload all companies */
         List<Company> companies = Company.getAll(this.database);
 

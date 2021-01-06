@@ -28,6 +28,8 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     private ImageButton edit;
     private ImageButton delete;
 
+    private OnActionListener<T> onActionListener;
+
     public TemplateEntry(TemplateActivity<T> parent, T value)
     {
         this.view = parent.getLayoutInflater().inflate(R.layout.activity_template_entry, null);
@@ -58,6 +60,21 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
+        /* Handle click listeners */
+        if (view.equals(this.show))
+        {
+            this.onActionListener.onShowClick(this);
+        }
+
+        if (view.equals(this.edit))
+        {
+            this.onActionListener.onEditClick(this);
+        }
+
+        if (view.equals(this.delete))
+        {
+            this.onActionListener.onDeleteClick(this);
+        }
     }
 
     public TemplateActivity<T> getParent()
@@ -146,5 +163,22 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     public ImageButton getDeleteButton()
     {
         return this.delete;
+    }
+
+    public OnActionListener<T> getOnActionListener()
+    {
+        return this.onActionListener;
+    }
+
+    public void setOnActionListener(OnActionListener<T> onActionListener)
+    {
+        this.onActionListener = onActionListener;
+    }
+
+    public interface OnActionListener<T extends DatabaseEntry>
+    {
+        void onShowClick(TemplateEntry<T> entry);
+        void onEditClick(TemplateEntry<T> entry);
+        void onDeleteClick(TemplateEntry<T> entry);
     }
 }

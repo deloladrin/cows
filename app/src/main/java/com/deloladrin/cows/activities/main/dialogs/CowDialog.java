@@ -38,16 +38,13 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
     private Cow cow;
 
     private LinearLayout collarStage;
-    private TextView collarText;
     private EditText collarInput;
 
     private LinearLayout numberStage;
-    private TextView numberText;
     private TextView numberError;
     private AutoCompleteTextView numberInput;
 
     private LinearLayout groupStage;
-    private TextView groupText;
     private EditText groupInput;
     private ImageButton groupCopy;
 
@@ -69,16 +66,13 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
         /* Load all children */
         this.collarStage = this.findViewById(R.id.dialog_stage_collar);
-        this.collarText = this.findViewById(R.id.dialog_collar_text);
         this.collarInput = this.findViewById(R.id.dialog_collar_input);
 
         this.numberStage = this.findViewById(R.id.dialog_stage_number);
-        this.numberText = this.findViewById(R.id.dialog_number_text);
         this.numberError = this.findViewById(R.id.dialog_number_error);
         this.numberInput = this.findViewById(R.id.dialog_number_input);
 
         this.groupStage = this.findViewById(R.id.dialog_stage_group);
-        this.groupText = this.findViewById(R.id.dialog_group_text);
         this.groupInput = this.findViewById(R.id.dialog_group_input);
         this.groupCopy = this.findViewById(R.id.dialog_group_copy);
 
@@ -103,10 +97,6 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
     {
         Context context = this.getContext();
         Database database = this.getDatabase();
-
-        this.setCollarText(R.string.dialog_cow_collar);
-        this.setNumberText(R.string.dialog_cow_number);
-        this.setGroupText(R.string.dialog_cow_group);
 
         switch (this.stage)
         {
@@ -333,69 +323,6 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
             input.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0 ,0));
             input.selectAll();
         }, 100);
-    }
-
-    public String getCollarText()
-    {
-        return this.collarText.getText().toString();
-    }
-
-    public void setCollarText(String text)
-    {
-        this.collarText.setText(text);
-    }
-
-    public void setCollarText(int text)
-    {
-        this.setCollarText(this.getContext().getResources().getString(text));
-    }
-
-    public void setCollarText(int text, Object... args)
-    {
-        String format = this.getContext().getResources().getString(text);
-        this.setCollarText(String.format(format, args));
-    }
-
-    public String getNumberText()
-    {
-        return this.numberText.getText().toString();
-    }
-
-    public void setNumberText(String text)
-    {
-        this.numberText.setText(text);
-    }
-
-    public void setNumberText(int text)
-    {
-        this.setNumberText(this.getContext().getResources().getString(text));
-    }
-
-    public void setNumberText(int text, Object... args)
-    {
-        String format = this.getContext().getResources().getString(text);
-        this.setNumberText(String.format(format, args));
-    }
-
-    public String getGroupText()
-    {
-        return this.groupText.getText().toString();
-    }
-
-    public void setGroupText(String text)
-    {
-        this.groupText.setText(text);
-    }
-
-    public void setGroupText(int text)
-    {
-        this.setGroupText(this.getContext().getResources().getString(text));
-    }
-
-    public void setGroupText(int text, Object... args)
-    {
-        String format = this.getContext().getResources().getString(text);
-        this.setGroupText(String.format(format, args));
     }
 
     public CowDialogStage getStage()

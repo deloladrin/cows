@@ -10,11 +10,12 @@ import android.widget.TextView;
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.database.DatabaseActivity;
 import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.dialogs.YesNoDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TemplateActivity<T extends DatabaseEntry> extends DatabaseActivity implements View.OnClickListener
+public abstract class TemplateActivity<T extends DatabaseEntry> extends DatabaseActivity implements View.OnClickListener, TemplateEntry.OnActionListener<T>
 {
     protected List<T> values;
     protected List<TemplateEntry<T>> views;
@@ -48,6 +49,43 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
     @Override
     public void onClick(View view)
     {
+        if (view.equals(this.add))
+        {
+            this.onAddClick();
+        }
+    }
+
+    public void onAddClick()
+    {
+    }
+
+    @Override
+    public void onShowClick(TemplateEntry<T> entry)
+    {
+    }
+
+    @Override
+    public void onEditClick(TemplateEntry<T> entry)
+    {
+    }
+
+    @Override
+    public void onDeleteClick(TemplateEntry<T> entry)
+    {
+        /* Ask to delete entry */
+        YesNoDialog dialog = new YesNoDialog(this);
+        dialog.setText(R.string.dialog_entry_delete, entry.getName());
+
+        dialog.setOnYesListener((d) ->
+        {
+            /* Delete and refresh */
+            T value = entry.getValue();
+            value.delete();
+
+            this.refresh();
+        });
+
+        dialog.show();
     }
 
     public void refresh()
@@ -76,6 +114,7 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
         for (T value : values)
         {
             TemplateEntry<T> entry = this.createEntry(value);
+            entry.setOnActionListener(this);
 
             this.views.add(entry);
             this.container.addView(entry.getView());

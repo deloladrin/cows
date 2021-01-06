@@ -15,12 +15,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_collar_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textSize="@dimen/text_medium"
-            android:textColor="@color/text_light" />
+            android:textColor="@color/text_light"
+            android:text="@string/dialog_cow_collar" />
 
         <EditText
             android:id="@+id/dialog_collar_input"
@@ -41,12 +41,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_number_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textSize="@dimen/text_medium"
-            android:textColor="@color/text_light" />
+            android:textColor="@color/text_light"
+            android:text="@string/dialog_cow_number" />
 
         <TextView
             android:id="@+id/dialog_number_error"
@@ -77,12 +77,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_group_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textSize="@dimen/text_medium"
-            android:textColor="@color/text_light" />
+            android:textColor="@color/text_light"
+            android:text="@string/dialog_cow_group" />
 
         <LinearLayout
             android:layout_width="match_parent"

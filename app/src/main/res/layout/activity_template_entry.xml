@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/entry_short_name"
-        android:layout_width="@dimen/size_cow_entry"
-        android:layout_height="@dimen/size_cow_entry"
+        android:layout_width="@dimen/size_template_entry"
+        android:layout_height="@dimen/size_template_entry"
         android:gravity="center"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
@@ -28,25 +28,25 @@
         android:layout_weight="1"
         android:layout_margin="12dp"
         android:gravity="center_vertical"
-        android:textSize="@dimen/text_small"
+        android:textSize="@dimen/text_medium"
         android:textColor="@color/text_light" />
 
     <ImageButton
         android:id="@+id/entry_show"
-        android:layout_width="@dimen/size_cow_entry"
-        android:layout_height="@dimen/size_cow_entry"
+        android:layout_width="@dimen/size_template_entry"
+        android:layout_height="@dimen/size_template_entry"
         android:background="@drawable/icon_show" />
 
     <ImageButton
         android:id="@+id/entry_edit"
-        android:layout_width="@dimen/size_cow_entry"
-        android:layout_height="@dimen/size_cow_entry"
+        android:layout_width="@dimen/size_template_entry"
+        android:layout_height="@dimen/size_template_entry"
         android:background="@drawable/icon_edit" />
 
     <ImageButton
         android:id="@+id/entry_delete"
-        android:layout_width="@dimen/size_cow_entry"
-        android:layout_height="@dimen/size_cow_entry"
+        android:layout_width="@dimen/size_template_entry"
+        android:layout_height="@dimen/size_template_entry"
         android:background="@drawable/icon_delete"
         android:backgroundTint="@color/button_bad"
         android:backgroundTintMode="screen" />
