@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectOrder;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueParams;
@@ -60,7 +61,7 @@ public class Cow implements DatabaseEntry
         ValueParams params = new ValueParams();
         params.put(Table.COLUMN_NUMBER, number);
 
-        return database.getCowTable().selectReverse(params);
+        return database.getCowTable().select(params, SelectOrder.DESCENDING);
     }
 
     public static List<Cow> getByCollar(Database database, Company company, int collar)
@@ -69,7 +70,7 @@ public class Cow implements DatabaseEntry
         params.put(Table.COLUMN_COMPANY, company.getID());
         params.put(Table.COLUMN_COLLAR, collar);
 
-        return database.getCowTable().selectAllReverse(params);
+        return database.getCowTable().selectAll(params, SelectOrder.DESCENDING);
     }
 
     public static List<Cow> getAll(Database database)

@@ -23,6 +23,8 @@ import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.dialogs.SelectDialog;
 import com.deloladrin.cows.views.ImageTextButton;
 
+import java.util.List;
+
 public class MainActivity extends DatabaseActivity implements View.OnClickListener
 {
     private Company company;
@@ -147,7 +149,10 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             SelectDialog<CompanyEntry> dialog = new SelectDialog<>(this);
             dialog.setText(R.string.dialog_company);
 
-            for (Company company : Company.getAll(this.database))
+            List<Company> companies = Company.getAll(this.database);
+            companies.sort((a, b) -> a.getName().compareTo(b.getName()));
+
+            for (Company company : companies)
             {
                 CompanyEntry entry = new CompanyEntry(this, company);
                 dialog.add(entry);
