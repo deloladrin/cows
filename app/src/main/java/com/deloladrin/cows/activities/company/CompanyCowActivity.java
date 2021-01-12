@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.activities.template.TemplateActivity;
@@ -52,15 +54,9 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
 
         if (value.getID() == 0)
         {
-            /* Set visibilities */
-            entry.setShortNameVisible(false);
-            entry.setImageVisible(false);
-            entry.setShowVisible(false);
-            entry.setEditVisible(false);
-            entry.setDeleteVisible(false);
-
             /* 0 id means separator */
             TextView view = entry.getNameView();
+            view.setTextColor(ContextCompat.getColor(this, R.color.text_tint));
             view.setTypeface(view.getTypeface(), Typeface.ITALIC);
 
             entry.setName(R.string.dialog_company_cow_group, value.getGroup());
@@ -69,8 +65,8 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
         else
         {
             /* Set visibilities */
-            entry.setImageVisible(false);
-            entry.setEditVisible(false);
+            entry.setShowVisible(true);
+            entry.setDeleteVisible(true);
 
             /* Add cow as normal */
             String collar = Integer.toString(value.getCollar());

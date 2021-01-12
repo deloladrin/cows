@@ -149,10 +149,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             SelectDialog<CompanyEntry> dialog = new SelectDialog<>(this);
             dialog.setText(R.string.dialog_company);
 
-            List<Company> companies = Company.getAll(this.database);
-            companies.sort((a, b) -> a.getName().compareTo(b.getName()));
-
-            for (Company company : companies)
+            for (Company company : Company.getAll(this.database))
             {
                 CompanyEntry entry = new CompanyEntry(this, company);
                 dialog.add(entry);

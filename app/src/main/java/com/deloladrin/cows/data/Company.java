@@ -43,7 +43,10 @@ public class Company implements DatabaseEntry
 
     public static List<Company> getAll(Database database)
     {
-        return database.getCompanyTable().selectAll();
+        List<Company> companies = database.getCompanyTable().selectAll();
+        companies.sort((a, b) -> a.getName().compareTo(b.getName()));
+
+        return companies;
     }
 
     public List<Cow> getCows()

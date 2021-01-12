@@ -31,8 +31,9 @@ public class CompanyActivity extends TemplateActivity<Company>
         TemplateEntry<Company> entry = super.createEntry(value);
 
         /* Set visibilities */
-        entry.setShortNameVisible(false);
-        entry.setImageVisible(false);
+        entry.setShowVisible(true);
+        entry.setEditVisible(true);
+        entry.setDeleteVisible(true);
 
         /* Load values */
         entry.setName(value.getName());
@@ -86,10 +87,6 @@ public class CompanyActivity extends TemplateActivity<Company>
     public void refresh()
     {
         /* Reload all companies */
-        List<Company> companies = Company.getAll(this.database);
-
-        /* Sort companies by name */
-        companies.sort((a, b) -> a.getName().compareTo(b.getName()));
-        this.setValues(companies);
+        this.setValues(Company.getAll(this.database));
     }
 }
