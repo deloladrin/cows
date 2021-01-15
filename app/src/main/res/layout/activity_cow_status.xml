@@ -12,7 +12,7 @@
         android:layout_height="@dimen/size_cow_status"
         android:gravity="center"
         cows:strokeColor="@color/text_tint"
-        cows:strokeWidth="8.0"
+        cows:strokeWidth="4.0"
         android:textStyle="bold"
         android:textColor="@color/text_tint_dark"
         android:textSize="@dimen/text_big" />
@@ -25,7 +25,7 @@
         android:gravity="right"
         cows:disabledStrokeColor="@color/text_disabled"
         cows:strokeColor="@color/text_tint"
-        cows:strokeWidth="8.0"
+        cows:strokeWidth="4.0"
         android:orientation="horizontal" />
 
 </LinearLayout>

@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/header_image"
-            android:layout_width="24pt"
-            android:layout_height="24pt"
+            android:layout_width="@dimen/size_entry"
+            android:layout_height="@dimen/size_entry"
             android:src="@drawable/icon_cow" />
 
         <LinearLayout

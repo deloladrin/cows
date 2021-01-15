@@ -52,6 +52,15 @@ public abstract class TemplateActivity<T extends DatabaseEntry> extends Database
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        /* Refresh data */
+        this.refresh();
+    }
+
     public void onAddClick()
     {
     }

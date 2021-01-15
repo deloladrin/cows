@@ -56,7 +56,6 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
         {
             /* 0 id means separator */
             TextView view = entry.getNameView();
-            view.setTextColor(ContextCompat.getColor(this, R.color.text_tint));
             view.setTypeface(view.getTypeface(), Typeface.ITALIC);
 
             entry.setName(R.string.dialog_company_cow_group, value.getGroup());
@@ -65,6 +64,7 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
         else
         {
             /* Set visibilities */
+            entry.setShortNameVisible(true);
             entry.setShowVisible(true);
             entry.setDeleteVisible(true);
 
@@ -87,15 +87,6 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
         intent.putExtra(CowActivity.EXTRA_COW_ID, entry.getValue().getID());
 
         this.startActivity(intent);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        /* Refresh company data */
-        this.refresh();
     }
 
     @Override

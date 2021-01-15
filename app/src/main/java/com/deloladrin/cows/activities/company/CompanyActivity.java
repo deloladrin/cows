@@ -31,12 +31,16 @@ public class CompanyActivity extends TemplateActivity<Company>
         TemplateEntry<Company> entry = super.createEntry(value);
 
         /* Set visibilities */
+        entry.setShortNameVisible(true);
         entry.setShowVisible(true);
         entry.setEditVisible(true);
         entry.setDeleteVisible(true);
 
         /* Load values */
         entry.setName(value.getName());
+
+        int cows = value.getCows().size();
+        entry.setShortName(Integer.toString(cows));
 
         return entry;
     }

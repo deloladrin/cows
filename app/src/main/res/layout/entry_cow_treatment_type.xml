@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/entry_icon"
-        android:layout_width="24pt"
-        android:layout_height="24pt"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/text_tint"
