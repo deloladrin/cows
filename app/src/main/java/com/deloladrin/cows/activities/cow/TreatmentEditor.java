@@ -17,7 +17,9 @@ import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.dialogs.SelectDialog;
+import com.deloladrin.cows.dialogs.YesNoDialog;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -25,6 +27,8 @@ import java.util.List;
 public class TreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
     private Treatment treatment;
+
+    private View lock;
 
     private TextView date;
     private TextView comment;
@@ -43,6 +47,8 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
         super(parent, layout);
 
         /* Load all children */
+        this.lock = this.findViewById(R.id.editor_lock);
+
         this.date = this.findViewById(R.id.editor_date);
         this.comment = this.findViewById(R.id.editor_comment);
 
@@ -57,12 +63,35 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
 
         /* Add events */
         this.comment.setOnFocusChangeListener(this);
+        this.lock.setOnClickListener(this);
         this.add.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view)
     {
+        Context context = this.getContext();
+
+        if (view.equals(this.lock))
+        {
+            /* Request to unlock */
+            YesNoDialog dialog = new YesNoDialog(context);
+
+            /* Treatment date */
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String date = this.treatment.getDate().format(dateFormatter);
+
+            dialog.setText(R.string.dialog_treatment_old, date);
+
+            dialog.setOnYesListener((YesNoDialog d) ->
+            {
+                this.setUnlocked(true);
+            });
+
+            dialog.show();
+            return;
+        }
+
         if (view.equals(this.add))
         {
             Cow cow = this.activity.getCow();
@@ -70,7 +99,6 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
             if (cow != null)
             {
                 /* Create new treatment */
-                Context context = this.getContext();
                 SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
 
                 dialog.setText(R.string.dialog_treatment_type);
@@ -163,8 +191,12 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
         {
             /* Set treatment date */
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
-            String date = treatment.getDate().format(dateFormatter);
-            this.date.setText(date);
+            LocalDateTime date = treatment.getDate();
+            this.date.setText(date.format(dateFormatter));
+
+            /* Lock old treatments */
+            boolean isToday = date.toLocalDate().equals(LocalDate.now());
+            this.setUnlocked(isToday);
 
             /* Set comment */
             String comment = treatment.getComment();
@@ -182,6 +214,7 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
         else
         {
             this.date.setText("—");
+            this.setUnlocked(true);
 
             this.comment.setText("");
             this.comment.setEnabled(false);
@@ -193,6 +226,16 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
             this.backLeft.setTreatment(null);
             this.backRight.setTreatment(null);
         }
+    }
+
+    public boolean isUnlocked()
+    {
+        return !this.lock.isClickable();
+    }
+
+    public void setUnlocked(boolean unlocked)
+    {
+        this.lock.setClickable(!unlocked);
     }
 
     private boolean isFullyHealed(List<Diagnosis> diagnoses)

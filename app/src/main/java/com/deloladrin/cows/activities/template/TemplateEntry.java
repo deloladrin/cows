@@ -59,21 +59,19 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     public void onClick(View view)
     {
         /* Handle click listeners */
+        if (view.equals(this.view))
+        {
+            this.onActionListener.onShowClick(this);
+        }
+
         if (view.equals(this.edit))
         {
             this.onActionListener.onEditClick(this);
-            return;
         }
 
         if (view.equals(this.delete))
         {
             this.onActionListener.onDeleteClick(this);
-            return;
-        }
-
-        if (view.equals(this.view))
-        {
-            this.onActionListener.onShowClick(this);
         }
     }
 

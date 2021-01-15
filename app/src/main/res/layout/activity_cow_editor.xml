@@ -5,83 +5,104 @@
     android:background="@color/back_dark"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/editor_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textSize="@dimen/text_small"
-            android:textStyle="italic|bold"
-            android:textColor="@color/text_dark" />
-
-        <include layout="@layout/activity_cow_status"
-            android:id="@+id/editor_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_editor" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/editor_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_editor"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <include layout="@layout/activity_cow_hoof"
-                android:id="@+id/editor_front_left"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:padding="16dp"
+                android:orientation="vertical">
 
-            <include layout="@layout/activity_cow_hoof"
-                android:id="@+id/editor_front_right"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/editor_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="italic|bold"
+                    android:textColor="@color/text_dark" />
+
+                <include layout="@layout/activity_cow_status"
+                    android:id="@+id/editor_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_editor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_editor"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/activity_cow_hoof"
+                        android:id="@+id/editor_front_left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include layout="@layout/activity_cow_hoof"
+                        android:id="@+id/editor_front_right"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_editor"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/activity_cow_hoof"
+                        android:id="@+id/editor_back_left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include layout="@layout/activity_cow_hoof"
+                        android:id="@+id/editor_back_right"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="italic|bold"
+                    android:textColor="@color/text_dark"
+                    android:text="@string/section_comment" />
+
+                <EditText
+                    android:id="@+id/editor_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/text_light" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/editor_lock"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_editor"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_alignTop="@id/editor_container"
+            android:layout_alignBottom="@id/editor_container" />
 
-            <include layout="@layout/activity_cow_hoof"
-                android:id="@+id/editor_back_left"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <include layout="@layout/activity_cow_hoof"
-                android:id="@+id/editor_back_right"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_small"
-            android:textStyle="italic|bold"
-            android:textColor="@color/text_dark"
-            android:text="@string/section_comment" />
-
-        <EditText
-            android:id="@+id/editor_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/text_light" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/editor_add"

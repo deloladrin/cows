@@ -44,6 +44,12 @@ public class TreatmentEntry implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
+        /* On show click */
+        if (view.equals(this.view))
+        {
+            this.parent.getActivity().getEditor().setTreatment(this.treatment);
+        }
+
         /* On delete click */
         if (view.equals(this.delete))
         {
@@ -63,13 +69,6 @@ public class TreatmentEntry implements View.OnClickListener
             });
 
             dialog.show();
-            return;
-        }
-
-        /* On show click */
-        if (view.equals(this.view))
-        {
-            this.parent.getActivity().getEditor().setTreatment(this.treatment);
         }
     }
 

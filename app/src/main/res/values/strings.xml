@@ -14,6 +14,7 @@
     <string name="dialog_cow_number">Zadejte číslo krávy:</string>
     <string name="dialog_cow_group">Zadejte skupinu krávy:</string>
     <string name="dialog_cow_add">Kráva nebyla nalezena v databázi, chcete ji přidat?</string>
+    <string name="dialog_treatment_old">Opravdu chcete upravit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_delete">Opravdu chcete odstranit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_type">Vyberte typ ošetření:</string>
     <string name="dialog_diagonsis_delete">Opravdu chcete odstanit diagnózu \'%s\' (%s)?</string>
