@@ -36,13 +36,6 @@
         android:textColor="@color/text_light" />
 
     <ImageButton
-        android:id="@+id/entry_show"
-        android:layout_width="@dimen/size_entry"
-        android:layout_height="@dimen/size_entry"
-        android:visibility="gone"
-        android:background="@drawable/icon_show" />
-
-    <ImageButton
         android:id="@+id/entry_edit"
         android:layout_width="@dimen/size_entry"
         android:layout_height="@dimen/size_entry"

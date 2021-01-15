@@ -22,7 +22,6 @@ public class TreatmentEntry implements View.OnClickListener
     private TextView date;
     private TextView time;
     private TextView user;
-    private ImageButton show;
     private ImageButton delete;
 
     public TreatmentEntry(TreatmentHistory parent, LayoutInflater inflater)
@@ -35,23 +34,16 @@ public class TreatmentEntry implements View.OnClickListener
         this.date = this.view.findViewById(R.id.entry_date);
         this.time = this.view.findViewById(R.id.entry_time);
         this.user = this.view.findViewById(R.id.entry_user);
-        this.show = this.view.findViewById(R.id.entry_show);
         this.delete = this.view.findViewById(R.id.entry_delete);
 
         /* Add events */
-        this.show.setOnClickListener(this);
+        this.view.setOnClickListener(this);
         this.delete.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view)
     {
-        /* On show click */
-        if (view.equals(this.show))
-        {
-            this.parent.getActivity().getEditor().setTreatment(this.treatment);
-        }
-
         /* On delete click */
         if (view.equals(this.delete))
         {
@@ -71,6 +63,13 @@ public class TreatmentEntry implements View.OnClickListener
             });
 
             dialog.show();
+            return;
+        }
+
+        /* On show click */
+        if (view.equals(this.view))
+        {
+            this.parent.getActivity().getEditor().setTreatment(this.treatment);
         }
     }
 

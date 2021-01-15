@@ -43,12 +43,6 @@
         android:textColor="@color/text_light" />
 
     <ImageButton
-        android:id="@+id/entry_show"
-        android:layout_width="@dimen/size_cow_entry"
-        android:layout_height="@dimen/size_cow_entry"
-        android:background="@drawable/icon_show" />
-
-    <ImageButton
         android:id="@+id/entry_delete"
         android:layout_width="@dimen/size_cow_entry"
         android:layout_height="@dimen/size_cow_entry"

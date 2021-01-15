@@ -65,7 +65,6 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
         {
             /* Set visibilities */
             entry.setShortNameVisible(true);
-            entry.setShowVisible(true);
             entry.setDeleteVisible(true);
 
             /* Add cow as normal */
@@ -83,10 +82,15 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
     public void onShowClick(TemplateEntry<Cow> entry)
     {
         /* Open cow activity */
-        Intent intent = new Intent(this, CowActivity.class);
-        intent.putExtra(CowActivity.EXTRA_COW_ID, entry.getValue().getID());
+        int cowID = entry.getValue().getID();
 
-        this.startActivity(intent);
+        if (cowID != 0)
+        {
+            Intent intent = new Intent(this, CowActivity.class);
+            intent.putExtra(CowActivity.EXTRA_COW_ID, cowID);
+
+            this.startActivity(intent);
+        }
     }
 
     @Override

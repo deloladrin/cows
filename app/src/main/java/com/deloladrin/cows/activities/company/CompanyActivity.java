@@ -32,7 +32,6 @@ public class CompanyActivity extends TemplateActivity<Company>
 
         /* Set visibilities */
         entry.setShortNameVisible(true);
-        entry.setShowVisible(true);
         entry.setEditVisible(true);
         entry.setDeleteVisible(true);
 

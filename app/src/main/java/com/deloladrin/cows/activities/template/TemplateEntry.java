@@ -24,7 +24,6 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
 
     private TextView name;
 
-    private ImageButton show;
     private ImageButton edit;
     private ImageButton delete;
 
@@ -43,12 +42,11 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
 
         this.name = this.view.findViewById(R.id.entry_name);
 
-        this.show = this.view.findViewById(R.id.entry_show);
         this.edit = this.view.findViewById(R.id.entry_edit);
         this.delete = this.view.findViewById(R.id.entry_delete);
 
         /* Add events */
-        this.show.setOnClickListener(this);
+        this.view.setOnClickListener(this);
         this.edit.setOnClickListener(this);
         this.delete.setOnClickListener(this);
 
@@ -61,19 +59,21 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     public void onClick(View view)
     {
         /* Handle click listeners */
-        if (view.equals(this.show))
-        {
-            this.onActionListener.onShowClick(this);
-        }
-
         if (view.equals(this.edit))
         {
             this.onActionListener.onEditClick(this);
+            return;
         }
 
         if (view.equals(this.delete))
         {
             this.onActionListener.onDeleteClick(this);
+            return;
+        }
+
+        if (view.equals(this.view))
+        {
+            this.onActionListener.onShowClick(this);
         }
     }
 
@@ -153,17 +153,6 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
     {
         String format = this.view.getContext().getResources().getString(text);
         this.setName(String.format(format, args));
-    }
-
-    public ImageButton getShowButton()
-    {
-        return this.show;
-    }
-
-    public void setShowVisible(boolean visible)
-    {
-        int visibility = visible ? View.VISIBLE : View.GONE;
-        this.show.setVisibility(visibility);
     }
 
     public ImageButton getEditButton()
