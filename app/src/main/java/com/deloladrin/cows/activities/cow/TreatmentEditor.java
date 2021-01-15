@@ -10,6 +10,7 @@ import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
+import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
 import com.deloladrin.cows.data.Treatment;
@@ -19,6 +20,7 @@ import com.deloladrin.cows.dialogs.SelectDialog;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class TreatmentEditor extends ChildActivity<CowActivity> implements View.OnClickListener, View.OnFocusChangeListener
 {
@@ -97,29 +99,33 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
 
                     if (this.treatment != null)
                     {
-                        /* Copy diagnoses */
-                        for (Diagnosis diagnosis : this.treatment.getDiagnoses())
-                        {
-                            Diagnosis diagnosisCopy = new Diagnosis(database);
-                            diagnosisCopy.setTreatment(treatmentCopy);
-                            diagnosisCopy.setTemplate(diagnosis.getTemplate());
-                            diagnosisCopy.setTarget(diagnosis.getTarget());
-                            diagnosisCopy.setState(diagnosis.getState());
-                            diagnosisCopy.setComment(diagnosis.getComment());
-                            diagnosisCopy.insert();
-                        }
+                        List<Diagnosis> diagnoses = this.treatment.getDiagnoses();
 
-                        /* Copy some resources */
-                        for (Resource resource : this.treatment.getResources())
+                        if (!this.isFullyHealed(diagnoses))
                         {
-                            if (resource.getTemplate().isCopying())
+                            for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                             {
-                                Resource resourceCopy = new Resource(database);
-                                resourceCopy.setTreatment(treatmentCopy);
-                                resourceCopy.setTemplate(resource.getTemplate());
-                                resourceCopy.setTarget(resource.getTarget());
-                                resourceCopy.setCopy(true);
-                                resourceCopy.insert();
+                                Diagnosis diagnosisCopy = new Diagnosis(database);
+                                diagnosisCopy.setTreatment(treatmentCopy);
+                                diagnosisCopy.setTemplate(diagnosis.getTemplate());
+                                diagnosisCopy.setTarget(diagnosis.getTarget());
+                                diagnosisCopy.setState(diagnosis.getState());
+                                diagnosisCopy.setComment(diagnosis.getComment());
+                                diagnosisCopy.insert();
+                            }
+
+                            /* Copy some resources */
+                            for (Resource resource : this.treatment.getResources())
+                            {
+                                if (resource.getTemplate().isCopying())
+                                {
+                                    Resource resourceCopy = new Resource(database);
+                                    resourceCopy.setTreatment(treatmentCopy);
+                                    resourceCopy.setTemplate(resource.getTemplate());
+                                    resourceCopy.setTarget(resource.getTarget());
+                                    resourceCopy.setCopy(true);
+                                    resourceCopy.insert();
+                                }
                             }
                         }
                     }
@@ -187,5 +193,20 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
             this.backLeft.setTreatment(null);
             this.backRight.setTreatment(null);
         }
+    }
+
+    private boolean isFullyHealed(List<Diagnosis> diagnoses)
+    {
+        boolean healed = true;
+
+        for (Diagnosis diagnosis : diagnoses)
+        {
+            if (diagnosis.getState() != DiagnosisState.HEALED)
+            {
+                healed = false;
+            }
+        }
+
+        return healed;
     }
 }
