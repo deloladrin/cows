@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.dialogs.CompanyEditDialog;
 import com.deloladrin.cows.activities.template.TemplateActivity;
@@ -15,6 +17,8 @@ import java.util.List;
 
 public class CompanyActivity extends TemplateActivity<Company>
 {
+    private CompanyEditDialog editDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,15 +69,15 @@ public class CompanyActivity extends TemplateActivity<Company>
     {
         /* Show edit dialog for new company */
         Company company = new Company(this.database);
-        CompanyEditDialog dialog = new CompanyEditDialog(this, company);
+        this.editDialog = new CompanyEditDialog(this, company);
 
-        dialog.setOnSubmitListener((Company edited) ->
+        this.editDialog.setOnSubmitListener((Company edited) ->
         {
             edited.insert();
             this.refresh();
         });
 
-        dialog.show();
+        this.editDialog.show();
     }
 
     @Override
@@ -90,16 +94,27 @@ public class CompanyActivity extends TemplateActivity<Company>
     public void onEditClick(TemplateEntry<Company> entry)
     {
         /* Show edit dialog */
-        CompanyEditDialog dialog = new CompanyEditDialog(this, entry.getValue());
+        this.editDialog = new CompanyEditDialog(this, entry.getValue());
 
-        dialog.setOnSubmitListener((company) ->
+        this.editDialog.setOnSubmitListener((company) ->
         {
             /* Update and refresh */
             company.update();
             this.refresh();
         });
 
-        dialog.show();
+        this.editDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (this.editDialog != null)
+        {
+            this.editDialog.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

@@ -193,11 +193,12 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
             if (image != null)
             {
+                this.companyImage.setVisibility(View.VISIBLE);
                 this.companyImage.setImageBitmap(image.getBitmap());
             }
             else
             {
-                this.companyImage.setImageResource(R.drawable.icon_companies);
+                this.companyImage.setVisibility(View.GONE);
             }
 
             /* Enable company based buttons */
@@ -205,7 +206,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         }
         else
         {
-            this.companyImage.setImageResource(R.drawable.icon_companies);
+            this.companyImage.setVisibility(View.GONE);
             this.companyName.setText("—");
 
             /* Disable company based buttons */

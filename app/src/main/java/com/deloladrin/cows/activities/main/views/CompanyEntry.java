@@ -48,7 +48,7 @@ public class CompanyEntry extends LinearLayout
         }
         else
         {
-            this.image.setImageResource(R.drawable.icon_companies);
+            this.image.setImageBitmap(null);
         }
     }
 }
