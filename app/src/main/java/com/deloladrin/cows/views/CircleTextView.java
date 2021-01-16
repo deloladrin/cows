@@ -22,7 +22,9 @@ public class CircleTextView extends AppCompatTextView
         super(context);
 
         this.strokeWidth = 1.0f;
+
         this.paint = new Paint();
+        this.paint.setAntiAlias(true);
     }
 
     public CircleTextView(Context context, AttributeSet attrs)
@@ -43,6 +45,7 @@ public class CircleTextView extends AppCompatTextView
         }
 
         this.paint = new Paint();
+        this.paint.setAntiAlias(true);
     }
 
     @Override

@@ -38,8 +38,6 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
 
     private Button imageSelect;
     private ImageButton imageDelete;
-
-    private ImageView imageCache;
     private boolean imageValid;
 
     private Button cancel;
@@ -79,12 +77,6 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
     private void initialize()
     {
         Context context = this.getContext();
-
-        /* Load image cache */
-        this.imageCache = new ImageView(context);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(COMPANY_ICON_WIDTH, COMPANY_ICON_HEIGHT);
-        this.imageCache.setLayoutParams(params);
 
         /* Load current company data */
         this.name.setText(this.company.getName());
@@ -178,8 +170,10 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
     {
         if (this.imageValid)
         {
-            Drawable imageDrawable = this.imageCache.getDrawable();
-            return ((BitmapDrawable)imageDrawable).getBitmap();
+            Drawable fullDrawable = this.image.getDrawable();
+            Bitmap fullBitmap = ((BitmapDrawable)fullDrawable).getBitmap();
+
+            return Bitmap.createScaledBitmap(fullBitmap, COMPANY_ICON_WIDTH, COMPANY_ICON_HEIGHT, false);
         }
 
         return null;
@@ -189,7 +183,6 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
     {
         /* Update image */
         this.imageValid = bitmap != null;
-        this.imageCache.setImageBitmap(bitmap);
         this.image.setImageBitmap(bitmap);
     }
 
@@ -197,9 +190,8 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
     {
         /* Update image */
         Uri imageUri = data.getData();
-        this.imageValid = true;
 
-        this.imageCache.setImageURI(imageUri);
+        this.imageValid = true;
         this.image.setImageURI(imageUri);
     }
 

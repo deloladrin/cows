@@ -23,7 +23,9 @@ public class CircleImageView extends AppCompatImageView
 
         this.strokeColor = 0xFFFFFFFF;
         this.strokeWidth = 1.0f;
+
         this.paint = new Paint();
+        this.paint.setAntiAlias(true);
     }
 
     public CircleImageView(Context context, AttributeSet attrs)
@@ -44,6 +46,7 @@ public class CircleImageView extends AppCompatImageView
         }
 
         this.paint = new Paint();
+        this.paint.setAntiAlias(true);
     }
 
     @Override
