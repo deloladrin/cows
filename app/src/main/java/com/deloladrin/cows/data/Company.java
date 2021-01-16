@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.deloladrin.cows.database.Database;
+import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.database.DatabaseEntry;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
@@ -19,6 +20,7 @@ public class Company implements DatabaseEntry
     private int id;
     private String name;
     private String group;
+    private byte[] image;
     private String last;
 
     public Company(Database database)
@@ -26,14 +28,26 @@ public class Company implements DatabaseEntry
         this.database = database;
     }
 
-    public Company(Database database, int id, String name, String group, String last)
+    public Company(Database database, int id, String name, String group, byte[] image, String last)
     {
         this.database = database;
 
         this.id = id;
         this.name = name;
         this.group = group;
+        this.image = image;
         this.last = last;
+    }
+
+    public Company(Database database, int id, String name, String group, DatabaseBitmap image, String last)
+    {
+        this.database = database;
+
+        this.setID(id);
+        this.setName(name);
+        this.setGroup(group);
+        this.setImage(image);
+        this.setLastGroup(last);
     }
 
     public static Company get(Database database, int id)
@@ -78,6 +92,7 @@ public class Company implements DatabaseEntry
 
         this.name = refreshed.name;
         this.group = refreshed.group;
+        this.image = refreshed.image;
         this.last = refreshed.last;
     }
 
@@ -129,6 +144,47 @@ public class Company implements DatabaseEntry
         this.group = group;
     }
 
+    public DatabaseBitmap getImage()
+    {
+        if (this.image != null)
+        {
+            return new DatabaseBitmap(this.image);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public String getImageHexBytes()
+    {
+        if (image != null)
+        {
+            return this.getImage().getHexBytes();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void setImage(DatabaseBitmap image)
+    {
+        if (image != null)
+        {
+            this.image = image.getBytes();
+        }
+        else
+        {
+            this.image = null;
+        }
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
+
     public String getLastGroup()
     {
         return this.last;
@@ -146,7 +202,8 @@ public class Company implements DatabaseEntry
         public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
         public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
         public static final TableColumn COLUMN_GROUP = new TableColumn(2, "grp", ValueType.TEXT, true);
-        public static final TableColumn COLUMN_LAST = new TableColumn(3, "last", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn(3, "image", ValueType.BLOB, true);
+        public static final TableColumn COLUMN_LAST = new TableColumn(4, "last", ValueType.TEXT, true);
 
         public Table(Database database)
         {
@@ -155,6 +212,7 @@ public class Company implements DatabaseEntry
             this.columns.add(COLUMN_ID);
             this.columns.add(COLUMN_NAME);
             this.columns.add(COLUMN_GROUP);
+            this.columns.add(COLUMN_IMAGE);
             this.columns.add(COLUMN_LAST);
         }
 
@@ -166,6 +224,7 @@ public class Company implements DatabaseEntry
             params.put(COLUMN_ID, object.id);
             params.put(COLUMN_NAME, object.name);
             params.put(COLUMN_GROUP, object.group);
+            params.put(COLUMN_IMAGE, object.getImageHexBytes());
             params.put(COLUMN_LAST, object.last);
 
             return params;
@@ -177,9 +236,10 @@ public class Company implements DatabaseEntry
             int id = cursor.getInt(COLUMN_ID.getID());
             String name = cursor.getString(COLUMN_NAME.getID());
             String group = cursor.getString(COLUMN_GROUP.getID());
+            byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
             String last = cursor.getString(COLUMN_LAST.getID());
 
-            return new Company(this.database, id, name, group, last);
+            return new Company(this.database, id, name, group, image, last);
         }
     }
 }

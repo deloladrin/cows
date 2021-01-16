@@ -121,6 +121,11 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
         this.image.setImageBitmap(bitmap);
     }
 
+    public void setImage(int resource)
+    {
+        this.image.setImageResource(resource);
+    }
+
     public void setImageVisible(boolean visible)
     {
         int visibility = visible ? View.VISIBLE : View.GONE;

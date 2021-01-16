@@ -7,6 +7,7 @@
 
     <dimen name="size_dialog">400dp</dimen>
     <dimen name="size_entry">28pt</dimen>
+    <dimen name="size_main_image">44dp</dimen>
     <dimen name="size_main_button">172dp</dimen>
     <dimen name="size_cow_hoof">128dp</dimen>
     <dimen name="size_cow_status">32pt</dimen>
@@ -15,6 +16,7 @@
     <dimen name="size_cow_finger">216dp</dimen>
     <dimen name="size_cow_finger_entry">64dp</dimen>
 
+    <dimen name="margin_main">24dp</dimen>
     <dimen name="margin_container">4dp</dimen>
     <dimen name="margin_editor">32dp</dimen>
     <dimen name="padding_image_button">8dp</dimen>

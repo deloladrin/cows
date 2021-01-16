@@ -13,33 +13,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_margin="@dimen/margin_main"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/main_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/margin_main"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/main_company_image"
+                    android:layout_width="@dimen/size_main_image"
+                    android:layout_height="@dimen/size_main_image"
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:id="@+id/main_company_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginLeft="16dp"
                     android:textColor="@color/text_light"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_big" />
-
-                <TextView
-                    android:id="@+id/main_company_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/text_dark"
-                    android:textStyle="italic"
-                    android:textSize="@dimen/text_medium" />
 
             </LinearLayout>
 

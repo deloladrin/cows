@@ -13,6 +13,7 @@ import com.deloladrin.cows.activities.template.TemplateActivity;
 import com.deloladrin.cows.activities.template.TemplateEntry;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.data.Cow;
+import com.deloladrin.cows.database.DatabaseBitmap;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,14 +35,25 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
     {
         super.onCreate(savedInstanceState);
 
-        this.image.setImageResource(R.drawable.icon_cow);
-        this.name.setText(R.string.activity_company_cow);
-
         this.setAddVisible(false);
 
         /* Load requested company */
         int companyID = getIntent().getIntExtra(EXTRA_COMPANY, 0);
         this.company = Company.get(this.database, companyID);
+
+        this.name.setText(this.company.getName());
+
+        /* Company image */
+        DatabaseBitmap image = this.company.getImage();
+
+        if (image != null)
+        {
+            this.image.setImageBitmap(image.getBitmap());
+        }
+        else
+        {
+            this.image.setImageResource(R.drawable.icon_cow);
+        }
 
         /* Load default values */
         this.refresh();

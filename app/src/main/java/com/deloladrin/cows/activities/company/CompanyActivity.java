@@ -2,12 +2,14 @@ package com.deloladrin.cows.activities.company;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.dialogs.CompanyEditDialog;
 import com.deloladrin.cows.activities.template.TemplateActivity;
 import com.deloladrin.cows.activities.template.TemplateEntry;
 import com.deloladrin.cows.data.Company;
+import com.deloladrin.cows.database.DatabaseBitmap;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class CompanyActivity extends TemplateActivity<Company>
         TemplateEntry<Company> entry = super.createEntry(value);
 
         /* Set visibilities */
+        entry.setImageVisible(true);
         entry.setShortNameVisible(true);
         entry.setEditVisible(true);
         entry.setDeleteVisible(true);
@@ -40,6 +43,19 @@ public class CompanyActivity extends TemplateActivity<Company>
 
         int cows = value.getCows().size();
         entry.setShortName(Integer.toString(cows));
+
+        DatabaseBitmap image = value.getImage();
+        entry.getImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+        entry.getImageView().setPadding(0, 0, 0, 0);
+
+        if (image != null)
+        {
+            entry.setImage(image.getBitmap());
+        }
+        else
+        {
+            entry.setImage(null);
+        }
 
         return entry;
     }

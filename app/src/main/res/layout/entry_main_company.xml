@@ -4,10 +4,18 @@
     android:layout_height="@dimen/size_entry"
     android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/entry_image"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
+        android:scaleType="fitCenter" />
+
     <TextView
         android:id="@+id/entry_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="12dp"
         android:gravity="center_vertical"
         android:textStyle="italic"
         android:textColor="@color/text_tint"
