@@ -17,8 +17,6 @@ import java.util.List;
 
 public class CompanyActivity extends TemplateActivity<Company>
 {
-    private CompanyEditDialog editDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -69,15 +67,15 @@ public class CompanyActivity extends TemplateActivity<Company>
     {
         /* Show edit dialog for new company */
         Company company = new Company(this.database);
-        this.editDialog = new CompanyEditDialog(this, company);
+        CompanyEditDialog dialog = new CompanyEditDialog(this, company);
 
-        this.editDialog.setOnSubmitListener((Company edited) ->
+        dialog.setOnSubmitListener((Company edited) ->
         {
             edited.insert();
             this.refresh();
         });
 
-        this.editDialog.show();
+        dialog.show();
     }
 
     @Override
@@ -94,27 +92,16 @@ public class CompanyActivity extends TemplateActivity<Company>
     public void onEditClick(TemplateEntry<Company> entry)
     {
         /* Show edit dialog */
-        this.editDialog = new CompanyEditDialog(this, entry.getValue());
+        CompanyEditDialog dialog = new CompanyEditDialog(this, entry.getValue());
 
-        this.editDialog.setOnSubmitListener((company) ->
+        dialog.setOnSubmitListener((company) ->
         {
             /* Update and refresh */
             company.update();
             this.refresh();
         });
 
-        this.editDialog.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (this.editDialog != null)
-        {
-            this.editDialog.onActivityResult(requestCode, resultCode, data);
-        }
+        dialog.show();
     }
 
     @Override
