@@ -87,7 +87,7 @@ public class ResourceTemplateEntry extends ToggleImageView
 
         if (template != null)
         {
-            this.setImageBitmap(template.getImage().getBitmap());
+            this.setImageBitmap(template.getSmallImage().getBitmap());
         }
         else
         {

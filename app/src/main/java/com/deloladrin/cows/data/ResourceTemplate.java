@@ -22,13 +22,14 @@ public class ResourceTemplate implements DatabaseEntry
     private int layer;
     private int copying;
     private byte[] image;
+    private byte[] imageSmall;
 
     public ResourceTemplate(Database database)
     {
         this.database = database;
     }
 
-    public ResourceTemplate(Database database, int id, String name, int type, int layer, int copying, byte[] image)
+    public ResourceTemplate(Database database, int id, String name, int type, int layer, int copying, byte[] image, byte[] imageSmall)
     {
         this.database = database;
 
@@ -38,9 +39,10 @@ public class ResourceTemplate implements DatabaseEntry
         this.layer = layer;
         this.copying = copying;
         this.image = image;
+        this.imageSmall = imageSmall;
     }
 
-    public ResourceTemplate(Database database, int id, String name, ResourceType type, int layer, boolean copying, DatabaseBitmap image)
+    public ResourceTemplate(Database database, int id, String name, ResourceType type, int layer, boolean copying, DatabaseBitmap image, DatabaseBitmap imageSmall)
     {
         this.database = database;
 
@@ -50,6 +52,7 @@ public class ResourceTemplate implements DatabaseEntry
         this.setLayer(layer);
         this.setCopying(copying);
         this.setImage(image);
+        this.setSmallImage(imageSmall);
     }
 
     public static ResourceTemplate get(Database database, long id)
@@ -86,6 +89,7 @@ public class ResourceTemplate implements DatabaseEntry
         this.layer = refreshed.layer;
         this.copying = refreshed.copying;
         this.image = refreshed.image;
+        this.imageSmall = refreshed.imageSmall;
     }
 
     @Override
@@ -186,6 +190,38 @@ public class ResourceTemplate implements DatabaseEntry
         this.image = image;
     }
 
+    public DatabaseBitmap getSmallImage()
+    {
+        if (this.imageSmall != null)
+        {
+            return new DatabaseBitmap(this.imageSmall);
+        }
+
+        return this.getImage();
+    }
+
+    public String getSmallImageHexBytes()
+    {
+        return this.getSmallImage().getHexBytes();
+    }
+
+    public void setSmallImage(DatabaseBitmap imageSmall)
+    {
+        if (imageSmall != null)
+        {
+            this.imageSmall = imageSmall.getBytes();
+        }
+        else
+        {
+            this.imageSmall = null;
+        }
+    }
+
+    public void setSmallImage(byte[] imageSmall)
+    {
+        this.imageSmall = imageSmall;
+    }
+
     public static class Table extends TableBase<ResourceTemplate>
     {
         public static final String TABLE_NAME = "resource_templates";
@@ -196,6 +232,7 @@ public class ResourceTemplate implements DatabaseEntry
         public static final TableColumn COLUMN_LAYER = new TableColumn(3, "layer", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_COPYING = new TableColumn(4, "copying", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_IMAGE = new TableColumn(5, "image", ValueType.BLOB, false);
+        public static final TableColumn COLUMN_IMAGE_SMALL = new TableColumn(6, "image_small", ValueType.BLOB, true);
 
         public Table(Database database)
         {
@@ -207,6 +244,7 @@ public class ResourceTemplate implements DatabaseEntry
             this.columns.add(COLUMN_LAYER);
             this.columns.add(COLUMN_COPYING);
             this.columns.add(COLUMN_IMAGE);
+            this.columns.add(COLUMN_IMAGE_SMALL);
         }
 
         @Override
@@ -220,6 +258,7 @@ public class ResourceTemplate implements DatabaseEntry
             params.put(COLUMN_LAYER, object.layer);
             params.put(COLUMN_COPYING, object.copying);
             params.put(COLUMN_IMAGE, object.getImageHexBytes());
+            params.put(COLUMN_IMAGE_SMALL, object.getSmallImageHexBytes());
 
             return params;
         }
@@ -233,8 +272,9 @@ public class ResourceTemplate implements DatabaseEntry
             int layer = cursor.getInt(COLUMN_LAYER.getID());
             int copying = cursor.getInt(COLUMN_COPYING.getID());
             byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
+            byte[] imageSmall = cursor.getBlob(COLUMN_IMAGE_SMALL.getID());
 
-            return new ResourceTemplate(this.database, id, name, type, layer, copying, image);
+            return new ResourceTemplate(this.database, id, name, type, layer, copying, image, imageSmall);
         }
     }
 }
