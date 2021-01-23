@@ -58,6 +58,11 @@ public class Resource implements DatabaseEntry
         return database.getResourceTable().selectAll();
     }
 
+    public String getName()
+    {
+        return this.getTemplate().getName();
+    }
+
     public void insert()
     {
         this.id = this.database.getResourceTable().insert(this);

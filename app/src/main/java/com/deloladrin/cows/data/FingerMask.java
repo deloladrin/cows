@@ -6,7 +6,7 @@ import com.deloladrin.cows.R;
 
 public enum FingerMask implements TargetMask
 {
-    NONE(0b00000000, 0),
+    NONE(0b00000000, R.string.mask_none),
     LF_LF(0b10000000, R.string.mask_lf_lf),
     LF_RF(0b01000000, R.string.mask_lf_rf),
     RF_LF(0b00100000, R.string.mask_rf_lf),

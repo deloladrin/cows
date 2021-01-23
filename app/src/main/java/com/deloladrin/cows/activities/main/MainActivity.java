@@ -2,6 +2,7 @@ package com.deloladrin.cows.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,12 +20,16 @@ import com.deloladrin.cows.data.DiagnosisType;
 import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.StatusTemplate;
+import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.database.DatabaseActivity;
 import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.dialogs.SelectDialog;
 import com.deloladrin.cows.views.ImageTextButton;
+import com.deloladrin.cows.xssf.TreatmentWorkbook;
 
-import java.util.List;
+import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MainActivity extends DatabaseActivity implements View.OnClickListener
 {
@@ -42,6 +47,11 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
     {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
+
+        /* Fix poi-on-android xml parser */
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
 
         /* Load all children */
         this.currentCompany = this.findViewById(R.id.main_company);
@@ -127,6 +137,18 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
                 this.preferences.setActiveCompany(entry.getValue());
                 this.refresh();
             });
+
+            TreatmentWorkbook workbook = new TreatmentWorkbook(this);
+            workbook.setDate(LocalDate.now());
+            workbook.setRepeatDate(LocalDate.now().plusWeeks(1));
+            workbook.setCompany(this.preferences.getActiveCompany());
+
+            for (Treatment treatment : Treatment.getAll(this.database))
+            {
+                workbook.add(treatment);
+            }
+
+            workbook.save(Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.xlsx");
 
             dialog.show();
         }

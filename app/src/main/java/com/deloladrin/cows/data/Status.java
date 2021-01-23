@@ -52,6 +52,11 @@ public class Status implements DatabaseEntry
         return database.getStatusTable().selectAll();
     }
 
+    public String getName()
+    {
+        return this.getTemplate().getName();
+    }
+
     public void insert()
     {
         this.id = this.database.getStatusTable().insert(this);

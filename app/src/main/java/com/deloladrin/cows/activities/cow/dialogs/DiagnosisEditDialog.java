@@ -152,8 +152,16 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
             /* Update and submit */
             String comment = this.comment.getText().toString();
 
+            if (comment.isEmpty())
+            {
+                this.diagnosis.setComment(null);
+            }
+            else
+            {
+                this.diagnosis.setComment(comment);
+            }
+
             this.diagnosis.setState(state);
-            this.diagnosis.setComment(comment);
             this.diagnosis.update();
 
             this.onSubmitListener.onSubmit(this);
