@@ -65,15 +65,15 @@
     <string name="mask_rb_lf">PZ-lp</string>
     <string name="mask_rb_rf">PZ-pp</string>
 
-    <string name="xssf_treatment">Protokol</string>
-    <string name="xssf_treatment_title">Protokol ošetření paznehtů</string>
-    <string name="xssf_treatment_index">Index</string>
-    <string name="xssf_treatment_cow">Kráva</string>
-    <string name="xssf_treatment_collar">Oboj.</string>
-    <string name="xssf_treatment_group">Skup.</string>
-    <string name="xssf_treatment_diagnosis">Diagnóza</string>
-    <string name="xssf_treatment_target">Ošetř.</string>
-    <string name="xssf_treatment_repeat">Opak.</string>
-    <string name="xssf_treatment_extra">Poznámka</string>
-    <string name="xssf_treatment_whole">Celková úprava paznehtů</string>
+    <string name="export_treatment">Protokol</string>
+    <string name="export_treatment_title">Protokol ošetření paznehtů</string>
+    <string name="export_treatment_index">Index</string>
+    <string name="export_treatment_number">Kráva</string>
+    <string name="export_treatment_collar">Oboj.</string>
+    <string name="export_treatment_group">Skup.</string>
+    <string name="export_treatment_diagnosis">Diagnóza</string>
+    <string name="export_treatment_target">Ošetř.</string>
+    <string name="export_treatment_repeat">Opak.</string>
+    <string name="export_treatment_extra">Poznámka</string>
+    <string name="export_treatment_whole">Celková úprava paznehtů</string>
 </resources>

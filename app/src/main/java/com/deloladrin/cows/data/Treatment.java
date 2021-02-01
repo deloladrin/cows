@@ -82,6 +82,21 @@ public class Treatment
         return this.database.getStatusTable().selectAll(params);
     }
 
+    public boolean isHealed()
+    {
+        boolean healed = true;
+
+        for (Diagnosis diagnosis : this.getDiagnoses())
+        {
+            if (diagnosis.getState() != DiagnosisState.HEALED)
+            {
+                healed = false;
+            }
+        }
+
+        return healed;
+    }
+
     public void insert()
     {
         this.id = this.database.getTreatmentTable().insert(this);
