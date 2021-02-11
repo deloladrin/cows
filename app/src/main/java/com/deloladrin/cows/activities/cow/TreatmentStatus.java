@@ -52,6 +52,8 @@ public class TreatmentStatus extends ChildActivity<CowActivity> implements View.
                 Context context = this.getContext();
                 SelectDialog<TreatmentTypeEntry> dialog = new SelectDialog<>(context);
 
+                TreatmentType current = this.treatment.getType();
+
                 dialog.setText(R.string.dialog_treatment_type);
 
                 for (TreatmentType type : TreatmentType.values())
@@ -59,7 +61,7 @@ public class TreatmentStatus extends ChildActivity<CowActivity> implements View.
                     if (type != TreatmentType.NONE)
                     {
                         TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
-                        dialog.add(entry);
+                        dialog.add(entry, type == current);
                     }
                 }
 

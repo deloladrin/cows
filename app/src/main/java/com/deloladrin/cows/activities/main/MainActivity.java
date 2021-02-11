@@ -143,10 +143,12 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             SelectDialog<CompanyEntry> dialog = new SelectDialog<>(this);
             dialog.setText(R.string.dialog_company);
 
+            Company active = this.preferences.getActiveCompany();
+
             for (Company company : Company.getAll(this.database))
             {
                 CompanyEntry entry = new CompanyEntry(this, company);
-                dialog.add(entry);
+                dialog.add(entry, company.equals(active));
             }
 
             dialog.setOnSelectListener((CompanyEntry entry) ->

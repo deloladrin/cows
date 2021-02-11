@@ -13,10 +13,16 @@ import java.util.List;
 
 public class SelectDialog<T extends View> extends Dialog implements View.OnClickListener
 {
+    private static final int DEFAULT_BACKGROUND = R.color.button_light;
+    private static final int SELECTED_BACKGROUND = R.color.button_tint;
+
     private TextView text;
     private LinearLayout container;
 
     private Button cancel;
+    private Button submit;
+
+    private int selected;
 
     private OnSelectListener<T> onSelectListener;
 
@@ -30,39 +36,74 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
         this.container = this.findViewById(R.id.dialog_container);
 
         this.cancel = this.findViewById(R.id.dialog_cancel);
+        this.submit = this.findViewById(R.id.dialog_submit);
+
+        this.setSelected(-1);
 
         /* Add events */
         this.cancel.setOnClickListener(this);
+        this.submit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view)
     {
-        /* Get selected item */
-        for (int i = 0; i < this.container.getChildCount(); i++)
+        if (view.equals(this.submit))
         {
-            if (view.equals(this.container.getChildAt(i)))
+            /* Don't allow selecting noting */
+            if (this.selected != -1)
             {
-                this.onSelectListener.onSelect((T)view);
+                T child = (T) this.container.getChildAt(this.selected);
+                this.onSelectListener.onSelect(child);
+
+                this.dismiss();
             }
+
+            return;
         }
 
-        this.dismiss();
+        if (view.equals(this.cancel))
+        {
+            this.dismiss();
+            return;
+        }
+
+        /* Select new item */
+        int index = this.container.indexOfChild(view);
+
+        if (index != this.selected)
+        {
+            this.setSelected(index);
+        }
+        else
+        {
+            /* Submit on double click */
+            this.onSelectListener.onSelect((T)view);
+            this.dismiss();
+        }
     }
 
-    public void add(T entry)
+    public void add(T entry, boolean select)
     {
         /* Make entry clickable and add */
         entry.setClickable(true);
         entry.setOnClickListener(this);
 
         this.container.addView(entry);
+
+        /* Select if requested */
+        if (select)
+        {
+            int index = this.container.getChildCount() - 1;
+            this.setSelected(index);
+        }
     }
 
     public void clear()
     {
         /* Delete all children */
         this.container.removeAllViews();
+        this.selected = -1;
     }
 
     public String getText()
@@ -89,6 +130,29 @@ public class SelectDialog<T extends View> extends Dialog implements View.OnClick
     public LinearLayout getContainer()
     {
         return this.container;
+    }
+
+    public int getSelected()
+    {
+        return this.selected;
+    }
+
+    public void setSelected(int selected)
+    {
+        this.selected = selected;
+
+        for (int i = 0; i < this.container.getChildCount(); i++)
+        {
+            View child = this.container.getChildAt(i);
+            int colorID = DEFAULT_BACKGROUND;
+
+            if (selected == i)
+            {
+                colorID = SELECTED_BACKGROUND;
+            }
+
+            child.setBackgroundResource(colorID);
+        }
     }
 
     public Button getCancelButton()

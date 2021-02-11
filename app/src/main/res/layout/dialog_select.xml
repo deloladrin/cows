@@ -35,13 +35,31 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/dialog_cancel"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/button_dark"
-        android:textColor="@color/text_light"
-        android:textSize="@dimen/text_small"
-        android:text="@string/dialog_cancel" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_dark"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/dialog_cancel" />
+
+        <Button
+            android:id="@+id/dialog_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/button_tint"
+            android:textColor="@color/text_light"
+            android:textSize="@dimen/text_small"
+            android:text="@string/dialog_submit" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -108,7 +108,7 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
                     if (type != TreatmentType.NONE)
                     {
                         TreatmentTypeEntry entry = new TreatmentTypeEntry(context, type);
-                        dialog.add(entry);
+                        dialog.add(entry, false);
                     }
                 }
 
