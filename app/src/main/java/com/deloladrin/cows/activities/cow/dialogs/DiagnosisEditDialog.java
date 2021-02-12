@@ -10,6 +10,7 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
+import com.deloladrin.cows.activities.cow.views.DiagnosisTemplateEntry;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
 import com.deloladrin.cows.data.FingerMask;
@@ -24,14 +25,14 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
     private TextView finger;
     private TextView name;
-    private EditText comment;
 
     private Button healedState;
     private Button treatedState;
     private Button newState;
 
-    private Button cancel;
+    private Button edit;
     private Button delete;
+    private Button cancel;
 
     private OnSubmitListener onSubmitListener;
 
@@ -47,22 +48,23 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         /* Load all children */
         this.finger = this.findViewById(R.id.dialog_finger);
         this.name = this.findViewById(R.id.dialog_name);
-        this.comment = this.findViewById(R.id.dialog_comment);
 
         this.healedState = this.findViewById(R.id.dialog_healed);
         this.treatedState = this.findViewById(R.id.dialog_treated);
         this.newState = this.findViewById(R.id.dialog_new);
 
-        this.cancel = this.findViewById(R.id.dialog_cancel);
+        this.edit = this.findViewById(R.id.dialog_edit);
         this.delete = this.findViewById(R.id.dialog_delete);
+        this.cancel = this.findViewById(R.id.dialog_cancel);
 
         /* Add events */
         this.healedState.setOnClickListener(this);
         this.treatedState.setOnClickListener(this);
         this.newState.setOnClickListener(this);
 
-        this.cancel.setOnClickListener(this);
+        this.edit.setOnClickListener(this);
         this.delete.setOnClickListener(this);
+        this.cancel.setOnClickListener(this);
 
         /* Load default values */
         this.initialize();
@@ -81,10 +83,6 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
 
         this.name.setText(name);
         this.name.setTextColor(color);
-
-        /* Set comment */
-        String comment = this.diagnosis.getComment();
-        this.comment.setText(comment);
     }
 
     @Override
@@ -107,6 +105,21 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         if (view.equals(this.newState))
         {
             this.changeDiagnosisState(DiagnosisState.NEW);
+            return;
+        }
+
+        if (view.equals(this.edit))
+        {
+            /* Show diagnosis selection */
+            DiagnosisSelectDialog dialog = new DiagnosisSelectDialog(this.parent, this.treatment, this.diagnosis, this.mask);
+
+            dialog.setOnSelectListener((DiagnosisTemplateEntry e) ->
+            {
+                this.onSubmitListener.onSubmit(this);
+                this.dismiss();
+            });
+
+            dialog.show();
             return;
         }
 
@@ -150,17 +163,6 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         dialog.setOnSubmitListener((ResourceEditDialog d) ->
         {
             /* Update and submit */
-            String comment = this.comment.getText().toString();
-
-            if (comment.isEmpty())
-            {
-                this.diagnosis.setComment(null);
-            }
-            else
-            {
-                this.diagnosis.setComment(comment);
-            }
-
             this.diagnosis.setState(state);
             this.diagnosis.update();
 

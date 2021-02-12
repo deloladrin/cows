@@ -10,6 +10,7 @@ import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildActivity;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.cow.CowActivity;
+import com.deloladrin.cows.activities.cow.views.DiagnosisTemplateEntry;
 import com.deloladrin.cows.activities.cow.views.FingerEntry;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.FingerMask;
@@ -99,9 +100,9 @@ public class FingerDialog extends ChildDialog<CowActivity> implements View.OnCli
         if (view.equals(this.add))
         {
             /* Show create dialog */
-            DiagnosisCreateDialog dialog = new DiagnosisCreateDialog(this.parent, this.treatment, this.mask);
+            DiagnosisSelectDialog dialog = new DiagnosisSelectDialog(this.parent, this.treatment, null, this.mask);
 
-            dialog.setOnSubmitListener((DiagnosisCreateDialog d) ->
+            dialog.setOnSelectListener((DiagnosisTemplateEntry e) ->
             {
                 /* Close on submit */
                 this.onSubmitListener.onSubmit(this);

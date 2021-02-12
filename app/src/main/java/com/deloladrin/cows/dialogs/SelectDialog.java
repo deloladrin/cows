@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SelectDialog<T extends View> extends Dialog implements View.OnClickListener
 {
-    private static final int DEFAULT_BACKGROUND = R.color.button_light;
-    private static final int SELECTED_BACKGROUND = R.color.button_tint;
+    public static final int DEFAULT_BACKGROUND = R.color.button_light;
+    public static final int SELECTED_BACKGROUND = R.color.button_tint;
 
     private TextView text;
     private LinearLayout container;
