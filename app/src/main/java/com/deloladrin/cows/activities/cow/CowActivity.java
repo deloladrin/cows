@@ -43,7 +43,7 @@ public class CowActivity extends DatabaseActivity
         int cowID = intent.getIntExtra(EXTRA_COW_ID, 0);
         String user = intent.getStringExtra(EXTRA_USER_NAME);
 
-        this.setCow(Cow.get(this.database, cowID));
+        this.setCow(Cow.select(this.database, cowID));
     }
 
     @Override

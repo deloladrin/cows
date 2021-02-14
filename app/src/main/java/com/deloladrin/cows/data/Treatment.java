@@ -1,11 +1,12 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
+import com.deloladrin.cows.database.TableEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
 import java.time.Instant;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-public class Treatment
+public class Treatment implements TableEntry
 {
     private Database database;
 
@@ -53,48 +54,18 @@ public class Treatment
         this.setUser(user);
     }
 
-    public static List<Treatment> getAll(Database database)
+    public static Treatment select(Database database, long id)
     {
-        return database.getTreatmentTable().selectAll();
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getTreatmentTable().select(values);
     }
 
-    public List<Diagnosis> getDiagnoses()
+    public static List<Treatment> selectAll(Database database)
     {
-        ValueParams params = new ValueParams();
-        params.put(Diagnosis.Table.COLUMN_TREATMENT, this.getID());
-
-        return this.database.getDiagnosesTable().selectAll(params);
-    }
-
-    public List<Resource> getResources()
-    {
-        ValueParams params = new ValueParams();
-        params.put(Resource.Table.COLUMN_TREATMENT, this.getID());
-
-        return this.database.getResourceTable().selectAll(params);
-    }
-
-    public List<Status> getStatuses()
-    {
-        ValueParams params = new ValueParams();
-        params.put(Status.Table.COLUMN_TREATMENT, this.getID());
-
-        return this.database.getStatusTable().selectAll(params);
-    }
-
-    public boolean isHealed()
-    {
-        boolean healed = true;
-
-        for (Diagnosis diagnosis : this.getDiagnoses())
-        {
-            if (diagnosis.getState() != DiagnosisState.HEALED)
-            {
-                healed = false;
-            }
-        }
-
-        return healed;
+        SelectValues values = new SelectValues();
+        return database.getTreatmentTable().selectAll(values);
     }
 
     public void insert()
@@ -130,17 +101,6 @@ public class Treatment
         this.database.getTreatmentTable().delete(this);
     }
 
-    public void refresh()
-    {
-        Treatment refreshed = this.database.getTreatmentTable().select(this.id);
-
-        this.cow = refreshed.cow;
-        this.type = refreshed.type;
-        this.date = refreshed.date;
-        this.comment = refreshed.comment;
-        this.user = refreshed.user;
-    }
-
     @Override
     public boolean equals(Object obj)
     {
@@ -171,7 +131,7 @@ public class Treatment
 
     public Cow getCow()
     {
-        return this.database.getCowTable().select(this.cow);
+        return Cow.select(this.database, this.cow);
     }
 
     public void setCow(Cow cow)
@@ -234,16 +194,53 @@ public class Treatment
         this.user = user;
     }
 
+    public List<Diagnosis> getDiagnoses()
+    {
+        SelectValues values = new SelectValues()
+                .where(Diagnosis.Table.COLUMN_TREATMENT, this.id);
+
+        return this.database.getDiagnosisTable().selectAll(values);
+    }
+
+    public List<Resource> getResources()
+    {
+        SelectValues values = new SelectValues()
+                .where(Resource.Table.COLUMN_TREATMENT, this.id);
+
+        return this.database.getResourceTable().selectAll(values);
+    }
+
+    public List<Status> getStatuses()
+    {
+        SelectValues values = new SelectValues()
+                .where(Status.Table.COLUMN_TREATMENT, this.id);
+
+        return this.database.getStatusTable().selectAll(values);
+    }
+
+    public boolean isHealed()
+    {
+        for (Diagnosis diagnosis : this.getDiagnoses())
+        {
+            if (diagnosis.getState() != DiagnosisState.HEALED)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static class Table extends TableBase<Treatment>
     {
         public static final String TABLE_NAME = "treatments";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_COW = new TableColumn(1, "cow", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TYPE = new TableColumn(2, "type", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_DATE = new TableColumn(3, "date", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_COMMENT = new TableColumn(4, "comment", ValueType.TEXT, true);
-        public static final TableColumn COLUMN_USER = new TableColumn(5, "user", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_COW = new TableColumn("cow", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TYPE = new TableColumn("type", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_DATE = new TableColumn("date", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COMMENT = new TableColumn("comment", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_USER = new TableColumn("user", ValueType.TEXT, false);
 
         public Table(Database database)
         {
@@ -258,29 +255,29 @@ public class Treatment
         }
 
         @Override
-        protected ValueParams getParams(Treatment object)
+        protected ContentValues getValues(Treatment object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_COW, object.cow);
-            params.put(COLUMN_TYPE, object.type);
-            params.put(COLUMN_DATE, object.date);
-            params.put(COLUMN_COMMENT, object.comment);
-            params.put(COLUMN_USER, object.user);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_COW.getName(), object.cow);
+            values.put(COLUMN_TYPE.getName(), object.type);
+            values.put(COLUMN_DATE.getName(), object.date);
+            values.put(COLUMN_COMMENT.getName(), object.comment);
+            values.put(COLUMN_USER.getName(), object.user);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected Treatment getObject(Cursor cursor)
+        protected Treatment getObject(ContentValues values)
         {
-            long id = cursor.getLong(COLUMN_ID.getID());
-            int cow = cursor.getInt(COLUMN_COW.getID());
-            int type = cursor.getInt(COLUMN_TYPE.getID());
-            long date = cursor.getLong(COLUMN_DATE.getID());
-            String comment = cursor.getString(COLUMN_COMMENT.getID());
-            String user = cursor.getString(COLUMN_USER.getID());
+            long id = values.getAsLong(COLUMN_ID.getName());
+            int cow = values.getAsInteger(COLUMN_COW.getName());
+            int type = values.getAsInteger(COLUMN_TYPE.getName());
+            long date = values.getAsLong(COLUMN_DATE.getName());
+            String comment = values.getAsString(COLUMN_COMMENT.getName());
+            String user = values.getAsString(COLUMN_USER.getName());
 
             return new Treatment(this.database, id, cow, type, date, comment, user);
         }

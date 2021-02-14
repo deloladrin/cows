@@ -1,19 +1,19 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseBitmap;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.TableEntry;
+import com.deloladrin.cows.database.SelectOrder;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class Company implements DatabaseEntry
+public class Company implements TableEntry
 {
     private Database database;
 
@@ -50,25 +50,18 @@ public class Company implements DatabaseEntry
         this.setLastGroup(last);
     }
 
-    public static Company get(Database database, int id)
+    public static Company select(Database database, int id)
     {
-        return database.getCompanyTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getCompanyTable().select(values);
     }
 
-    public static List<Company> getAll(Database database)
+    public static List<Company> selectAll(Database database)
     {
-        List<Company> companies = database.getCompanyTable().selectAll();
-        companies.sort((a, b) -> a.getName().compareTo(b.getName()));
-
-        return companies;
-    }
-
-    public List<Cow> getCows()
-    {
-        ValueParams params = new ValueParams();
-        params.put(Cow.Table.COLUMN_COMPANY, this.getID());
-
-        return this.database.getCowTable().selectAll(params);
+        SelectValues values = new SelectValues();
+        return database.getCompanyTable().selectAll(values);
     }
 
     public void insert()
@@ -84,16 +77,6 @@ public class Company implements DatabaseEntry
     public void delete()
     {
         this.database.getCompanyTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        Company refreshed = this.database.getCompanyTable().select(this.id);
-
-        this.name = refreshed.name;
-        this.group = refreshed.group;
-        this.image = refreshed.image;
-        this.last = refreshed.last;
     }
 
     @Override
@@ -146,38 +129,12 @@ public class Company implements DatabaseEntry
 
     public DatabaseBitmap getImage()
     {
-        if (this.image != null)
-        {
-            return new DatabaseBitmap(this.image);
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public String getImageHexBytes()
-    {
-        if (image != null)
-        {
-            return this.getImage().getHexBytes();
-        }
-        else
-        {
-            return null;
-        }
+        return DatabaseBitmap.bytesToBitmap(this.image);
     }
 
     public void setImage(DatabaseBitmap image)
     {
-        if (image != null)
-        {
-            this.image = image.getBytes();
-        }
-        else
-        {
-            this.image = null;
-        }
+        this.image = DatabaseBitmap.bitmapToBytes(image);
     }
 
     public void setImage(byte[] image)
@@ -195,15 +152,33 @@ public class Company implements DatabaseEntry
         this.last = last;
     }
 
+    public List<Cow> getCows(int collar)
+    {
+        SelectValues values = new SelectValues()
+                .where(Cow.Table.COLUMN_COMPANY, this.id)
+                .where(Cow.Table.COLUMN_COLLAR, collar)
+                .orderBy(Cow.Table.COLUMN_ID, SelectOrder.DESCENDING);
+
+        return this.database.getCowTable().selectAll(values);
+    }
+
+    public List<Cow> getCows()
+    {
+        SelectValues values = new SelectValues()
+                .where(Cow.Table.COLUMN_COMPANY, this.id);
+
+        return this.database.getCowTable().selectAll(values);
+    }
+
     public static class Table extends TableBase<Company>
     {
         public static final String TABLE_NAME = "companies";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_GROUP = new TableColumn(2, "grp", ValueType.TEXT, true);
-        public static final TableColumn COLUMN_IMAGE = new TableColumn(3, "image", ValueType.BLOB, true);
-        public static final TableColumn COLUMN_LAST = new TableColumn(4, "last", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_NAME = new TableColumn("name", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_GROUP = new TableColumn("grp", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn("image", ValueType.BLOB, true);
+        public static final TableColumn COLUMN_LAST = new TableColumn("last", ValueType.TEXT, true);
 
         public Table(Database database)
         {
@@ -217,27 +192,27 @@ public class Company implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(Company object)
+        protected ContentValues getValues(Company object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_NAME, object.name);
-            params.put(COLUMN_GROUP, object.group);
-            params.put(COLUMN_IMAGE, object.getImageHexBytes());
-            params.put(COLUMN_LAST, object.last);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_NAME.getName(), object.name);
+            values.put(COLUMN_GROUP.getName(), object.group);
+            values.put(COLUMN_IMAGE.getName(), object.image);
+            values.put(COLUMN_LAST.getName(), object.last);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected Company getObject(Cursor cursor)
+        protected Company getObject(ContentValues values)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            String name = cursor.getString(COLUMN_NAME.getID());
-            String group = cursor.getString(COLUMN_GROUP.getID());
-            byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
-            String last = cursor.getString(COLUMN_LAST.getID());
+            int id = values.getAsInteger(COLUMN_ID.getName());
+            String name = values.getAsString(COLUMN_NAME.getName());
+            String group = values.getAsString(COLUMN_GROUP.getName());
+            byte[] image = values.getAsByteArray(COLUMN_IMAGE.getName());
+            String last = values.getAsString(COLUMN_LAST.getName());
 
             return new Company(this.database, id, name, group, image, last);
         }

@@ -85,7 +85,7 @@ public class DiagnosisSelectDialog extends ChildDialog<CowActivity> implements V
             this.comment.setText(this.diagnosis.getComment());
         }
 
-        for (DiagnosisTemplate template : DiagnosisTemplate.getAll(this.getDatabase()))
+        for (DiagnosisTemplate template : DiagnosisTemplate.selectAll(this.getDatabase()))
         {
             boolean select = false;
 

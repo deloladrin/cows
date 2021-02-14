@@ -2,36 +2,26 @@ package com.deloladrin.cows.database;
 
 public class TableColumn
 {
-    private int id;
     private String name;
     private ValueType type;
     private boolean nullable;
     private boolean primary;
     private boolean autoIncrement;
 
-    public TableColumn(int id, String name, ValueType type, boolean nullable)
+    public TableColumn(String name, ValueType type, boolean nullable)
     {
-        this.id = id;
         this.name = name;
         this.type = type;
         this.nullable = nullable;
-        this.primary = false;
-        this.autoIncrement = false;
     }
 
-    public TableColumn(int id, String name, ValueType type, boolean nullable, boolean primary, boolean autoIncrement)
+    public TableColumn(String name, ValueType type, boolean nullable, boolean primary, boolean autoIncrement)
     {
-        this.id = id;
         this.name = name;
         this.type = type;
         this.nullable = nullable;
         this.primary = primary;
         this.autoIncrement = autoIncrement;
-    }
-
-    public int getID()
-    {
-        return this.id;
     }
 
     public String getName()

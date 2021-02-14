@@ -1,17 +1,17 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class Status implements DatabaseEntry
+public class Status implements TableEntry
 {
     private Database database;
 
@@ -42,19 +42,18 @@ public class Status implements DatabaseEntry
         this.setTemplate(template);
     }
 
-    public static Status get(Database database, long id)
+    public static Status select(Database database, int id)
     {
-        return database.getStatusTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getStatusTable().select(values);
     }
 
-    public static List<Status> getAll(Database database)
+    public static List<Status> selectAll(Database database)
     {
-        return database.getStatusTable().selectAll();
-    }
-
-    public String getName()
-    {
-        return this.getTemplate().getName();
+        SelectValues values = new SelectValues();
+        return database.getStatusTable().selectAll(values);
     }
 
     public void insert()
@@ -70,14 +69,6 @@ public class Status implements DatabaseEntry
     public void delete()
     {
         this.database.getStatusTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        Status refreshed = this.database.getStatusTable().select(this.id);
-
-        this.treatment = refreshed.treatment;
-        this.template = refreshed.template;
     }
 
     @Override
@@ -110,7 +101,7 @@ public class Status implements DatabaseEntry
 
     public Treatment getTreatment()
     {
-        return this.database.getTreatmentTable().select(this.treatment);
+        return Treatment.select(this.database, this.treatment);
     }
 
     public void setTreatment(Treatment treatment)
@@ -125,7 +116,7 @@ public class Status implements DatabaseEntry
 
     public StatusTemplate getTemplate()
     {
-        return this.database.getStatusTemplateTable().select(this.template);
+        return StatusTemplate.select(this.database, this.template);
     }
 
     public void setTemplate(StatusTemplate template)
@@ -138,13 +129,18 @@ public class Status implements DatabaseEntry
         this.template = template;
     }
 
+    public String getName()
+    {
+        return this.getTemplate().getName();
+    }
+
     public static class Table extends TableBase<Status>
     {
         public static final String TABLE_NAME = "statuses";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_TREATMENT = new TableColumn(1, "treatment", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TEMPLATE = new TableColumn(2, "template", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_TREATMENT = new TableColumn("treatment", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TEMPLATE = new TableColumn("template", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -156,23 +152,23 @@ public class Status implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(Status object)
+        protected ContentValues getValues(Status object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_TREATMENT, object.treatment);
-            params.put(COLUMN_TEMPLATE, object.template);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_TREATMENT.getName(), object.treatment);
+            values.put(COLUMN_TEMPLATE.getName(), object.template);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected Status getObject(Cursor cursor)
+        protected Status getObject(ContentValues values)
         {
-            long id = cursor.getLong(COLUMN_ID.getID());
-            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
-            int template = cursor.getInt(COLUMN_TEMPLATE.getID());
+            long id = values.getAsLong(COLUMN_ID.getName());
+            long treatment = values.getAsLong(COLUMN_TREATMENT.getName());
+            int template = values.getAsInteger(COLUMN_TEMPLATE.getName());
 
             return new Status(this.database, id, treatment, template);
         }

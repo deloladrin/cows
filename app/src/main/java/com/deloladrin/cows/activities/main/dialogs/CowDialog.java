@@ -7,11 +7,8 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -28,7 +25,6 @@ import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.dialogs.YesNoDialog;
 
-import java.util.Collections;
 import java.util.List;
 
 public class CowDialog extends ChildDialog<MainActivity> implements View.OnClickListener, TextWatcher
@@ -123,13 +119,13 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                 /* Get all numbers with collar */
                 if (collar != 0)
                 {
-                    List<Cow> cows = Cow.getByCollar(database, this.company, collar);
+                    List<Cow> cows = this.company.getCows(collar);
                     numbers = new Integer[cows.size()];
 
                     /* Copy cow numbers */
                     for (int i = 0; i < cows.size(); i++)
                     {
-                        numbers[i] = cows.get(i).getNumber();
+                        numbers[i] = cows.get(i).getID();
                     }
                 }
 
@@ -157,7 +153,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                 this.numberStage.setVisibility(View.GONE);
                 this.groupStage.setVisibility(View.VISIBLE);
 
-                Cow cow = Cow.getByNumber(database, this.cow.getNumber());
+                Cow cow = Cow.select(database, this.cow.getID());
                 String group = "";
 
                 if (cow != null)
@@ -217,7 +213,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
 
                     /* Store number */
                     int number = Integer.parseInt(input);
-                    this.cow.setNumber(number);
+                    this.cow.setID(number);
 
                     this.setStage(CowDialogStage.GROUP);
                     break;
@@ -237,7 +233,7 @@ public class CowDialog extends ChildDialog<MainActivity> implements View.OnClick
                     this.cow.setGroup(group);
 
                     /* Update existing / Create new */
-                    Cow previous = Cow.getByNumber(this.getDatabase(), this.cow.getNumber());
+                    Cow previous = Cow.select(this.getDatabase(), this.cow.getID());
 
                     if (previous != null)
                     {

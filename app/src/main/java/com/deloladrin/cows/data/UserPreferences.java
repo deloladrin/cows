@@ -1,6 +1,5 @@
 package com.deloladrin.cows.data;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -36,7 +35,7 @@ public class UserPreferences
 
         if (id != 0)
         {
-            return this.database.getCompanyTable().select(id);
+            return Company.select(this.database, id);
         }
 
         return null;

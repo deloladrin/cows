@@ -3,7 +3,6 @@ package com.deloladrin.cows.activities.cow.dialogs;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;

@@ -5,8 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.cow.CowActivity;
 import com.deloladrin.cows.activities.template.TemplateActivity;
@@ -20,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class CompanyCowActivity extends TemplateActivity<Cow>
 {
@@ -39,7 +36,7 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
 
         /* Load requested company */
         int companyID = getIntent().getIntExtra(EXTRA_COMPANY, 0);
-        this.company = Company.get(this.database, companyID);
+        this.company = Company.select(this.database, companyID);
 
         this.name.setText(this.company.getName());
 
@@ -83,7 +80,7 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
             String collar = Integer.toString(value.getCollar());
             entry.setShortName(collar);
 
-            String number = Integer.toString(value.getNumber());
+            String number = Integer.toString(value.getID());
             entry.setName(number);
         }
 
@@ -160,10 +157,10 @@ public class CompanyCowActivity extends TemplateActivity<Cow>
             List<Cow> collection = groups.get(group);
             Collections.sort(collection, (a, b) ->
             {
-                Integer anum = a.getNumber();
+                Integer anum = a.getID();
                 Integer acol = a.getCollar();
 
-                Integer bnum = b.getNumber();
+                Integer bnum = b.getID();
                 Integer bcol = b.getCollar();
 
                 if ((acol != 0) && (bcol != 0))

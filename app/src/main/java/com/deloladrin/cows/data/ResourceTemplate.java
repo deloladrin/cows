@@ -1,18 +1,18 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseBitmap;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class ResourceTemplate implements DatabaseEntry
+public class ResourceTemplate implements TableEntry
 {
     private Database database;
 
@@ -55,14 +55,18 @@ public class ResourceTemplate implements DatabaseEntry
         this.setSmallImage(imageSmall);
     }
 
-    public static ResourceTemplate get(Database database, long id)
+    public static ResourceTemplate select(Database database, int id)
     {
-        return database.getResourceTemplateTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getResourceTemplateTable().select(values);
     }
 
-    public static List<ResourceTemplate> getAll(Database database)
+    public static List<ResourceTemplate> selectAll(Database database)
     {
-        return database.getResourceTemplateTable().selectAll();
+        SelectValues values = new SelectValues();
+        return database.getResourceTemplateTable().selectAll(values);
     }
 
     public void insert()
@@ -78,18 +82,6 @@ public class ResourceTemplate implements DatabaseEntry
     public void delete()
     {
         this.database.getResourceTemplateTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        ResourceTemplate refreshed = this.database.getResourceTemplateTable().select(this.id);
-
-        this.name = refreshed.name;
-        this.type = refreshed.type;
-        this.layer = refreshed.layer;
-        this.copying = refreshed.copying;
-        this.image = refreshed.image;
-        this.imageSmall = refreshed.imageSmall;
     }
 
     @Override
@@ -172,17 +164,12 @@ public class ResourceTemplate implements DatabaseEntry
 
     public DatabaseBitmap getImage()
     {
-        return new DatabaseBitmap(this.image);
-    }
-
-    public String getImageHexBytes()
-    {
-        return this.getImage().getHexBytes();
+        return DatabaseBitmap.bytesToBitmap(this.image);
     }
 
     public void setImage(DatabaseBitmap image)
     {
-        this.image = image.getBytes();
+        this.image = DatabaseBitmap.bitmapToBytes(image);
     }
 
     public void setImage(byte[] image)
@@ -192,29 +179,19 @@ public class ResourceTemplate implements DatabaseEntry
 
     public DatabaseBitmap getSmallImage()
     {
-        if (this.imageSmall != null)
+        DatabaseBitmap small = DatabaseBitmap.bytesToBitmap(this.imageSmall);
+
+        if (small != null)
         {
-            return new DatabaseBitmap(this.imageSmall);
+            return small;
         }
 
         return this.getImage();
     }
 
-    public String getSmallImageHexBytes()
-    {
-        return this.getSmallImage().getHexBytes();
-    }
-
     public void setSmallImage(DatabaseBitmap imageSmall)
     {
-        if (imageSmall != null)
-        {
-            this.imageSmall = imageSmall.getBytes();
-        }
-        else
-        {
-            this.imageSmall = null;
-        }
+        this.imageSmall = DatabaseBitmap.bitmapToBytes(imageSmall);
     }
 
     public void setSmallImage(byte[] imageSmall)
@@ -226,13 +203,13 @@ public class ResourceTemplate implements DatabaseEntry
     {
         public static final String TABLE_NAME = "resource_templates";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_TYPE = new TableColumn(2, "type", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_LAYER = new TableColumn(3, "layer", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_COPYING = new TableColumn(4, "copying", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_IMAGE = new TableColumn(5, "image", ValueType.BLOB, false);
-        public static final TableColumn COLUMN_IMAGE_SMALL = new TableColumn(6, "image_small", ValueType.BLOB, true);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_NAME = new TableColumn("name", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_TYPE = new TableColumn("type", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_LAYER = new TableColumn("layer", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COPYING = new TableColumn("copying", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn("image", ValueType.BLOB, false);
+        public static final TableColumn COLUMN_IMAGE_SMALL = new TableColumn("image_small", ValueType.BLOB, true);
 
         public Table(Database database)
         {
@@ -248,31 +225,31 @@ public class ResourceTemplate implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(ResourceTemplate object)
+        protected ContentValues getValues(ResourceTemplate object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_NAME, object.name);
-            params.put(COLUMN_TYPE, object.type);
-            params.put(COLUMN_LAYER, object.layer);
-            params.put(COLUMN_COPYING, object.copying);
-            params.put(COLUMN_IMAGE, object.getImageHexBytes());
-            params.put(COLUMN_IMAGE_SMALL, object.getSmallImageHexBytes());
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_NAME.getName(), object.name);
+            values.put(COLUMN_TYPE.getName(), object.type);
+            values.put(COLUMN_LAYER.getName(), object.layer);
+            values.put(COLUMN_COPYING.getName(), object.copying);
+            values.put(COLUMN_IMAGE.getName(), object.image);
+            values.put(COLUMN_IMAGE_SMALL.getName(), object.imageSmall);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected ResourceTemplate getObject(Cursor cursor)
+        protected ResourceTemplate getObject(ContentValues values)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            String name = cursor.getString(COLUMN_NAME.getID());
-            int type = cursor.getInt(COLUMN_TYPE.getID());
-            int layer = cursor.getInt(COLUMN_LAYER.getID());
-            int copying = cursor.getInt(COLUMN_COPYING.getID());
-            byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
-            byte[] imageSmall = cursor.getBlob(COLUMN_IMAGE_SMALL.getID());
+            int id = values.getAsInteger(COLUMN_ID.getName());
+            String name = values.getAsString(COLUMN_NAME.getName());
+            int type = values.getAsInteger(COLUMN_TYPE.getName());
+            int layer = values.getAsInteger(COLUMN_TYPE.getName());
+            int copying = values.getAsInteger(COLUMN_COPYING.getName());
+            byte[] image = values.getAsByteArray(COLUMN_IMAGE.getName());
+            byte[] imageSmall = values.getAsByteArray(COLUMN_IMAGE_SMALL.getName());
 
             return new ResourceTemplate(this.database, id, name, type, layer, copying, image, imageSmall);
         }

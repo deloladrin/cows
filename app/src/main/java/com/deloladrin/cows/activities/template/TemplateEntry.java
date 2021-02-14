@@ -1,18 +1,16 @@
 package com.deloladrin.cows.activities.template;
 
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deloladrin.cows.R;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.TableEntry;
 
-public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListener
+public class TemplateEntry<T extends TableEntry> implements View.OnClickListener
 {
     private TemplateActivity<T> parent;
     private T value;
@@ -190,7 +188,7 @@ public class TemplateEntry<T extends DatabaseEntry> implements View.OnClickListe
         this.onActionListener = onActionListener;
     }
 
-    public interface OnActionListener<T extends DatabaseEntry>
+    public interface OnActionListener<T extends TableEntry>
     {
         void onShowClick(TemplateEntry<T> entry);
         void onEditClick(TemplateEntry<T> entry);

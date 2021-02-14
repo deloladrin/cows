@@ -1,17 +1,17 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class Diagnosis implements DatabaseEntry
+public class Diagnosis implements TableEntry
 {
     private Database database;
 
@@ -51,58 +51,33 @@ public class Diagnosis implements DatabaseEntry
         this.setComment(comment);
     }
 
-    public static Diagnosis get(Database database, long id)
+    public static Diagnosis select(Database database, long id)
     {
-        return database.getDiagnosesTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getDiagnosisTable().select(values);
     }
 
-    public static List<Diagnosis> getAll(Database database)
+    public static List<Diagnosis> selectAll(Database database)
     {
-        return database.getDiagnosesTable().selectAll();
-    }
-
-    public String getName()
-    {
-        DiagnosisTemplate template = this.getTemplate();
-
-        switch (this.getState())
-        {
-            case HEALED: return template.getHealedName();
-            case TREATED: return template.getTreatedName();
-            case NEW: return template.getNewName();
-        }
-
-        return null;
-    }
-
-    public String getShortName()
-    {
-        return this.getTemplate().getShortName();
+        SelectValues values = new SelectValues();
+        return database.getDiagnosisTable().selectAll(values);
     }
 
     public void insert()
     {
-        this.id = this.database.getDiagnosesTable().insert(this);
+        this.id = this.database.getDiagnosisTable().insert(this);
     }
 
     public void update()
     {
-        this.database.getDiagnosesTable().update(this);
+        this.database.getDiagnosisTable().update(this);
     }
 
     public void delete()
     {
-        this.database.getDiagnosesTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        Diagnosis refreshed = this.database.getDiagnosesTable().select(this.id);
-
-        this.treatment = refreshed.treatment;
-        this.template = refreshed.template;
-        this.target = refreshed.target;
-        this.state = refreshed.state;
+        this.database.getDiagnosisTable().delete(this);
     }
 
     @Override
@@ -135,7 +110,7 @@ public class Diagnosis implements DatabaseEntry
 
     public Treatment getTreatment()
     {
-        return this.database.getTreatmentTable().select(this.treatment);
+        return Treatment.select(this.database, this.treatment);
     }
 
     public void setTreatment(Treatment treatment)
@@ -150,7 +125,7 @@ public class Diagnosis implements DatabaseEntry
 
     public DiagnosisTemplate getTemplate()
     {
-        return this.database.getDiagnosesTemplateTable().select(this.template);
+        return DiagnosisTemplate.select(this.database, this.template);
     }
 
     public void setTemplate(DiagnosisTemplate template)
@@ -203,16 +178,35 @@ public class Diagnosis implements DatabaseEntry
         this.comment = comment;
     }
 
+    public String getName()
+    {
+        DiagnosisTemplate template = this.getTemplate();
+
+        switch (this.getState())
+        {
+            case NEW: return template.getNewName();
+            case TREATED: return template.getTreatedName();
+            case HEALED: return template.getHealedName();
+        }
+
+        return null;
+    }
+
+    public String getShortName()
+    {
+        return this.getTemplate().getShortName();
+    }
+
     public static class Table extends TableBase<Diagnosis>
     {
         public static final String TABLE_NAME = "diagnoses";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_TREATMENT = new TableColumn(1, "treatment", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TEMPLATE = new TableColumn(2, "template", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TARGET = new TableColumn(3, "target", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_STATE = new TableColumn(4, "state", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_COMMENT = new TableColumn(5, "comment", ValueType.TEXT, true);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_TREATMENT = new TableColumn("treatment", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TEMPLATE = new TableColumn("template", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TARGET = new TableColumn("target", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_STATE = new TableColumn("state", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COMMENT = new TableColumn("comment", ValueType.TEXT, true);
 
         public Table(Database database)
         {
@@ -227,29 +221,29 @@ public class Diagnosis implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(Diagnosis object)
+        protected ContentValues getValues(Diagnosis object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_TREATMENT, object.treatment);
-            params.put(COLUMN_TEMPLATE, object.template);
-            params.put(COLUMN_TARGET, object.target);
-            params.put(COLUMN_STATE, object.state);
-            params.put(COLUMN_COMMENT, object.comment);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_TREATMENT.getName(), object.treatment);
+            values.put(COLUMN_TEMPLATE.getName(), object.template);
+            values.put(COLUMN_TARGET.getName(), object.target);
+            values.put(COLUMN_STATE.getName(), object.state);
+            values.put(COLUMN_COMMENT.getName(), object.comment);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected Diagnosis getObject(Cursor cursor)
+        protected Diagnosis getObject(ContentValues values)
         {
-            long id = cursor.getLong(COLUMN_ID.getID());
-            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
-            int template = cursor.getInt(COLUMN_TEMPLATE.getID());
-            int target = cursor.getInt(COLUMN_TARGET.getID());
-            int state = cursor.getInt(COLUMN_STATE.getID());
-            String comment = cursor.getString(COLUMN_COMMENT.getID());
+            long id = values.getAsLong(COLUMN_ID.getName());
+            long treatment = values.getAsLong(COLUMN_TREATMENT.getName());
+            int template = values.getAsInteger(COLUMN_TEMPLATE.getName());
+            int target = values.getAsInteger(COLUMN_TARGET.getName());
+            int state = values.getAsInteger(COLUMN_STATE.getName());
+            String comment = values.getAsString(COLUMN_COMMENT.getName());
 
             return new Diagnosis(this.database, id, treatment, template, target, state, comment);
         }

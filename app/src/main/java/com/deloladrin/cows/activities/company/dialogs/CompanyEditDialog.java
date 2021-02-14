@@ -1,28 +1,16 @@
 package com.deloladrin.cows.activities.company.dialogs;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.ChildDialog;
 import com.deloladrin.cows.activities.company.CompanyActivity;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.database.DatabaseBitmap;
-import com.deloladrin.cows.dialogs.YesNoDialog;
 import com.deloladrin.cows.views.ImageSelect;
-
-import static android.app.Activity.RESULT_OK;
 
 public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements View.OnClickListener
 {

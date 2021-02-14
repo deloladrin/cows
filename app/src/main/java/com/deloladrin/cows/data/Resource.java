@@ -1,17 +1,17 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class Resource implements DatabaseEntry
+public class Resource implements TableEntry
 {
     private Database database;
 
@@ -48,19 +48,18 @@ public class Resource implements DatabaseEntry
         this.setCopy(copy);
     }
 
-    public static Resource get(Database database, long id)
+    public static Resource select(Database database, int id)
     {
-        return database.getResourceTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getResourceTable().select(values);
     }
 
-    public static List<Resource> getAll(Database database)
+    public static List<Resource> selectAll(Database database)
     {
-        return database.getResourceTable().selectAll();
-    }
-
-    public String getName()
-    {
-        return this.getTemplate().getName();
+        SelectValues values = new SelectValues();
+        return database.getResourceTable().selectAll(values);
     }
 
     public void insert()
@@ -76,16 +75,6 @@ public class Resource implements DatabaseEntry
     public void delete()
     {
         this.database.getResourceTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        Resource refreshed = this.database.getResourceTable().select(this.id);
-
-        this.treatment = refreshed.treatment;
-        this.template = refreshed.template;
-        this.target = refreshed.target;
-        this.copy = refreshed.copy;
     }
 
     @Override
@@ -118,7 +107,7 @@ public class Resource implements DatabaseEntry
 
     public Treatment getTreatment()
     {
-        return this.database.getTreatmentTable().select(this.treatment);
+        return Treatment.select(this.database, this.treatment);
     }
 
     public void setTreatment(Treatment treatment)
@@ -133,7 +122,7 @@ public class Resource implements DatabaseEntry
 
     public ResourceTemplate getTemplate()
     {
-        return this.database.getResourceTemplateTable().select(this.template);
+        return ResourceTemplate.select(this.database, this.template);
     }
 
     public void setTemplate(ResourceTemplate template)
@@ -176,15 +165,20 @@ public class Resource implements DatabaseEntry
         this.copy = copy;
     }
 
+    public String getName()
+    {
+        return this.getTemplate().getName();
+    }
+
     public static class Table extends TableBase<Resource>
     {
         public static final String TABLE_NAME = "resources";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_TREATMENT = new TableColumn(1, "treatment", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TEMPLATE = new TableColumn(2, "template", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_TARGET = new TableColumn(3, "target", ValueType.INTEGER, false);
-        public static final TableColumn COLUMN_COPY = new TableColumn(4, "copy", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_TREATMENT = new TableColumn("treatment", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TEMPLATE = new TableColumn("template", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_TARGET = new TableColumn("target", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_COPY = new TableColumn("copy", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -198,27 +192,27 @@ public class Resource implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(Resource object)
+        protected ContentValues getValues(Resource object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_TREATMENT, object.treatment);
-            params.put(COLUMN_TEMPLATE, object.template);
-            params.put(COLUMN_TARGET, object.target);
-            params.put(COLUMN_COPY, object.copy);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_TREATMENT.getName(), object.treatment);
+            values.put(COLUMN_TEMPLATE.getName(), object.template);
+            values.put(COLUMN_TARGET.getName(), object.target);
+            values.put(COLUMN_COPY.getName(), object.copy);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected Resource getObject(Cursor cursor)
+        protected Resource getObject(ContentValues values)
         {
-            long id = cursor.getLong(COLUMN_ID.getID());
-            long treatment = cursor.getLong(COLUMN_TREATMENT.getID());
-            int template = cursor.getInt(COLUMN_TEMPLATE.getID());
-            int target = cursor.getInt(COLUMN_TARGET.getID());
-            int copy = cursor.getInt(COLUMN_COPY.getID());
+            long id = values.getAsLong(COLUMN_ID.getName());
+            long treatment = values.getAsLong(COLUMN_TREATMENT.getName());
+            int template = values.getAsInteger(COLUMN_TEMPLATE.getName());
+            int target = values.getAsInteger(COLUMN_TARGET.getName());
+            int copy = values.getAsInteger(COLUMN_COPY.getName());
 
             return new Resource(this.database, id, treatment, template, target, copy);
         }

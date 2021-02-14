@@ -82,7 +82,7 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
         }
 
         /* Add all resource templates */
-        for (ResourceTemplate template : ResourceTemplate.getAll(this.getDatabase()))
+        for (ResourceTemplate template : ResourceTemplate.selectAll(this.getDatabase()))
         {
             this.add(template);
         }

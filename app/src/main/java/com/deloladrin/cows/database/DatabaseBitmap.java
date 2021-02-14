@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 
 public class DatabaseBitmap
 {
@@ -35,6 +34,26 @@ public class DatabaseBitmap
         drawable.draw(canvas);
 
         this.buffer = this.compress(bitmap);
+    }
+
+    public static byte[] bitmapToBytes(DatabaseBitmap bitmap)
+    {
+        if (bitmap != null)
+        {
+            return bitmap.getBytes();
+        }
+
+        return null;
+    }
+
+    public static DatabaseBitmap bytesToBitmap(byte[] bytes)
+    {
+        if (bytes != null)
+        {
+            return new DatabaseBitmap(bytes);
+        }
+
+        return null;
     }
 
     private byte[] compress(Bitmap bitmap)

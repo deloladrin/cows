@@ -1,17 +1,17 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class DiagnosisTemplate implements DatabaseEntry
+public class DiagnosisTemplate implements TableEntry
 {
     private Database database;
 
@@ -51,40 +51,33 @@ public class DiagnosisTemplate implements DatabaseEntry
         this.setType(type);
     }
 
-    public static DiagnosisTemplate get(Database database, long id)
+    public static DiagnosisTemplate select(Database database, int id)
     {
-        return database.getDiagnosesTemplateTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getDiagnosisTemplateTable().select(values);
     }
 
-    public static List<DiagnosisTemplate> getAll(Database database)
+    public static List<DiagnosisTemplate> selectAll(Database database)
     {
-        return database.getDiagnosesTemplateTable().selectAll();
+        SelectValues values = new SelectValues();
+        return database.getDiagnosisTemplateTable().selectAll(values);
     }
 
     public void insert()
     {
-        this.id = this.database.getDiagnosesTemplateTable().insert(this);
+        this.id = this.database.getDiagnosisTemplateTable().insert(this);
     }
 
     public void update()
     {
-        this.database.getDiagnosesTemplateTable().update(this);
+        this.database.getDiagnosisTemplateTable().update(this);
     }
 
     public void delete()
     {
-        this.database.getDiagnosesTemplateTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        DiagnosisTemplate refreshed = this.database.getDiagnosesTemplateTable().select(this.id);;
-
-        this.nameNew = refreshed.nameNew;
-        this.nameTreated = refreshed.nameTreated;
-        this.nameHealed = refreshed.nameHealed;
-        this.nameShort = refreshed.nameShort;
-        this.type = refreshed.type;
+        this.database.getDiagnosisTemplateTable().delete(this);
     }
 
     @Override
@@ -174,12 +167,12 @@ public class DiagnosisTemplate implements DatabaseEntry
     {
         public static final String TABLE_NAME = "diagonsis_templates";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_NAME_NEW = new TableColumn(1, "name_new", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_NAME_TREATED = new TableColumn(2, "name_treated", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_NAME_HEALED = new TableColumn(3, "name_healed", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_NAME_SHORT = new TableColumn(4, "name_short", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_TYPE = new TableColumn(5, "type", ValueType.INTEGER, false);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_NAME_NEW = new TableColumn("name_new", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_NAME_TREATED = new TableColumn("name_treated", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_NAME_HEALED = new TableColumn("name_healed", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_NAME_SHORT = new TableColumn("name_short", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_TYPE = new TableColumn("type", ValueType.INTEGER, false);
 
         public Table(Database database)
         {
@@ -194,29 +187,29 @@ public class DiagnosisTemplate implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(DiagnosisTemplate object)
+        protected ContentValues getValues(DiagnosisTemplate object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_NAME_NEW, object.nameNew);
-            params.put(COLUMN_NAME_TREATED, object.nameTreated);
-            params.put(COLUMN_NAME_HEALED, object.nameHealed);
-            params.put(COLUMN_NAME_SHORT, object.nameShort);
-            params.put(COLUMN_TYPE, object.type);
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_NAME_NEW.getName(), object.nameNew);
+            values.put(COLUMN_NAME_TREATED.getName(), object.nameTreated);
+            values.put(COLUMN_NAME_HEALED.getName(), object.nameHealed);
+            values.put(COLUMN_NAME_SHORT.getName(), object.nameShort);
+            values.put(COLUMN_TYPE.getName(), object.type);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected DiagnosisTemplate getObject(Cursor cursor)
+        protected DiagnosisTemplate getObject(ContentValues values)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            String nameNew = cursor.getString(COLUMN_NAME_NEW.getID());
-            String nameTreated = cursor.getString(COLUMN_NAME_TREATED.getID());
-            String nameHealed = cursor.getString(COLUMN_NAME_HEALED.getID());
-            String nameShort = cursor.getString(COLUMN_NAME_SHORT.getID());
-            int type = cursor.getInt(COLUMN_TYPE.getID());
+            int id = values.getAsInteger(COLUMN_ID.getName());
+            String nameNew = values.getAsString(COLUMN_NAME_NEW.getName());
+            String nameTreated = values.getAsString(COLUMN_NAME_TREATED.getName());
+            String nameHealed = values.getAsString(COLUMN_NAME_HEALED.getName());
+            String nameShort = values.getAsString(COLUMN_NAME_SHORT.getName());
+            int type = values.getAsInteger(COLUMN_TYPE.getName());
 
             return new DiagnosisTemplate(this.database, id, nameNew, nameTreated, nameHealed, nameShort, type);
         }

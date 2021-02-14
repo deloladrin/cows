@@ -24,30 +24,29 @@ public class Database extends SQLiteOpenHelper
     private Company.Table companyTable;
     private Cow.Table cowTable;
     private Treatment.Table treatmentTable;
-    private Diagnosis.Table diagnosesTable;
-    private DiagnosisTemplate.Table diagnosesTemplateTable;
-    private Resource.Table resourceTable;
+    private DiagnosisTemplate.Table diagnosisTemplateTable;
+    private Diagnosis.Table diagnosisTable;
     private ResourceTemplate.Table resourceTemplateTable;
-    private Status.Table statusTable;
+    private Resource.Table resourceTable;
     private StatusTemplate.Table statusTemplateTable;
+    private Status.Table statusTable;
 
     public Database(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
         this.context = context;
 
         this.companyTable = new Company.Table(this);
         this.cowTable = new Cow.Table(this);
         this.treatmentTable = new Treatment.Table(this);
-        this.diagnosesTable = new Diagnosis.Table(this);
-        this.diagnosesTemplateTable = new DiagnosisTemplate.Table(this);
-        this.resourceTable = new Resource.Table(this);
+        this.diagnosisTemplateTable = new DiagnosisTemplate.Table(this);
+        this.diagnosisTable = new Diagnosis.Table(this);
         this.resourceTemplateTable = new ResourceTemplate.Table(this);
-        this.statusTable = new Status.Table(this);
+        this.resourceTable = new Resource.Table(this);
         this.statusTemplateTable = new StatusTemplate.Table(this);
+        this.statusTable = new Status.Table(this);
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        this.getWritableDatabase();
     }
 
     @Override
@@ -56,12 +55,12 @@ public class Database extends SQLiteOpenHelper
         this.companyTable.create(db);
         this.cowTable.create(db);
         this.treatmentTable.create(db);
-        this.diagnosesTable.create(db);
-        this.diagnosesTemplateTable.create(db);
-        this.resourceTable.create(db);
+        this.diagnosisTemplateTable.create(db);
+        this.diagnosisTable.create(db);
         this.resourceTemplateTable.create(db);
-        this.statusTable.create(db);
+        this.resourceTable.create(db);
         this.statusTemplateTable.create(db);
+        this.statusTable.create(db);
     }
 
     @Override
@@ -70,12 +69,12 @@ public class Database extends SQLiteOpenHelper
         this.companyTable.drop(db);
         this.cowTable.drop(db);
         this.treatmentTable.drop(db);
-        this.diagnosesTable.drop(db);
-        this.diagnosesTemplateTable.drop(db);
-        this.resourceTable.drop(db);
+        this.diagnosisTemplateTable.drop(db);
+        this.diagnosisTable.drop(db);
         this.resourceTemplateTable.drop(db);
-        this.statusTable.drop(db);
+        this.resourceTable.drop(db);
         this.statusTemplateTable.drop(db);
+        this.statusTable.drop(db);
 
         this.onCreate(db);
     }
@@ -100,19 +99,14 @@ public class Database extends SQLiteOpenHelper
         return this.treatmentTable;
     }
 
-    public Diagnosis.Table getDiagnosesTable()
+    public DiagnosisTemplate.Table getDiagnosisTemplateTable()
     {
-        return this.diagnosesTable;
+        return this.diagnosisTemplateTable;
     }
 
-    public DiagnosisTemplate.Table getDiagnosesTemplateTable()
+    public Diagnosis.Table getDiagnosisTable()
     {
-        return this.diagnosesTemplateTable;
-    }
-
-    public Resource.Table getResourceTable()
-    {
-        return this.resourceTable;
+        return this.diagnosisTable;
     }
 
     public ResourceTemplate.Table getResourceTemplateTable()
@@ -120,13 +114,18 @@ public class Database extends SQLiteOpenHelper
         return this.resourceTemplateTable;
     }
 
-    public Status.Table getStatusTable()
+    public Resource.Table getResourceTable()
     {
-        return this.statusTable;
+        return this.resourceTable;
     }
 
     public StatusTemplate.Table getStatusTemplateTable()
     {
         return this.statusTemplateTable;
+    }
+
+    public Status.Table getStatusTable()
+    {
+        return this.statusTable;
     }
 }

@@ -9,7 +9,6 @@ import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
-import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.Status;
 import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
@@ -270,7 +269,7 @@ public class TreatmentWorkbook extends Workbook
 
         /* Add cow information */
         Cow cow = treatment.getCow();
-        int number = cow.getNumber();
+        int number = cow.getID();
         int collar = cow.getCollar();
         String group = cow.getGroup();
 

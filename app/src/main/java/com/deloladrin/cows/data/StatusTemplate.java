@@ -1,18 +1,18 @@
 package com.deloladrin.cows.data;
 
-import android.database.Cursor;
+import android.content.ContentValues;
 
 import com.deloladrin.cows.database.Database;
 import com.deloladrin.cows.database.DatabaseBitmap;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.SelectValues;
 import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
-import com.deloladrin.cows.database.ValueParams;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.database.ValueType;
 
 import java.util.List;
 
-public class StatusTemplate implements DatabaseEntry
+public class StatusTemplate implements TableEntry
 {
     private Database database;
 
@@ -43,14 +43,18 @@ public class StatusTemplate implements DatabaseEntry
         this.setImage(image);
     }
 
-    public static StatusTemplate get(Database database, long id)
+    public static StatusTemplate select(Database database, int id)
     {
-        return database.getStatusTemplateTable().select(id);
+        SelectValues values = new SelectValues()
+                .where(Table.COLUMN_ID, id);
+
+        return database.getStatusTemplateTable().select(values);
     }
 
-    public static List<StatusTemplate> getAll(Database database)
+    public static List<StatusTemplate> selectAll(Database database)
     {
-        return database.getStatusTemplateTable().selectAll();
+        SelectValues values = new SelectValues();
+        return database.getStatusTemplateTable().selectAll(values);
     }
 
     public void insert()
@@ -66,14 +70,6 @@ public class StatusTemplate implements DatabaseEntry
     public void delete()
     {
         this.database.getStatusTemplateTable().delete(this);
-    }
-
-    public void refresh()
-    {
-        StatusTemplate refreshed = this.database.getStatusTemplateTable().select(this.id);
-
-        this.name = refreshed.name;
-        this.image = refreshed.image;
     }
 
     @Override
@@ -116,17 +112,12 @@ public class StatusTemplate implements DatabaseEntry
 
     public DatabaseBitmap getImage()
     {
-        return new DatabaseBitmap(this.image);
-    }
-
-    public String getImageHexBytes()
-    {
-        return this.getImage().getHexBytes();
+        return DatabaseBitmap.bytesToBitmap(this.image);
     }
 
     public void setImage(DatabaseBitmap image)
     {
-        this.image = image.getBytes();
+        this.image = DatabaseBitmap.bitmapToBytes(image);
     }
 
     public void setImage(byte[] image)
@@ -138,9 +129,9 @@ public class StatusTemplate implements DatabaseEntry
     {
         public static final String TABLE_NAME = "status_templates";
 
-        public static final TableColumn COLUMN_ID = new TableColumn(0, "id", ValueType.INTEGER, false, true, true);
-        public static final TableColumn COLUMN_NAME = new TableColumn(1, "name", ValueType.TEXT, false);
-        public static final TableColumn COLUMN_IMAGE = new TableColumn(2, "image", ValueType.BLOB, false);
+        public static final TableColumn COLUMN_ID = new TableColumn("id", ValueType.INTEGER, false, true, true);
+        public static final TableColumn COLUMN_NAME = new TableColumn("name", ValueType.TEXT, false);
+        public static final TableColumn COLUMN_IMAGE = new TableColumn("image", ValueType.BLOB, false);
 
         public Table(Database database)
         {
@@ -152,23 +143,23 @@ public class StatusTemplate implements DatabaseEntry
         }
 
         @Override
-        protected ValueParams getParams(StatusTemplate object)
+        protected ContentValues getValues(StatusTemplate object)
         {
-            ValueParams params = new ValueParams();
+            ContentValues values = new ContentValues();
 
-            params.put(COLUMN_ID, object.id);
-            params.put(COLUMN_NAME, object.name);
-            params.put(COLUMN_IMAGE, object.getImageHexBytes());
+            values.put(COLUMN_ID.getName(), object.id);
+            values.put(COLUMN_NAME.getName(), object.name);
+            values.put(COLUMN_IMAGE.getName(), object.image);
 
-            return params;
+            return values;
         }
 
         @Override
-        protected StatusTemplate getObject(Cursor cursor)
+        protected StatusTemplate getObject(ContentValues values)
         {
-            int id = cursor.getInt(COLUMN_ID.getID());
-            String name = cursor.getString(COLUMN_NAME.getID());
-            byte[] image = cursor.getBlob(COLUMN_IMAGE.getID());
+            int id = values.getAsInteger(COLUMN_ID.getName());
+            String name = values.getAsString(COLUMN_NAME.getName());
+            byte[] image = values.getAsByteArray(COLUMN_IMAGE.getName());
 
             return new StatusTemplate(this.database, id, name, image);
         }

@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.database.DatabaseActivity;
-import com.deloladrin.cows.database.DatabaseEntry;
+import com.deloladrin.cows.database.TableEntry;
 import com.deloladrin.cows.dialogs.YesNoDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TemplateActivity<T extends DatabaseEntry> extends DatabaseActivity implements View.OnClickListener, TemplateEntry.OnActionListener<T>
+public abstract class TemplateActivity<T extends TableEntry> extends DatabaseActivity implements View.OnClickListener, TemplateEntry.OnActionListener<T>
 {
     protected List<T> values;
     protected List<TemplateEntry<T>> views;

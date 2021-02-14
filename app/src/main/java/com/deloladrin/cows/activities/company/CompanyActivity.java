@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.dialogs.CompanyEditDialog;
 import com.deloladrin.cows.activities.template.TemplateActivity;
 import com.deloladrin.cows.activities.template.TemplateEntry;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.database.DatabaseBitmap;
-
-import java.util.List;
 
 public class CompanyActivity extends TemplateActivity<Company>
 {
@@ -108,6 +104,6 @@ public class CompanyActivity extends TemplateActivity<Company>
     public void refresh()
     {
         /* Reload all companies */
-        this.setValues(Company.getAll(this.database));
+        this.setValues(Company.selectAll(this.database));
     }
 }

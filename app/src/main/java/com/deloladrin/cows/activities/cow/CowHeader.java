@@ -122,7 +122,7 @@ public class CowHeader extends ChildActivity<CowActivity> implements View.OnClic
 
         if (cow != null)
         {
-            int number = cow.getNumber();
+            int number = cow.getID();
             int collar = cow.getCollar();
             String company = cow.getCompany().getName();
             String group = cow.getGroup();
