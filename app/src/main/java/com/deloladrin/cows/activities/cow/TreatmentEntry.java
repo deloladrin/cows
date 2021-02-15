@@ -27,7 +27,7 @@ public class TreatmentEntry implements View.OnClickListener
     public TreatmentEntry(TreatmentHistory parent, LayoutInflater inflater)
     {
         this.parent = parent;
-        this.view = inflater.inflate(R.layout.activity_cow_entry, null);
+        this.view = inflater.inflate(R.layout.entry_cow, null);
 
         /* Load all children */
         this.type = this.view.findViewById(R.id.entry_type);

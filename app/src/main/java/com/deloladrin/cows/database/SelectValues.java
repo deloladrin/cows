@@ -4,6 +4,7 @@ import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,8 @@ public class SelectValues
 
     public SelectValues()
     {
-        this.wheres = new HashMap<>();
-        this.orders = new HashMap<>();
+        this.wheres = new LinkedHashMap<>();
+        this.orders = new LinkedHashMap<>();
         this.limit = -1;
     }
 

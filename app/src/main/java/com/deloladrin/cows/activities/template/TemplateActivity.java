@@ -9,17 +9,9 @@ import android.widget.TextView;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.database.DatabaseActivity;
-import com.deloladrin.cows.database.TableEntry;
-import com.deloladrin.cows.dialogs.YesNoDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class TemplateActivity<T extends TableEntry> extends DatabaseActivity implements View.OnClickListener, TemplateEntry.OnActionListener<T>
+public abstract class TemplateActivity extends DatabaseActivity implements View.OnClickListener
 {
-    protected List<T> values;
-    protected List<TemplateEntry<T>> views;
-
     protected ImageView image;
     protected TextView name;
 
@@ -43,13 +35,9 @@ public abstract class TemplateActivity<T extends TableEntry> extends DatabaseAct
         this.add.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View view)
+    public void refresh()
     {
-        if (view.equals(this.add))
-        {
-            this.onAddClick();
-        }
+        this.clear();
     }
 
     @Override
@@ -61,75 +49,13 @@ public abstract class TemplateActivity<T extends TableEntry> extends DatabaseAct
         this.refresh();
     }
 
-    public void onAddClick()
+    public void add(View view)
     {
+        this.container.addView(view);
     }
 
-    @Override
-    public void onShowClick(TemplateEntry<T> entry)
+    public void clear()
     {
-    }
-
-    @Override
-    public void onEditClick(TemplateEntry<T> entry)
-    {
-    }
-
-    @Override
-    public void onDeleteClick(TemplateEntry<T> entry)
-    {
-        /* Ask to delete entry */
-        YesNoDialog dialog = new YesNoDialog(this);
-        dialog.setText(R.string.dialog_entry_delete, entry.getName());
-
-        dialog.setOnYesListener((d) ->
-        {
-            /* Delete and refresh */
-            T value = entry.getValue();
-            value.delete();
-
-            this.refresh();
-        });
-
-        dialog.show();
-    }
-
-    public void refresh()
-    {
-    }
-
-    protected TemplateEntry<T> createEntry(T value)
-    {
-        TemplateEntry<T> entry = new TemplateEntry<>(this, value);
-        return entry;
-    }
-
-    public List<T> getValues()
-    {
-        return this.values;
-    }
-
-    public void setValues(List<T> values)
-    {
-        this.values = values;
-
-        this.views = new ArrayList<>();
         this.container.removeAllViews();
-
-        /* Add entries */
-        for (T value : values)
-        {
-            TemplateEntry<T> entry = this.createEntry(value);
-            entry.setOnActionListener(this);
-
-            this.views.add(entry);
-            this.container.addView(entry.getView());
-        }
-    }
-
-    public void setAddVisible(boolean visible)
-    {
-        int visibility = visible ? View.VISIBLE : View.GONE;
-        this.add.setVisibility(visibility);
     }
 }

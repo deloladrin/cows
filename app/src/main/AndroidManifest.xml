@@ -23,7 +23,7 @@
         </activity>
 
         <activity android:name=".activities.company.CompanyActivity" />
-        <activity android:name=".activities.company.CompanyCowActivity" />
+        <activity android:name=".activities.company.cow.CompanyCowActivity" />
         <activity android:name=".activities.cow.CowActivity" />
 
     </application>

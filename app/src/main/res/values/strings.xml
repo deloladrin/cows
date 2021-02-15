@@ -2,8 +2,9 @@
     <string name="app_name">Krávy</string>
 
     <string name="activity_company">Firmy</string>
-    <string name="activity_company_cow">Krávy</string>
     <string name="activity_cow">Kráva</string>
+
+    <string name="entry_company_count">%d krav</string>
 
     <string name="section_history">Historie</string>
     <string name="section_comment">Komentář</string>
@@ -14,6 +15,7 @@
     <string name="dialog_cow_number">Zadejte číslo krávy:</string>
     <string name="dialog_cow_group">Zadejte skupinu krávy:</string>
     <string name="dialog_cow_add">Kráva nebyla nalezena v databázi, chcete ji přidat?</string>
+    <string name="dialog_cow_delete">Opravdu chcete odstranit krávu \'%d\'?</string>
     <string name="dialog_treatment_old">Opravdu chcete upravit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_delete">Opravdu chcete odstranit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_type">Vyberte typ ošetření:</string>
@@ -23,9 +25,9 @@
     <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
     <string name="dialog_resources_select">%s — Vyberte položky:</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
-    <string name="dialog_entry_delete">Opravdu chcete odstranit položku \'%s\'?</string>
     <string name="dialog_image_delete">Opravdu chcete obrázek odstranit?</string>
     <string name="dialog_company">Vyberte firmu:</string>
+    <string name="dialog_company_delete">Opravdu chcete odstranit firmu \'%s\'?</string>
     <string name="dialog_company_cow_group">Skupina \'%s\'</string>
 
     <string name="dialog_company_name">Jméno:</string>
