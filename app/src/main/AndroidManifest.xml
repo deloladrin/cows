@@ -25,6 +25,7 @@
         <activity android:name=".activities.company.CompanyActivity" />
         <activity android:name=".activities.company.cow.CompanyCowActivity" />
         <activity android:name=".activities.cow.CowActivity" />
+        <activity android:name=".activities.export.ExportActivity" />
 
     </application>
 

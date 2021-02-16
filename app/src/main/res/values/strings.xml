@@ -3,11 +3,16 @@
 
     <string name="activity_company">Firmy</string>
     <string name="activity_cow">Kráva</string>
+    <string name="activity_export">Export</string>
 
     <string name="entry_company_count">%d krav</string>
 
+    <string name="date_start">Od: </string>
+    <string name="date_end">Do: </string>
+
     <string name="section_history">Historie</string>
     <string name="section_comment">Komentář</string>
+    <string name="section_settings">Nastavení</string>
 
     <string name="digits_numbers">0123456789</string>
 
@@ -29,6 +34,9 @@
     <string name="dialog_company">Vyberte firmu:</string>
     <string name="dialog_company_delete">Opravdu chcete odstranit firmu \'%s\'?</string>
     <string name="dialog_company_cow_group">Skupina \'%s\'</string>
+    <string name="dialog_export_exists">Soubor \'%s\' již existuje. Opravdu jej chcete přepsat?</string>
+    <string name="dialog_export_success">Soubor \'%s\' úspěšně exportován!</string>
+    <string name="dialog_export_error">Soubor \'%s\' se nepodařilo exportovat!</string>
 
     <string name="dialog_company_name">Jméno:</string>
     <string name="dialog_company_group">Skupina:</string>
@@ -39,6 +47,8 @@
     <string name="dialog_continue">Pokračovat</string>
     <string name="dialog_select">Vybrat</string>
     <string name="dialog_submit">Potvrdit</string>
+    <string name="dialog_export">Exportovat</string>
+    <string name="dialog_ok">OK</string>
     <string name="dialog_no">Ne</string>
     <string name="dialog_yes">Ano</string>
 
@@ -48,6 +58,9 @@
     <string name="treatment_limp">Kulhá</string>
     <string name="treatment_whole">CÚP</string>
     <string name="treatment_repeat">Převaz</string>
+
+    <string name="export_types">Exportovat ošetření:</string>
+    <string name="export_resources">Exportovat položky:</string>
 
     <string name="diagnosis_healed">Vyhojený</string>
     <string name="diagnosis_treated">Rozléčený</string>

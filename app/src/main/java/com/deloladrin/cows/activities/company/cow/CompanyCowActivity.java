@@ -14,6 +14,8 @@ import com.deloladrin.cows.database.DatabaseBitmap;
 import com.deloladrin.cows.database.SelectOrder;
 import com.deloladrin.cows.database.SelectValues;
 
+import java.util.List;
+
 public class CompanyCowActivity extends TemplateActivity
 {
     public static final String EXTRA_COMPANY_ID = "com.deloladrin.cows.activities.company.cow.CompanyCowActivity.EXTRA_COMPANY_ID";
@@ -74,12 +76,12 @@ public class CompanyCowActivity extends TemplateActivity
         String group = null;
 
         SelectValues values = new SelectValues()
-                .where(Cow.Table.COLUMN_COMPANY, this.company.getID())
-                .orderBy(Cow.Table.COLUMN_GROUP, SelectOrder.ASCENDING)
-                .orderBy(Cow.Table.COLUMN_COLLAR, SelectOrder.ASCENDING)
-                .orderBy(Cow.Table.COLUMN_ID, SelectOrder.ASCENDING);
+                .where(Cow.Table.COLUMN_COMPANY, this.company.getID());
 
-        for (Cow cow : this.database.getCowTable().selectAll(values))
+        List<Cow> cows = this.database.getCowTable().selectAll(values);
+        Cow.sort(cows);
+
+        for (Cow cow : cows)
         {
             String cowGroup = cow.getGroup();
 

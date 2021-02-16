@@ -18,7 +18,6 @@ import java.util.List;
 public class CowActivity extends DatabaseActivity
 {
     public static final String EXTRA_COW_ID = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_COW_ID";
-    public static final String EXTRA_USER_NAME = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_USER_NAME";
 
     private Cow cow;
 
@@ -39,9 +38,7 @@ public class CowActivity extends DatabaseActivity
 
         /* Load requested cow */
         Intent intent = this.getIntent();
-
         int cowID = intent.getIntExtra(EXTRA_COW_ID, 0);
-        String user = intent.getStringExtra(EXTRA_USER_NAME);
 
         this.setCow(Cow.select(this.database, cowID));
     }

@@ -28,7 +28,7 @@ public class CompanyEditDialog extends ChildDialog<CompanyActivity> implements V
     public CompanyEditDialog(CompanyActivity parent, Company company)
     {
         super(parent);
-        this.setContentView(R.layout.dialog_template_edit_company);
+        this.setContentView(R.layout.dialog_company_edit);
 
         this.company = company;
 

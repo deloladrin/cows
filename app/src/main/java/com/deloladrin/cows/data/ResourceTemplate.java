@@ -246,7 +246,7 @@ public class ResourceTemplate implements TableEntry
             int id = values.getAsInteger(COLUMN_ID.getName());
             String name = values.getAsString(COLUMN_NAME.getName());
             int type = values.getAsInteger(COLUMN_TYPE.getName());
-            int layer = values.getAsInteger(COLUMN_TYPE.getName());
+            int layer = values.getAsInteger(COLUMN_LAYER.getName());
             int copying = values.getAsInteger(COLUMN_COPYING.getName());
             byte[] image = values.getAsByteArray(COLUMN_IMAGE.getName());
             byte[] imageSmall = values.getAsByteArray(COLUMN_IMAGE_SMALL.getName());

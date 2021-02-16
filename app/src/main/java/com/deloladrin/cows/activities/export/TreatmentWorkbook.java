@@ -9,6 +9,7 @@ import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.FingerMask;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.Status;
 import com.deloladrin.cows.data.TargetMask;
 import com.deloladrin.cows.data.Treatment;
@@ -32,6 +33,8 @@ import java.util.Map;
 
 public class TreatmentWorkbook extends Workbook
 {
+    private ExportSettings settings;
+
     private Sheet sheet;
     private LocalDate repeatDate;
 
@@ -54,9 +57,10 @@ public class TreatmentWorkbook extends Workbook
 
     private int current;
 
-    public TreatmentWorkbook(Context context)
+    public TreatmentWorkbook(Context context, ExportSettings settings)
     {
         super(context);
+        this.settings = settings;
 
         String name = context.getString(R.string.export_treatment);
         this.sheet = new Sheet(name);
@@ -70,7 +74,7 @@ public class TreatmentWorkbook extends Workbook
         this.title.setValue(context, R.string.export_treatment_title);
         this.sheet.add(this.title);
 
-        this.date = new Cell(0, 2);
+        this.date = new Cell(5, 2);
         this.date.setXSpan(3);
         this.date.setHorizontalAlignment(HorizontalAlignment.CENTER);
         this.sheet.add(this.date);
@@ -129,31 +133,35 @@ public class TreatmentWorkbook extends Workbook
 
         /* Add picture */
         DatabaseBitmap bitmap = new DatabaseBitmap(this.context, R.drawable.icon_salas);
-        this.picture = new Picture(bitmap, 6, 1, 2, 4);
-        this.picture.setXOffset(-0.75f);
-        this.sheet.add(picture);
+        this.picture = new Picture(bitmap, 1, 1, 2, 4);
+        this.picture.setXOffset(-0.25f);
+        this.sheet.add(this.picture);
 
         this.add(this.sheet);
     }
 
     @Override
-    public boolean save(String name)
+    public void save(String name)
     {
         this.table.updateBorders();
 
-        return super.save(name);
+        super.save(name);
     }
 
     public void setCompany(Company company)
     {
         String group = company.getGroup();
+        int y = 3;
 
         this.company.setValue(company.getName());
 
         if (group != null)
         {
             this.companyGroup.setValue(group);
+            y = 4;
         }
+
+        this.company.setY(y);
     }
 
     public void setDate(LocalDate date)
@@ -185,25 +193,68 @@ public class TreatmentWorkbook extends Workbook
 
     public void add(Treatment treatment)
     {
-        Map<TargetMask, List<Diagnosis>> diagnoses = new LinkedHashMap<>();
-        Map<TargetMask, List<Resource>> resources = new LinkedHashMap<>();
-        this.getTargetMaps(treatment, diagnoses, resources);
+        List<TreatmentType> allowedTypes = this.settings.getTreatmentTypes();
 
-        Map<TableColumn, Cell> first = null;
-
-        /* Mark whole treatments */
-        if (treatment.getType() == TreatmentType.WHOLE)
+        /* Check if treatment is allowed */
+        if (allowedTypes.contains(treatment.getType()))
         {
-            first = this.table.addRow();
-            first.get(this.diagnosis).setValue(this.context, R.string.export_treatment_whole);
-        }
+            Map<TargetMask, List<Diagnosis>> diagnoses = new LinkedHashMap<>();
+            Map<TargetMask, List<Resource>> resources = new LinkedHashMap<>();
+            this.getTargetMaps(treatment, diagnoses, resources);
 
-        /* Add all diagnoses and resources */
-        for (TargetMask target : diagnoses.keySet())
-        {
-            List<Diagnosis> currentDiagnoses = diagnoses.get(target);
-            List<Resource> currentResources = resources.get(target);
-            int length = Math.max(currentDiagnoses.size(), currentResources.size());
+            Map<TableColumn, Cell> first = null;
+
+            /* Mark whole treatments if exporting multiple types */
+            if (allowedTypes.size() > 1 && treatment.getType() == TreatmentType.WHOLE)
+            {
+                first = this.table.addRow();
+                first.get(this.diagnosis).setValue(this.context, R.string.export_treatment_whole);
+            }
+
+            /* Add all diagnoses and resources */
+            for (TargetMask target : diagnoses.keySet())
+            {
+                List<Diagnosis> currentDiagnoses = diagnoses.get(target);
+                List<Resource> currentResources = resources.get(target);
+                int length = Math.max(currentDiagnoses.size(), currentResources.size());
+
+                for (int i = 0; i < length; i++)
+                {
+                    Map<TableColumn, Cell> entry = this.table.addRow();
+
+                    if (first == null)
+                        first = entry;
+
+                    /* Fill values */
+                    if (i < currentDiagnoses.size())
+                    {
+                        Diagnosis diagnosis = currentDiagnoses.get(i);
+                        String name = diagnosis.getName();
+                        String comment = diagnosis.getComment();
+
+                        if (comment != null)
+                        {
+                            name = name + " — " + comment;
+                        }
+
+                        entry.get(this.diagnosis).setValue(name);
+                        entry.get(this.target).setValue(target.getName(this.context));
+                    }
+
+                    if (i < currentResources.size())
+                    {
+                        Resource resource = currentResources.get(i);
+                        String name = resource.getName() + "!";
+
+                        entry.get(this.extra).setValue(name);
+                    }
+                }
+            }
+
+            /* Add statuses and comment */
+            List<Status> statuses = treatment.getStatuses();
+            String comment = treatment.getComment();
+            int length = Math.max(comment != null ? 1 : 0, statuses.size());
 
             for (int i = 0; i < length; i++)
             {
@@ -213,76 +264,39 @@ public class TreatmentWorkbook extends Workbook
                     first = entry;
 
                 /* Fill values */
-                if (i < currentDiagnoses.size())
+                if (i == 0 && comment != null)
                 {
-                    Diagnosis diagnosis = currentDiagnoses.get(i);
-                    String name = diagnosis.getName();
-                    String comment = diagnosis.getComment();
-
-                    if (comment != null)
-                    {
-                        name = name + " — " + comment;
-                    }
-
-                    entry.get(this.diagnosis).setValue(name);
-                    entry.get(this.target).setValue(target.getName(this.context));
+                    entry.get(this.diagnosis).setValue(comment);
                 }
 
-                if (i < currentResources.size())
+                if (i < statuses.size())
                 {
-                    Resource resource = currentResources.get(i);
-                    String name = resource.getName() + "!";
+                    Status status = statuses.get(i);
+                    String name = status.getName() + "!";
 
-                    entry.get(this.extra).setValue(name);
+                    Cell cell = entry.get(this.extra);
+                    cell.setBold(true);
+                    cell.setValue(name);
                 }
             }
-        }
 
-        /* Add statuses and comment */
-        List<Status> statuses = treatment.getStatuses();
-        String comment = treatment.getComment();
-        int length = Math.max(comment != null ? 1 : 0, statuses.size());
-
-        for (int i = 0; i < length; i++)
-        {
-            Map<TableColumn, Cell> entry = this.table.addRow();
+            /* Add cow information */
+            Cow cow = treatment.getCow();
+            int number = cow.getID();
+            int collar = cow.getCollar();
+            String group = cow.getGroup();
 
             if (first == null)
-                first = entry;
+                first = this.table.addRow();
 
-            /* Fill values */
-            if (i == 0 && comment != null)
-            {
-                entry.get(this.diagnosis).setValue(comment);
-            }
+            first.get(this.index).setValue(this.current);
+            first.get(this.number).setValue(number);
+            first.get(this.collar).setValue(collar != 0 ? collar : "—");
+            first.get(this.group).setValue(group != null ? group : "—");
 
-            if (i < statuses.size())
-            {
-                Status status = statuses.get(i);
-                String name = status.getName() + "!";
-
-                Cell cell = entry.get(this.extra);
-                cell.setBold(true);
-                cell.setValue(name);
-            }
+            this.current++;
+            this.table.endBlock();
         }
-
-        /* Add cow information */
-        Cow cow = treatment.getCow();
-        int number = cow.getID();
-        int collar = cow.getCollar();
-        String group = cow.getGroup();
-
-        if (first == null)
-            first = this.table.addRow();
-
-        first.get(this.index).setValue(this.current);
-        first.get(this.number).setValue(number);
-        first.get(this.collar).setValue(collar != 0 ? collar : "—");
-        first.get(this.group).setValue(group != null ? group : "—");
-
-        this.current++;
-        this.table.endBlock();
     }
 
     private void getTargetMaps(Treatment treatment, Map<TargetMask, List<Diagnosis>> diagnoses, Map<TargetMask, List<Resource>> resources)
@@ -307,32 +321,38 @@ public class TreatmentWorkbook extends Workbook
         }
 
         /* Fill resources */
+        List<ResourceTemplate> allowedResources = this.settings.getResourceTemplates();
+
         for (Resource resource : treatment.getResources())
         {
-            if (!resource.isCopy())
+            /* Check if resource is allowed */
+            if (allowedResources.contains(resource.getTemplate()))
             {
-                TargetMask target = resource.getTarget();
-
-                if (target instanceof FingerMask)
+                if (!resource.isCopy())
                 {
-                    FingerMask finger = (FingerMask) target;
+                    TargetMask target = resource.getTarget();
 
-                    /* Attempt correct finger -> hoof */
-                    if (!this.attemptAdd(resource, finger, diagnoses, resources))
+                    if (target instanceof FingerMask)
                     {
-                        this.attemptAdd(resource, finger.getHoof(), diagnoses, resources);
-                    }
-                }
-                else
-                {
-                    HoofMask hoof = (HoofMask) target;
+                        FingerMask finger = (FingerMask) target;
 
-                    /* Attempt left finger -> right finger -> hoof */
-                    if (!this.attemptAdd(resource, hoof.getLeftFinger(), diagnoses, resources))
-                    {
-                        if (!this.attemptAdd(resource, hoof.getRightFinger(), diagnoses, resources))
+                        /* Attempt correct finger -> hoof */
+                        if (!this.attemptAdd(resource, finger, diagnoses, resources))
                         {
-                            this.attemptAdd(resource, hoof, diagnoses, resources);
+                            this.attemptAdd(resource, finger.getHoof(), diagnoses, resources);
+                        }
+                    }
+                    else
+                    {
+                        HoofMask hoof = (HoofMask) target;
+
+                        /* Attempt left finger -> right finger -> hoof */
+                        if (!this.attemptAdd(resource, hoof.getLeftFinger(), diagnoses, resources))
+                        {
+                            if (!this.attemptAdd(resource, hoof.getRightFinger(), diagnoses, resources))
+                            {
+                                this.attemptAdd(resource, hoof, diagnoses, resources);
+                            }
                         }
                     }
                 }

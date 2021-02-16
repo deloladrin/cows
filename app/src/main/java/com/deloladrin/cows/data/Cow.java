@@ -9,6 +9,7 @@ import com.deloladrin.cows.database.TableBase;
 import com.deloladrin.cows.database.TableColumn;
 import com.deloladrin.cows.database.ValueType;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Cow implements TableEntry
@@ -57,6 +58,68 @@ public class Cow implements TableEntry
     {
         SelectValues values = new SelectValues();
         return database.getCowTable().selectAll(values);
+    }
+
+    public static void sort(List<Cow> cows)
+    {
+        cows.sort((Cow a, Cow b) ->
+        {
+            /* Sort by groups */
+            int result = sortGroup(a, b);
+
+            if (result == 0)
+            {
+                return sortNumber(a, b);
+            }
+
+            return result;
+        });
+    }
+
+    private static int sortGroup(Cow a, Cow b)
+    {
+        if (a.group == null && b.group == null)
+        {
+            return 0;
+        }
+
+        if (a.group == null)
+        {
+            return -1;
+        }
+
+        if (b.group == null)
+        {
+            return 1;
+        }
+
+        try
+        {
+            Integer ai = Integer.parseInt(a.group);
+            Integer bi = Integer.parseInt(b.group);
+
+            return ai.compareTo(bi);
+        }
+        catch (NumberFormatException e)
+        {
+            return a.group.compareTo(b.group);
+        }
+    }
+
+    private static int sortNumber(Cow a, Cow b)
+    {
+        Integer ac = a.collar;
+        Integer bc = b.collar;
+
+        Integer ai = a.id;
+        Integer bi = b.id;
+
+        if ((ac != 0) && (bc != 0))
+        {
+            return ac.compareTo(bc);
+        }
+
+        return ai.compareTo(bi);
     }
 
     public void insert()
