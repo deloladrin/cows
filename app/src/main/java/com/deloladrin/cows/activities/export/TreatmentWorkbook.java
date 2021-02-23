@@ -203,6 +203,7 @@ public class TreatmentWorkbook extends Workbook
             this.getTargetMaps(treatment, diagnoses, resources);
 
             Map<TableColumn, Cell> first = null;
+            Map<TableColumn, Cell> repeat = null;
 
             /* Mark whole treatments if exporting multiple types */
             if (allowedTypes.size() > 1 && treatment.getType() == TreatmentType.WHOLE)
@@ -224,6 +225,9 @@ public class TreatmentWorkbook extends Workbook
 
                     if (first == null)
                         first = entry;
+
+                    if (repeat == null)
+                        repeat = entry;
 
                     /* Fill values */
                     if (i < currentDiagnoses.size())
@@ -293,6 +297,15 @@ public class TreatmentWorkbook extends Workbook
             first.get(this.number).setValue(number);
             first.get(this.collar).setValue(collar != 0 ? collar : "—");
             first.get(this.group).setValue(group != null ? group : "—");
+
+            /* Add repeat date */
+            if (!treatment.isHealed())
+            {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
+                String repeatDate = formatter.format(this.repeatDate);
+
+                repeat.get(this.repeat).setValue(repeatDate);
+            }
 
             this.current++;
             this.table.endBlock();

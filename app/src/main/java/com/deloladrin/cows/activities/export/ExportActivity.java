@@ -18,8 +18,6 @@ import java.util.List;
 
 public class ExportActivity extends DatabaseActivity implements View.OnClickListener
 {
-
-
     private Company company;
 
     private ExportDate date;
@@ -57,6 +55,7 @@ public class ExportActivity extends DatabaseActivity implements View.OnClickList
             /* Get dates */
             LocalDate start = this.date.getStart();
             LocalDate end = this.date.getEnd();
+            LocalDate repeat = this.date.getRepeat();
 
             if (!start.equals(end))
             {
@@ -66,6 +65,8 @@ public class ExportActivity extends DatabaseActivity implements View.OnClickList
             {
                 workbook.setDate(start);
             }
+
+            workbook.setRepeatDate(repeat);
 
             /* Get all cows */
             SelectValues values = new SelectValues()
@@ -96,7 +97,7 @@ public class ExportActivity extends DatabaseActivity implements View.OnClickList
 
     private String getFileName()
     {
-        String output = this.company.getName();
+        String output = this.company.getName() + " ";
 
         /* Add dates */
         String start = this.date.getStartString();

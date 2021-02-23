@@ -9,6 +9,7 @@
 
     <string name="date_start">Od: </string>
     <string name="date_end">Do: </string>
+    <string name="date_repeat">Opakování:</string>
 
     <string name="section_history">Historie</string>
     <string name="section_comment">Komentář</string>

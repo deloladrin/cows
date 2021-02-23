@@ -17,6 +17,7 @@ public class ExportDate extends ChildActivity<ExportActivity> implements View.On
 
     private EditText start;
     private EditText end;
+    private EditText repeat;
 
     public ExportDate(ExportActivity parent, int layout)
     {
@@ -25,16 +26,19 @@ public class ExportDate extends ChildActivity<ExportActivity> implements View.On
         /* Load all children */
         this.start = this.findViewById(R.id.date_start);
         this.end = this.findViewById(R.id.date_end);
+        this.repeat = this.findViewById(R.id.date_repeat);
 
         /* Add events */
         this.start.setOnClickListener(this);
         this.end.setOnClickListener(this);
+        this.repeat.setOnClickListener(this);
 
         /* Load default values */
         LocalDate today = LocalDate.now();
 
         this.setStart(today);
         this.setEnd(today);
+        this.setRepeat(today.plusWeeks(1));
     }
 
     @Override
@@ -52,11 +56,21 @@ public class ExportDate extends ChildActivity<ExportActivity> implements View.On
                 /* Assign to both */
                 this.setStart(date);
                 this.setEnd(date);
+                return;
             }
-            else
+
+            if (view.equals(this.end))
             {
                 /* Assign only to end */
                 this.setEnd(date);
+                return;
+            }
+
+            if (view.equals(this.repeat))
+            {
+                /* Assign to repeat */
+                this.setRepeat(date);
+                return;
             }
         });
 
@@ -91,5 +105,20 @@ public class ExportDate extends ChildActivity<ExportActivity> implements View.On
     public void setEnd(LocalDate end)
     {
         this.end.setText(FORMATTER.format(end));
+    }
+
+    public String getRepeatString()
+    {
+        return this.repeat.getText().toString();
+    }
+
+    public LocalDate getRepeat()
+    {
+        return LocalDate.parse(this.getRepeatString(), FORMATTER);
+    }
+
+    public void setRepeat(LocalDate repeat)
+    {
+        this.repeat.setText(FORMATTER.format(repeat));
     }
 }
