@@ -10,10 +10,13 @@ import android.widget.TextView;
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.CompanyActivity;
 import com.deloladrin.cows.activities.cow.CowActivity;
+import com.deloladrin.cows.activities.diagnosis.DiagnosisActivity;
 import com.deloladrin.cows.activities.export.ExportActivity;
 import com.deloladrin.cows.activities.export.TreatmentWorkbook;
 import com.deloladrin.cows.activities.main.dialogs.CowDialog;
 import com.deloladrin.cows.activities.main.views.CompanyEntry;
+import com.deloladrin.cows.activities.resource.ResourceActivity;
+import com.deloladrin.cows.activities.status.StatusActivity;
 import com.deloladrin.cows.data.Company;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.DiagnosisTemplate;
@@ -38,6 +41,9 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
     private ImageTextButton companies;
     private ImageTextButton cow;
+    private ImageTextButton diagnoses;
+    private ImageTextButton resources;
+    private ImageTextButton statuses;
     private ImageTextButton export;
 
     @Override
@@ -58,6 +64,9 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
         this.companies = this.findViewById(R.id.main_companies);
         this.cow = this.findViewById(R.id.main_cow);
+        this.diagnoses = this.findViewById(R.id.main_diagnoses);
+        this.resources = this.findViewById(R.id.main_resources);
+        this.statuses = this.findViewById(R.id.main_statuses);
         this.export = this.findViewById(R.id.main_export);
 
         /* Add events */
@@ -65,6 +74,9 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
         this.companies.setOnClickListener(this);
         this.cow.setOnClickListener(this);
+        this.diagnoses.setOnClickListener(this);
+        this.resources.setOnClickListener(this);
+        this.statuses.setOnClickListener(this);
         this.export.setOnClickListener(this);
 
         /* TODO: Temporary code - will be removed in the future */
@@ -167,6 +179,33 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             });
 
             dialog.show();
+            return;
+        }
+
+        if (view.equals(this.diagnoses))
+        {
+            /* Open diagonsis activity */
+            Intent intent = new Intent(this, DiagnosisActivity.class);
+            this.startActivity(intent);
+
+            return;
+        }
+
+        if (view.equals(this.resources))
+        {
+            /* Open resource activity */
+            Intent intent = new Intent(this, ResourceActivity.class);
+            this.startActivity(intent);
+
+            return;
+        }
+
+        if (view.equals(this.statuses))
+        {
+            /* Open status activity */
+            Intent intent = new Intent(this, StatusActivity.class);
+            this.startActivity(intent);
+
             return;
         }
 

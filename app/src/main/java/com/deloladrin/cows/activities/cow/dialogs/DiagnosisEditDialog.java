@@ -126,7 +126,7 @@ public class DiagnosisEditDialog extends ChildDialog<CowActivity> implements Vie
         {
             /* Request delete of diagnosis */
             YesNoDialog dialog = new YesNoDialog(context);
-            dialog.setText(R.string.dialog_diagonsis_delete, this.diagnosis.getName(), this.diagnosis.getTarget().getName(context));
+            dialog.setText(R.string.dialog_diagnosis_delete, this.diagnosis.getName());
 
             dialog.setOnYesListener((YesNoDialog d) ->
             {

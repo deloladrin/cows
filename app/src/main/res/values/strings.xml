@@ -3,6 +3,9 @@
 
     <string name="activity_company">Firmy</string>
     <string name="activity_cow">Kráva</string>
+    <string name="activity_diagnosis">Diagnózy</string>
+    <string name="activity_resource">Položky</string>
+    <string name="activity_status">Označení</string>
     <string name="activity_export">Export</string>
 
     <string name="entry_company_count">%d krav</string>
@@ -25,11 +28,11 @@
     <string name="dialog_treatment_old">Opravdu chcete upravit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_delete">Opravdu chcete odstranit ošetření z \'%s\'?</string>
     <string name="dialog_treatment_type">Vyberte typ ošetření:</string>
-    <string name="dialog_diagonsis_delete">Opravdu chcete odstanit diagnózu \'%s\' (%s)?</string>
+    <string name="dialog_diagnosis_delete">Opravdu chcete odstanit diagnózu \'%s\'?</string>
     <string name="dialog_diagnosis_select">%s — Vyberte stav:</string>
-    <string name="dialog_resource_toggle_add">Opravdu chcete přidat položku \'%s\'?</string>
-    <string name="dialog_resource_toggle_remove">Opravdu chcete odstranit položku \'%s\'?</string>
     <string name="dialog_resources_select">%s — Vyberte položky:</string>
+    <string name="dialog_status_toggle_add">Opravdu chcete přidat označení \'%s\'?</string>
+    <string name="dialog_status_toggle_remove">Opravdu chcete odstranit označení \'%s\'?</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
     <string name="dialog_image_delete">Opravdu chcete obrázek odstranit?</string>
     <string name="dialog_company">Vyberte firmu:</string>
@@ -39,9 +42,15 @@
     <string name="dialog_export_success">Soubor \'%s\' úspěšně exportován!</string>
     <string name="dialog_export_error">Soubor \'%s\' se nepodařilo exportovat!</string>
 
-    <string name="dialog_company_name">Jméno:</string>
+    <string name="dialog_company_name">Název:</string>
     <string name="dialog_company_group">Skupina:</string>
     <string name="dialog_company_image">Obrázek:</string>
+
+    <string name="dialog_diagnosis_name_new">Název — Nový:</string>
+    <string name="dialog_diagnosis_name_treated">Název — Rozléčený:</string>
+    <string name="dialog_diagnosis_name_healed">Název — Vyhojený:</string>
+    <string name="dialog_diagnosis_name_short">Zkratka:</string>
+    <string name="dialog_diagnosis_type">Typ:</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>
@@ -66,6 +75,10 @@
     <string name="diagnosis_healed">Vyhojený</string>
     <string name="diagnosis_treated">Rozléčený</string>
     <string name="diagnosis_new">Nový</string>
+
+    <string name="diagnosis_type_none">—</string>
+    <string name="diagnosis_type_finger">Prst</string>
+    <string name="diagnosis_type_hoof">Hoof</string>
 
     <string name="mask_none" />
     <string name="mask_lf">LP</string>

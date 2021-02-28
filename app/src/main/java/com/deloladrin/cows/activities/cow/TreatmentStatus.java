@@ -89,11 +89,11 @@ public class TreatmentStatus extends ChildActivity<CowActivity> implements View.
 
             if (status != null)
             {
-                dialog.setText(R.string.dialog_resource_toggle_remove, template.getName());
+                dialog.setText(R.string.dialog_status_toggle_remove, template.getName());
             }
             else
             {
-                dialog.setText(R.string.dialog_resource_toggle_add, template.getName());
+                dialog.setText(R.string.dialog_status_toggle_add, template.getName());
             }
 
             dialog.setOnYesListener((YesNoDialog d) ->

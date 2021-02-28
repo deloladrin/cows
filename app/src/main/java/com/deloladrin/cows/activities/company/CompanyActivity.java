@@ -21,7 +21,7 @@ public class CompanyActivity extends TemplateActivity
         super.onCreate(savedInstanceState);
 
         /* Update header */
-        this.image.setImageResource(R.drawable.icon_companies);
+        this.image.setImageResource(R.drawable.icon_company);
         this.name.setText(R.string.activity_company);
     }
 
