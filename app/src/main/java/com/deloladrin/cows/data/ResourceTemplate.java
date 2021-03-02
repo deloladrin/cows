@@ -179,14 +179,7 @@ public class ResourceTemplate implements TableEntry
 
     public DatabaseBitmap getSmallImage()
     {
-        DatabaseBitmap small = DatabaseBitmap.bytesToBitmap(this.imageSmall);
-
-        if (small != null)
-        {
-            return small;
-        }
-
-        return this.getImage();
+        return DatabaseBitmap.bytesToBitmap(this.imageSmall);
     }
 
     public void setSmallImage(DatabaseBitmap imageSmall)
@@ -209,7 +202,7 @@ public class ResourceTemplate implements TableEntry
         public static final TableColumn COLUMN_LAYER = new TableColumn("layer", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_COPYING = new TableColumn("copying", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_IMAGE = new TableColumn("image", ValueType.BLOB, false);
-        public static final TableColumn COLUMN_IMAGE_SMALL = new TableColumn("image_small", ValueType.BLOB, true);
+        public static final TableColumn COLUMN_IMAGE_SMALL = new TableColumn("image_small", ValueType.BLOB, false);
 
         public Table(Database database)
         {

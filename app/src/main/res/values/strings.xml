@@ -31,6 +31,7 @@
     <string name="dialog_diagnosis_delete">Opravdu chcete odstanit diagnózu \'%s\'?</string>
     <string name="dialog_diagnosis_select">%s — Vyberte stav:</string>
     <string name="dialog_resources_select">%s — Vyberte položky:</string>
+    <string name="dialog_resource_delete">Opravdu chcete odstanit položku \'%s\'?</string>
     <string name="dialog_status_toggle_add">Opravdu chcete přidat označení \'%s\'?</string>
     <string name="dialog_status_toggle_remove">Opravdu chcete odstranit označení \'%s\'?</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
@@ -51,6 +52,13 @@
     <string name="dialog_diagnosis_name_healed">Název — Vyhojený:</string>
     <string name="dialog_diagnosis_name_short">Zkratka:</string>
     <string name="dialog_diagnosis_type">Typ:</string>
+
+    <string name="dialog_resource_name">Název:</string>
+    <string name="dialog_resource_type">Typ:</string>
+    <string name="dialog_resource_layer">Vrstva:</string>
+    <string name="dialog_resource_copying">Kopírování</string>
+    <string name="dialog_resource_image">Obrázek:</string>
+    <string name="dialog_resource_image_small">Malý obrázek:</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>
@@ -78,7 +86,12 @@
 
     <string name="diagnosis_type_none">—</string>
     <string name="diagnosis_type_finger">Prst</string>
-    <string name="diagnosis_type_hoof">Hoof</string>
+    <string name="diagnosis_type_hoof">Pazneht</string>
+
+    <string name="resource_type_none">—</string>
+    <string name="resource_type_finger">Prst</string>
+    <string name="resource_type_finger_inverted">Opačný prst</string>
+    <string name="resource_type_hoof">Pazneht</string>
 
     <string name="mask_none" />
     <string name="mask_lf">LP</string>

@@ -36,6 +36,7 @@ public class ResourceContainer extends FrameLayout
         switch (resource.getTemplate().getType())
         {
             case HOOF:
+                params.gravity = Gravity.CENTER;
                 break;
 
             case FINGER:
