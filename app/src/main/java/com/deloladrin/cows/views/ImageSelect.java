@@ -20,8 +20,6 @@ import com.deloladrin.cows.dialogs.YesNoDialog;
 
 public class ImageSelect implements View.OnClickListener, DatabaseActivity.OnActivityResultListener
 {
-    private static final int COMPANY_IMAGE_REQUEST = 0;
-
     private DatabaseActivity activity;
     private LinearLayout layout;
 
@@ -62,7 +60,7 @@ public class ImageSelect implements View.OnClickListener, DatabaseActivity.OnAct
             /* Request to change image */
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-            this.activity.startActivityForResult(intent, COMPANY_IMAGE_REQUEST);
+            this.activity.startActivityForResult(intent, this.get16BitHashCode());
 
             return;
         }
@@ -87,7 +85,7 @@ public class ImageSelect implements View.OnClickListener, DatabaseActivity.OnAct
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == COMPANY_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null)
+        if (requestCode == this.get16BitHashCode() && resultCode == Activity.RESULT_OK && data != null)
         {
             /* Update image */
             Uri uri = data.getData();
@@ -95,6 +93,11 @@ public class ImageSelect implements View.OnClickListener, DatabaseActivity.OnAct
             this.valid = true;
             this.view.setImageURI(uri);
         }
+    }
+
+    public int get16BitHashCode()
+    {
+        return this.hashCode() & 0xFFFF;
     }
 
     public Bitmap getBitmap()

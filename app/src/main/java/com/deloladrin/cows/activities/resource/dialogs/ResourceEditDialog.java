@@ -131,6 +131,11 @@ public class ResourceEditDialog extends ChildDialog<ResourceActivity> implements
 
                 this.onSubmitListener.onSubmit(this.template);
             }
+
+            else
+            {
+                return;
+            }
         }
 
         this.dismiss();

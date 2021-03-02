@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceType;
+import com.deloladrin.cows.data.TargetMask;
 
 import java.util.Arrays;
 
@@ -32,32 +34,15 @@ public class ResourceContainer extends FrameLayout
 
         /* Set correct location and scale */
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.CENTER;
 
-        switch (resource.getTemplate().getType())
+        TargetMask target = resource.getTarget();
+        ResourceType type = resource.getTemplate().getType();
+
+        if ((type == ResourceType.FINGER && target == this.mask.getRightFinger()) ||
+             type == ResourceType.FINGER_INVERTED && target == this.mask.getLeftFinger())
         {
-            case HOOF:
-                params.gravity = Gravity.CENTER;
-                break;
-
-            case FINGER:
-
-                if (resource.getTarget() == this.mask.getRightFinger())
-                {
-                    view.setScaleX(-1);
-                    params.gravity = Gravity.RIGHT;
-                }
-
-                break;
-
-            case FINGER_INVERTED:
-
-                if (resource.getTarget() == this.mask.getLeftFinger())
-                {
-                    view.setScaleX(-1);
-                    params.gravity = Gravity.RIGHT;
-                }
-
-                break;
+            view.setScaleX(-1);
         }
 
         view.setLayoutParams(params);
