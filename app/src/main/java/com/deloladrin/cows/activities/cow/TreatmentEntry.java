@@ -21,7 +21,6 @@ public class TreatmentEntry implements View.OnClickListener
     private TextView type;
     private TextView date;
     private TextView time;
-    private TextView user;
     private ImageButton delete;
 
     public TreatmentEntry(TreatmentHistory parent, LayoutInflater inflater)
@@ -33,7 +32,6 @@ public class TreatmentEntry implements View.OnClickListener
         this.type = this.view.findViewById(R.id.entry_type);
         this.date = this.view.findViewById(R.id.entry_date);
         this.time = this.view.findViewById(R.id.entry_time);
-        this.user = this.view.findViewById(R.id.entry_user);
         this.delete = this.view.findViewById(R.id.entry_delete);
 
         /* Add events */
@@ -104,8 +102,5 @@ public class TreatmentEntry implements View.OnClickListener
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String time = treatment.getDate().format(timeFormatter);
         this.time.setText(time);
-
-        String user = treatment.getUser();
-        this.user.setText(user);
     }
 }

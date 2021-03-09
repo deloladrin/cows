@@ -23,14 +23,13 @@ public class Treatment implements TableEntry
     private int type;
     private long date;
     private String comment;
-    private String user;
 
     public Treatment(Database database)
     {
         this.database = database;
     }
 
-    public Treatment(Database database, long id, int cow, int type, long date, String comment, String user)
+    public Treatment(Database database, long id, int cow, int type, long date, String comment)
     {
         this.database = database;
 
@@ -39,10 +38,9 @@ public class Treatment implements TableEntry
         this.type = type;
         this.date = date;
         this.comment = comment;
-        this.user = user;
     }
 
-    public Treatment(Database database, long id, Cow cow, TreatmentType type, LocalDateTime date, String comment, String user)
+    public Treatment(Database database, long id, Cow cow, TreatmentType type, LocalDateTime date, String comment)
     {
         this.database = database;
 
@@ -51,7 +49,6 @@ public class Treatment implements TableEntry
         this.setType(type);
         this.setDate(date);
         this.setComment(comment);
-        this.setUser(user);
     }
 
     public static Treatment select(Database database, long id)
@@ -184,16 +181,6 @@ public class Treatment implements TableEntry
         this.comment = comment;
     }
 
-    public String getUser()
-    {
-        return this.user;
-    }
-
-    public void setUser(String user)
-    {
-        this.user = user;
-    }
-
     public List<Diagnosis> getDiagnoses()
     {
         SelectValues values = new SelectValues()
@@ -240,7 +227,6 @@ public class Treatment implements TableEntry
         public static final TableColumn COLUMN_TYPE = new TableColumn("type", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_DATE = new TableColumn("date", ValueType.INTEGER, false);
         public static final TableColumn COLUMN_COMMENT = new TableColumn("comment", ValueType.TEXT, true);
-        public static final TableColumn COLUMN_USER = new TableColumn("user", ValueType.TEXT, false);
 
         public Table(Database database)
         {
@@ -251,7 +237,6 @@ public class Treatment implements TableEntry
             this.columns.add(COLUMN_TYPE);
             this.columns.add(COLUMN_DATE);
             this.columns.add(COLUMN_COMMENT);
-            this.columns.add(COLUMN_USER);
         }
 
         @Override
@@ -264,7 +249,6 @@ public class Treatment implements TableEntry
             values.put(COLUMN_TYPE.getName(), object.type);
             values.put(COLUMN_DATE.getName(), object.date);
             values.put(COLUMN_COMMENT.getName(), object.comment);
-            values.put(COLUMN_USER.getName(), object.user);
 
             return values;
         }
@@ -277,9 +261,8 @@ public class Treatment implements TableEntry
             int type = values.getAsInteger(COLUMN_TYPE.getName());
             long date = values.getAsLong(COLUMN_DATE.getName());
             String comment = values.getAsString(COLUMN_COMMENT.getName());
-            String user = values.getAsString(COLUMN_USER.getName());
 
-            return new Treatment(this.database, id, cow, type, date, comment, user);
+            return new Treatment(this.database, id, cow, type, date, comment);
         }
     }
 }

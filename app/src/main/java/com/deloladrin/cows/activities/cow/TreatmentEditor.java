@@ -122,7 +122,6 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
                     treatmentCopy.setCow(cow);
                     treatmentCopy.setType(entry.getValue());
                     treatmentCopy.setDate(LocalDateTime.now());
-                    treatmentCopy.setUser(activity.getPreferences().getActiveUser());
                     treatmentCopy.insert();
 
                     if (this.treatment != null)
