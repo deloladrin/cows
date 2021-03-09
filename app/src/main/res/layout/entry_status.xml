@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size_entry"
+    android:background="@color/back_dark"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/entry_image"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
+        android:padding="@dimen/padding_image_button"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/entry_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="12dp"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/text_light" />
+
+    <ImageButton
+        android:id="@+id/entry_edit"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
+        android:background="@drawable/icon_edit" />
+
+    <ImageButton
+        android:id="@+id/entry_delete"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
+        android:background="@drawable/icon_delete"
+        android:backgroundTint="@color/button_bad"
+        android:backgroundTintMode="screen" />
+
+</LinearLayout>

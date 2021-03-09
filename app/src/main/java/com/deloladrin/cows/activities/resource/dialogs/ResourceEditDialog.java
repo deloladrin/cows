@@ -118,7 +118,8 @@ public class ResourceEditDialog extends ChildDialog<ResourceActivity> implements
                 {
                     int layer = Integer.parseInt(this.layer.getText().toString());
                     this.template.setLayer(layer);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     this.template.setLayer(0);
                 }

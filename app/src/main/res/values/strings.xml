@@ -34,6 +34,7 @@
     <string name="dialog_resource_delete">Opravdu chcete odstanit položku \'%s\'?</string>
     <string name="dialog_status_toggle_add">Opravdu chcete přidat označení \'%s\'?</string>
     <string name="dialog_status_toggle_remove">Opravdu chcete odstranit označení \'%s\'?</string>
+    <string name="dialog_status_delete">Opravdu chcete odstranit označení \'%s\'?</string>
     <string name="dialog_finger_select">%s — Vyberte diagnózu:</string>
     <string name="dialog_image_delete">Opravdu chcete obrázek odstranit?</string>
     <string name="dialog_company">Vyberte firmu:</string>
@@ -59,6 +60,9 @@
     <string name="dialog_resource_copying">Kopírování</string>
     <string name="dialog_resource_image">Obrázek:</string>
     <string name="dialog_resource_image_small">Malý obrázek:</string>
+
+    <string name="dialog_status_name">Název:</string>
+    <string name="dialog_status_image">Obrázek:</string>
 
     <string name="dialog_cancel">Zrušit</string>
     <string name="dialog_add">Přidat</string>
