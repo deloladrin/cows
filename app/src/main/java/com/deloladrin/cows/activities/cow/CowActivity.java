@@ -18,6 +18,7 @@ import java.util.List;
 public class CowActivity extends DatabaseActivity
 {
     public static final String EXTRA_COW_ID = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_COW_ID";
+    public static final String EXTRA_TREATMENT_ID = "com.deloladrin.cows.activities.cow.CowActivity.EXTRA_TREATMENT_ID";
 
     private Cow cow;
 
@@ -39,8 +40,19 @@ public class CowActivity extends DatabaseActivity
         /* Load requested cow */
         Intent intent = this.getIntent();
         int cowID = intent.getIntExtra(EXTRA_COW_ID, 0);
+        long treatmentID = intent.getLongExtra(EXTRA_TREATMENT_ID, 0);
 
-        this.setCow(Cow.select(this.database, cowID));
+        Cow cow = Cow.select(this.database, cowID);
+
+        if (treatmentID != 0)
+        {
+            Treatment treatment = Treatment.select(this.database, treatmentID);
+            this.setCow(cow, treatment);
+        }
+        else
+        {
+            this.setCow(cow);
+        }
     }
 
     @Override

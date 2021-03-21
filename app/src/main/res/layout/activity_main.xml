@@ -71,6 +71,18 @@
                     android:src="@drawable/icon_cow" />
 
                 <com.deloladrin.cows.views.ImageTextButton
+                    android:id="@+id/main_records"
+                    android:layout_width="@dimen/size_main_button"
+                    android:layout_height="@dimen/size_main_button"
+                    android:layout_margin="8dp"
+                    android:padding="16dp"
+                    android:background="@color/button_dark"
+                    android:textColor="@color/text_light"
+                    android:textSize="@dimen/text_medium"
+                    android:text="@string/activity_record"
+                    android:src="@drawable/icon_record" />
+
+                <com.deloladrin.cows.views.ImageTextButton
                     android:id="@+id/main_diagnoses"
                     android:layout_width="@dimen/size_main_button"
                     android:layout_height="@dimen/size_main_button"

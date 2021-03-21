@@ -65,6 +65,14 @@ public class Treatment implements TableEntry
         return database.getTreatmentTable().selectAll(values);
     }
 
+    public static void sort(List<Treatment> treatments)
+    {
+        treatments.sort((Treatment a, Treatment b) ->
+        {
+            return a.getDate().compareTo(b.getDate());
+        });
+    }
+
     public void insert()
     {
         this.id = this.database.getTreatmentTable().insert(this);

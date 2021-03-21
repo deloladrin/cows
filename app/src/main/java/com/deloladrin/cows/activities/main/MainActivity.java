@@ -15,6 +15,7 @@ import com.deloladrin.cows.activities.export.ExportActivity;
 import com.deloladrin.cows.activities.export.TreatmentWorkbook;
 import com.deloladrin.cows.activities.main.dialogs.CowDialog;
 import com.deloladrin.cows.activities.main.views.CompanyEntry;
+import com.deloladrin.cows.activities.record.RecordActivity;
 import com.deloladrin.cows.activities.resource.ResourceActivity;
 import com.deloladrin.cows.activities.status.StatusActivity;
 import com.deloladrin.cows.data.Company;
@@ -41,6 +42,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
     private ImageTextButton companies;
     private ImageTextButton cow;
+    private ImageTextButton records;
     private ImageTextButton diagnoses;
     private ImageTextButton resources;
     private ImageTextButton statuses;
@@ -64,6 +66,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
         this.companies = this.findViewById(R.id.main_companies);
         this.cow = this.findViewById(R.id.main_cow);
+        this.records = this.findViewById(R.id.main_records);
         this.diagnoses = this.findViewById(R.id.main_diagnoses);
         this.resources = this.findViewById(R.id.main_resources);
         this.statuses = this.findViewById(R.id.main_statuses);
@@ -74,6 +77,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
         this.companies.setOnClickListener(this);
         this.cow.setOnClickListener(this);
+        this.records.setOnClickListener(this);
         this.diagnoses.setOnClickListener(this);
         this.resources.setOnClickListener(this);
         this.statuses.setOnClickListener(this);
@@ -108,6 +112,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             });
 
             dialog.show();
+            return;
         }
 
         if (view.equals(this.companies))
@@ -134,6 +139,15 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
             });
 
             dialog.show();
+            return;
+        }
+
+        if (view.equals(this.records))
+        {
+            /* Open record activity */
+            Intent intent = new Intent(this, RecordActivity.class);
+            this.startActivity(intent);
+
             return;
         }
 
@@ -218,6 +232,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
             /* Enable company based buttons */
             this.cow.setEnabled(true);
+            this.records.setEnabled(true);
             this.export.setEnabled(true);
         }
         else
@@ -227,6 +242,7 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
 
             /* Disable company based buttons */
             this.cow.setEnabled(false);
+            this.records.setEnabled(false);
             this.export.setEnabled(false);
         }
     }

@@ -3,13 +3,16 @@
 
     <string name="activity_company">Firmy</string>
     <string name="activity_cow">Kráva</string>
+    <string name="activity_record">Záznamy</string>
     <string name="activity_diagnosis">Diagnózy</string>
     <string name="activity_resource">Položky</string>
     <string name="activity_status">Označení</string>
     <string name="activity_export">Export</string>
 
     <string name="entry_company_count">%d krav</string>
+    <string name="entry_record_count">Počet záznamů: %d</string>
 
+    <string name="date">Datum:</string>
     <string name="date_start">Od: </string>
     <string name="date_end">Do: </string>
     <string name="date_repeat">Opakování:</string>

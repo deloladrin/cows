@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true">
 
-        <activity android:name=".activities.main.MainActivity">
+        <activity
+            android:name=".activities.main.MainActivity"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +24,14 @@
 
         </activity>
 
-        <activity android:name=".activities.company.CompanyActivity" />
-        <activity android:name=".activities.company.cow.CompanyCowActivity" />
-        <activity android:name=".activities.cow.CowActivity" />
-        <activity android:name=".activities.export.ExportActivity" />
-        <activity android:name=".activities.diagnosis.DiagnosisActivity" />
-        <activity android:name=".activities.resource.ResourceActivity" />
-        <activity android:name=".activities.status.StatusActivity" />
+        <activity android:name=".activities.company.CompanyActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.company.cow.CompanyCowActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.cow.CowActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.record.RecordActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.export.ExportActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.diagnosis.DiagnosisActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.resource.ResourceActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.status.StatusActivity" android:screenOrientation="portrait" />
 
     </application>
 

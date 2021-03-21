@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cows="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size_entry"
+    android:background="@color/back_dark"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/entry_collar"
+        android:layout_width="@dimen/size_entry"
+        android:layout_height="@dimen/size_entry"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:textColor="@color/text_tint" />
+
+    <TextView
+        android:id="@+id/entry_number"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_margin="12dp"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/text_light" />
+
+    <TextView
+        android:id="@+id/entry_group"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:layout_margin="12dp"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/text_tint_dark" />
+
+    <com.deloladrin.cows.views.CircleTextView
+        android:id="@+id/entry_type"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        cows:strokeColor="@color/text_tint"
+        cows:strokeWidth="4.0"
+        android:textStyle="bold"
+        android:textColor="@color/text_tint_dark"
+        android:textSize="@dimen/text_medium" />
+
+    <com.deloladrin.cows.activities.cow.views.StatusTemplateContainer
+        android:id="@+id/entry_statuses"
+        android:layout_width="0dp"
+        android:layout_height="20pt"
+        android:layout_weight="4"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center"
+        android:gravity="right"
+        android:orientation="horizontal"
+        cows:disabledStrokeColor="@color/text_disabled"
+        cows:strokeColor="@color/text_tint"
+        cows:strokeWidth="4.0" />
+
+</LinearLayout>
