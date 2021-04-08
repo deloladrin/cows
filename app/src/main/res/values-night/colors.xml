@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="back_light">#262626</color>
+    <color name="back_dark">#2F2F2F</color>
+
+    <color name="text_light">#FFFFFF</color>
+    <color name="text_dark">#A8A8A8</color>
+    <color name="text_tint">#FF7F00</color>
+    <color name="text_tint_dark">#C86300</color>
+    <color name="text_bad">#FF0000</color>
+    <color name="text_disabled">#808080</color>
+
+    <color name="button_light">#2F2F2F</color>
+    <color name="button_dark">#262626</color>
+    <color name="button_tint">#C86300</color>
+    <color name="button_bad">#AD0000</color>
+    <color name="button_disabled">#808080</color>
+
+    <color name="diagnosis_none">#A8A8A8</color>
+    <color name="diagnosis_new">#FF0000</color>
+    <color name="diagnosis_new_dark">#C10000</color>
+    <color name="diagnosis_treated">#FF7F00</color>
+    <color name="diagnosis_treated_dark">#C86300</color>
+    <color name="diagnosis_healed">#00FF00</color>
+    <color name="diagnosis_healed_dark">#00C100</color>
+
+</resources>
