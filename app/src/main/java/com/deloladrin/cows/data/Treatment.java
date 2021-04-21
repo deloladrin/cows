@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Treatment implements TableEntry
 {
@@ -194,7 +195,9 @@ public class Treatment implements TableEntry
         SelectValues values = new SelectValues()
                 .where(Diagnosis.Table.COLUMN_TREATMENT, this.id);
 
-        return this.database.getDiagnosisTable().selectAll(values);
+        return this.database.getDiagnosisTable().selectAll(values).stream()
+                .filter((Diagnosis e) -> e.getTemplate() != null)
+                .collect(Collectors.toList());
     }
 
     public List<Resource> getResources()
@@ -202,7 +205,9 @@ public class Treatment implements TableEntry
         SelectValues values = new SelectValues()
                 .where(Resource.Table.COLUMN_TREATMENT, this.id);
 
-        return this.database.getResourceTable().selectAll(values);
+        return this.database.getResourceTable().selectAll(values).stream()
+                .filter((Resource e) -> e.getTemplate() != null)
+                .collect(Collectors.toList());
     }
 
     public List<Status> getStatuses()
@@ -210,16 +215,21 @@ public class Treatment implements TableEntry
         SelectValues values = new SelectValues()
                 .where(Status.Table.COLUMN_TREATMENT, this.id);
 
-        return this.database.getStatusTable().selectAll(values);
+        return this.database.getStatusTable().selectAll(values).stream()
+                .filter((Status e) -> e.getTemplate() != null)
+                .collect(Collectors.toList());
     }
 
     public boolean isHealed()
     {
         for (Diagnosis diagnosis : this.getDiagnoses())
         {
-            if (diagnosis.getState() != DiagnosisState.HEALED)
+            if (diagnosis.getTemplate() != null)
             {
-                return false;
+                if (diagnosis.getState() != DiagnosisState.HEALED)
+                {
+                    return false;
+                }
             }
         }
 

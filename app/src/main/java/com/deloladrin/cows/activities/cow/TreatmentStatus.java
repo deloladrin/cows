@@ -155,7 +155,9 @@ public class TreatmentStatus extends ChildActivity<CowActivity> implements View.
     {
         for (Status status : this.statuses)
         {
-            if (status.getTemplate().equals(template))
+            StatusTemplate current = status.getTemplate();
+
+            if (current != null && current.equals(template))
             {
                 return status;
             }

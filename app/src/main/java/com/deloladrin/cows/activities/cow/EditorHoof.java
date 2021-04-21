@@ -70,27 +70,30 @@ public class EditorHoof extends ChildActivity<CowActivity>
 
             for (Diagnosis diagnosis : treatment.getDiagnoses())
             {
-                TargetMask target = diagnosis.getTarget();
-
-                if (target == this.mask)
+                if (diagnosis.getTemplate() != null)
                 {
-                    this.diagnoses.add(diagnosis);
-                    this.diagnosisContainer.add(diagnosis);
+                    TargetMask target = diagnosis.getTarget();
 
-                    /* Affects both fingers */
-                    DiagnosisState state = diagnosis.getState();
-                    this.left.setState(state);
-                    this.right.setState(state);
-                }
+                    if (target == this.mask)
+                    {
+                        this.diagnoses.add(diagnosis);
+                        this.diagnosisContainer.add(diagnosis);
 
-                else if (target == this.left.getMask())
-                {
-                    diagnosesLeft.add(diagnosis);
-                }
+                        /* Affects both fingers */
+                        DiagnosisState state = diagnosis.getState();
+                        this.left.setState(state);
+                        this.right.setState(state);
+                    }
 
-                else if (target == this.right.getMask())
-                {
-                    diagnosesRight.add(diagnosis);
+                    else if (target == this.left.getMask())
+                    {
+                        diagnosesLeft.add(diagnosis);
+                    }
+
+                    else if (target == this.right.getMask())
+                    {
+                        diagnosesRight.add(diagnosis);
+                    }
                 }
             }
 

@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.ResourceType;
 import com.deloladrin.cows.data.TargetMask;
 
@@ -24,29 +25,34 @@ public class ResourceContainer extends FrameLayout
 
     public void add(Resource resource)
     {
-        /* Create ImageView */
-        ResourceEntry view = new ResourceEntry(this.getContext());
-        view.setResource(resource);
+        ResourceTemplate template = resource.getTemplate();
 
-        Bitmap bitmap = resource.getTemplate().getImage().getBitmap();
-        view.setImageBitmap(bitmap);
-        view.setAdjustViewBounds(true);
-
-        /* Set correct location and scale */
-        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.CENTER;
-
-        TargetMask target = resource.getTarget();
-        ResourceType type = resource.getTemplate().getType();
-
-        if ((type == ResourceType.FINGER && target == this.mask.getRightFinger()) ||
-             type == ResourceType.FINGER_INVERTED && target == this.mask.getLeftFinger())
+        if (template != null)
         {
-            view.setScaleX(-1);
-        }
+            /* Create ImageView */
+            ResourceEntry view = new ResourceEntry(this.getContext());
+            view.setResource(resource);
 
-        view.setLayoutParams(params);
-        this.addView(view);
+            Bitmap bitmap = template.getImage().getBitmap();
+            view.setImageBitmap(bitmap);
+            view.setAdjustViewBounds(true);
+
+            /* Set correct location and scale */
+            LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+            params.gravity = Gravity.CENTER;
+
+            TargetMask target = resource.getTarget();
+            ResourceType type = template.getType();
+
+            if ((type == ResourceType.FINGER && target == this.mask.getRightFinger()) ||
+                    type == ResourceType.FINGER_INVERTED && target == this.mask.getLeftFinger())
+            {
+                view.setScaleX(-1);
+            }
+
+            view.setLayoutParams(params);
+            this.addView(view);
+        }
     }
 
     public void sort()

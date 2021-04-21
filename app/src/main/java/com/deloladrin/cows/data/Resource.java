@@ -167,7 +167,14 @@ public class Resource implements TableEntry
 
     public String getName()
     {
-        return this.getTemplate().getName();
+        ResourceTemplate template = this.getTemplate();
+
+        if (template != null)
+        {
+            return template.getName();
+        }
+
+        return null;
     }
 
     public static class Table extends TableBase<Resource>

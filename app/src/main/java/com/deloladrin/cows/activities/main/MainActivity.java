@@ -1,11 +1,15 @@
 package com.deloladrin.cows.activities.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.deloladrin.cows.R;
 import com.deloladrin.cows.activities.company.CompanyActivity;
@@ -34,6 +38,14 @@ import java.time.LocalDate;
 
 public class MainActivity extends DatabaseActivity implements View.OnClickListener
 {
+    private static final int REQUEST_PERMISSIONS = 1;
+
+    private static final String[] REQUIRED_PERMISSIONS =
+    {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     private Company company;
 
     private LinearLayout currentCompany;
@@ -58,6 +70,9 @@ public class MainActivity extends DatabaseActivity implements View.OnClickListen
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+
+        /* Request required permissions */
+        this.requestPermissions(REQUIRED_PERMISSIONS, REQUEST_PERMISSIONS);
 
         /* Load all children */
         this.currentCompany = this.findViewById(R.id.main_company);

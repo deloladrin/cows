@@ -257,6 +257,7 @@ public class TreatmentWorkbook extends Workbook
 
             /* Add statuses and comment */
             List<Status> statuses = treatment.getStatuses();
+
             String comment = treatment.getComment();
             int length = Math.max(comment != null ? 1 : 0, statuses.size());
 
@@ -299,7 +300,7 @@ public class TreatmentWorkbook extends Workbook
             first.get(this.group).setValue(group != null ? group : "—");
 
             /* Add repeat date */
-            if (!treatment.isHealed())
+            if (!treatment.isHealed() && repeat != null)
             {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
                 String repeatDate = formatter.format(this.repeatDate);
@@ -329,8 +330,11 @@ public class TreatmentWorkbook extends Workbook
         /* Fill diagnoses */
         for (Diagnosis diagnosis : treatment.getDiagnoses())
         {
-            TargetMask target = diagnosis.getTarget();
-            diagnoses.get(target).add(diagnosis);
+            if (diagnosis.getTemplate() != null)
+            {
+                TargetMask target = diagnosis.getTarget();
+                diagnoses.get(target).add(diagnosis);
+            }
         }
 
         /* Fill resources */
@@ -338,33 +342,36 @@ public class TreatmentWorkbook extends Workbook
 
         for (Resource resource : treatment.getResources())
         {
-            /* Check if resource is allowed */
-            if (allowedResources.contains(resource.getTemplate()))
+            if (resource.getTemplate() != null)
             {
-                if (!resource.isCopy())
+                /* Check if resource is allowed */
+                if (allowedResources.contains(resource.getTemplate()))
                 {
-                    TargetMask target = resource.getTarget();
-
-                    if (target instanceof FingerMask)
+                    if (!resource.isCopy())
                     {
-                        FingerMask finger = (FingerMask) target;
+                        TargetMask target = resource.getTarget();
 
-                        /* Attempt correct finger -> hoof */
-                        if (!this.attemptAdd(resource, finger, diagnoses, resources))
+                        if (target instanceof FingerMask)
                         {
-                            this.attemptAdd(resource, finger.getHoof(), diagnoses, resources);
-                        }
-                    }
-                    else
-                    {
-                        HoofMask hoof = (HoofMask) target;
+                            FingerMask finger = (FingerMask) target;
 
-                        /* Attempt left finger -> right finger -> hoof */
-                        if (!this.attemptAdd(resource, hoof.getLeftFinger(), diagnoses, resources))
-                        {
-                            if (!this.attemptAdd(resource, hoof.getRightFinger(), diagnoses, resources))
+                            /* Attempt correct finger -> hoof */
+                            if (!this.attemptAdd(resource, finger, diagnoses, resources))
                             {
-                                this.attemptAdd(resource, hoof, diagnoses, resources);
+                                this.attemptAdd(resource, finger.getHoof(), diagnoses, resources);
+                            }
+                        }
+                        else
+                        {
+                            HoofMask hoof = (HoofMask) target;
+
+                            /* Attempt left finger -> right finger -> hoof */
+                            if (!this.attemptAdd(resource, hoof.getLeftFinger(), diagnoses, resources))
+                            {
+                                if (!this.attemptAdd(resource, hoof.getRightFinger(), diagnoses, resources))
+                                {
+                                    this.attemptAdd(resource, hoof, diagnoses, resources);
+                                }
                             }
                         }
                     }

@@ -11,8 +11,10 @@ import com.deloladrin.cows.activities.cow.views.TreatmentTypeEntry;
 import com.deloladrin.cows.data.Cow;
 import com.deloladrin.cows.data.Diagnosis;
 import com.deloladrin.cows.data.DiagnosisState;
+import com.deloladrin.cows.data.DiagnosisTemplate;
 import com.deloladrin.cows.data.HoofMask;
 import com.deloladrin.cows.data.Resource;
+import com.deloladrin.cows.data.ResourceTemplate;
 import com.deloladrin.cows.data.Treatment;
 import com.deloladrin.cows.data.TreatmentType;
 import com.deloladrin.cows.database.Database;
@@ -132,23 +134,30 @@ public class TreatmentEditor extends ChildActivity<CowActivity> implements View.
                         {
                             for (Diagnosis diagnosis : this.treatment.getDiagnoses())
                             {
-                                Diagnosis diagnosisCopy = new Diagnosis(database);
-                                diagnosisCopy.setTreatment(treatmentCopy);
-                                diagnosisCopy.setTemplate(diagnosis.getTemplate());
-                                diagnosisCopy.setTarget(diagnosis.getTarget());
-                                diagnosisCopy.setState(diagnosis.getState());
-                                diagnosisCopy.setComment(diagnosis.getComment());
-                                diagnosisCopy.insert();
+                                DiagnosisTemplate template = diagnosis.getTemplate();
+
+                                if (template != null)
+                                {
+                                    Diagnosis diagnosisCopy = new Diagnosis(database);
+                                    diagnosisCopy.setTreatment(treatmentCopy);
+                                    diagnosisCopy.setTemplate(template);
+                                    diagnosisCopy.setTarget(diagnosis.getTarget());
+                                    diagnosisCopy.setState(diagnosis.getState());
+                                    diagnosisCopy.setComment(diagnosis.getComment());
+                                    diagnosisCopy.insert();
+                                }
                             }
 
                             /* Copy some resources */
                             for (Resource resource : this.treatment.getResources())
                             {
-                                if (resource.getTemplate().isCopying())
+                                ResourceTemplate template = resource.getTemplate();
+
+                                if (template.isCopying())
                                 {
                                     Resource resourceCopy = new Resource(database);
                                     resourceCopy.setTreatment(treatmentCopy);
-                                    resourceCopy.setTemplate(resource.getTemplate());
+                                    resourceCopy.setTemplate(template);
                                     resourceCopy.setTarget(resource.getTarget());
                                     resourceCopy.setCopy(true);
                                     resourceCopy.insert();

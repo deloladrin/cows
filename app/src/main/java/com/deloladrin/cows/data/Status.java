@@ -131,7 +131,12 @@ public class Status implements TableEntry
 
     public String getName()
     {
-        return this.getTemplate().getName();
+        StatusTemplate template = this.getTemplate();
+
+        if (template != null)
+            return template.getName();
+
+        return null;
     }
 
     public static class Table extends TableBase<Status>

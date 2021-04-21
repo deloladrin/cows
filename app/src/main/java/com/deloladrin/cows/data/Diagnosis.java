@@ -182,11 +182,17 @@ public class Diagnosis implements TableEntry
     {
         DiagnosisTemplate template = this.getTemplate();
 
-        switch (this.getState())
+        if (template != null)
         {
-            case NEW: return template.getNewName();
-            case TREATED: return template.getTreatedName();
-            case HEALED: return template.getHealedName();
+            switch (this.getState())
+            {
+                case NEW:
+                    return template.getNewName();
+                case TREATED:
+                    return template.getTreatedName();
+                case HEALED:
+                    return template.getHealedName();
+            }
         }
 
         return null;
@@ -194,7 +200,14 @@ public class Diagnosis implements TableEntry
 
     public String getShortName()
     {
-        return this.getTemplate().getShortName();
+        DiagnosisTemplate template = this.getTemplate();
+
+        if (template != null)
+        {
+            return template.getShortName();
+        }
+
+        return null;
     }
 
     public static class Table extends TableBase<Diagnosis>

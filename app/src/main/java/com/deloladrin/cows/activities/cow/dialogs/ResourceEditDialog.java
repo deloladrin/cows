@@ -105,7 +105,9 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
                         /* Remove all occurrences of the type */
                         for (Resource resource : this.resources)
                         {
-                            if (resource.getTemplate().equals(template))
+                            ResourceTemplate current = resource.getTemplate();
+
+                            if (current != null && current.equals(template))
                             {
                                 resource.delete();
                             }
@@ -121,7 +123,9 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
 
                         for (Resource resource : this.resources)
                         {
-                            if (resource.getTemplate().equals(template))
+                            ResourceTemplate current = resource.getTemplate();
+
+                            if (current != null && current.equals(template))
                             {
                                 occurrence = resource;
                             }
@@ -203,7 +207,9 @@ public class ResourceEditDialog extends ChildDialog<CowActivity> implements View
     {
         for (Resource resource : this.resources)
         {
-            if (resource.getTemplate().equals(template))
+            ResourceTemplate current = resource.getTemplate();
+
+            if (current != null && current.equals(template))
             {
                 if (resource.isCopy())
                 {
