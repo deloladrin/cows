@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="enabled" format="boolean" />
+
+    <attr name="maxWidth" format="dimension" />
+    <attr name="maxHeight" format="dimension" />
+
+    <attr name="color" format="color" />
+    <attr name="strokeWidth" format="float" />
+
+    <attr name="textSize" format="dimension" />
+    <attr name="textColor" format="color" />
+    <attr name="text" format="string" />
+
+    <attr name="image" format="reference" />
+
+    <declare-styleable name="ConstrainedLayout">
+        <attr name="maxWidth" />
+        <attr name="maxHeight" />
+    </declare-styleable>
+
+    <declare-styleable name="ActivityButton">
+        <attr name="enabled" />
+
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="text" />
+
+        <attr name="image" />
+    </declare-styleable>
+
+    <declare-styleable name="ActiveCompanyView">
+    </declare-styleable>
+
+    <declare-styleable name="CameraView">
+    </declare-styleable>
+
+    <declare-styleable name="ModelView">
+        <attr name="color" />
+        <attr name="strokeWidth" />
+
+        <attr name="textSize" />
+        <attr name="textColor" />
+    </declare-styleable>
+
+</resources>

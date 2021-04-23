@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="global_null">—</string>
     <string name="global_name">Cows</string>
+
+    <string name="button_cancel">Cancel</string>
+
+    <string name="main_company_select">Select company:</string>
+
+    <string name="main_activity_company">Companies</string>
+    <string name="main_activity_cow">Cows</string>
+    <string name="main_activity_record">Records</string>
+    <string name="main_activity_diagnosis">Diagnoses</string>
+    <string name="main_activity_resource">Resources</string>
+    <string name="main_activity_status">Markings</string>
+    <string name="main_activity_export">Export</string>
 
 </resources>

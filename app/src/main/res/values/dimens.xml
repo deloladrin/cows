@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="text_small">6pt</dimen>
+    <dimen name="text_medium">8pt</dimen>
+    <dimen name="text_big">12pt</dimen>
+    <dimen name="text_huge">16pt</dimen>
+
+    <dimen name="dialog_width">300dp</dimen>
+    <dimen name="dialog_height">600dp</dimen>
+
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="padding_huge">24dp</dimen>
+
+    <dimen name="margin_small">@dimen/padding_small</dimen>
+    <dimen name="margin_medium">@dimen/padding_medium</dimen>
+    <dimen name="margin_big">@dimen/padding_big</dimen>
+    <dimen name="margin_huge">@dimen/padding_huge</dimen>
+
+    <dimen name="main_company_active">46dp</dimen>
+    <dimen name="main_button">132dp</dimen>
+
+</resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="back_light">#262626</color>
-    <color name="back_dark">#2F2F2F</color>
+    <color name="back_light">#2F2F2F</color>
+    <color name="back_dark">#262626</color>
 
     <color name="text_light">#FFFFFF</color>
     <color name="text_dark">#A8A8A8</color>

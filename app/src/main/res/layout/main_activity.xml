@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cows="http://schemas.android.com/apk/res-auto"
+    xmlns:utils="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_huge"
+    android:background="@color/back_light"
+    utils:context=".main.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.deloladrin.cows.main.views.ActiveCompanyView
+            android:id="@+id/active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_big"
+            android:background="@drawable/global_ripple_light"
+            android:clickable="true" />
+
+        <com.wefika.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/company"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_company"
+                cows:text="@string/main_activity_company"
+                android:onClick="onCompanyClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/cow"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_cow"
+                cows:text="@string/main_activity_cow"
+                android:onClick="onCowClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/record"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_record"
+                cows:text="@string/main_activity_record"
+                android:onClick="onRecordClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/diagnosis"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_diagnosis"
+                cows:text="@string/main_activity_diagnosis"
+                android:onClick="onDiagnosisClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/resource"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_resource"
+                cows:text="@string/main_activity_resource"
+                android:onClick="onResourceClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/status"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_status"
+                cows:text="@string/main_activity_status"
+                android:onClick="onStatusClick" />
+
+            <com.deloladrin.cows.main.views.ActivityButton
+                android:id="@+id/export"
+                android:layout_width="@dimen/main_button"
+                android:layout_height="@dimen/main_button"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/padding_big"
+                android:background="@drawable/global_ripple_dark"
+                cows:textSize="@dimen/text_medium"
+                cows:textColor="@color/text_light"
+                cows:image="@drawable/main_activity_export"
+                cows:text="@string/main_activity_export"
+                android:onClick="onExportClick" />
+
+        </com.wefika.flowlayout.FlowLayout>
+
+    </LinearLayout>
+
+</ScrollView>

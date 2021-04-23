@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="global_null">—</string>
     <string name="global_name">Krávy</string>
+
+    <string name="button_cancel">Zrušit</string>
+
+    <string name="main_company_select">Vyberte firmu:</string>
+
+    <string name="main_activity_company">Firmy</string>
+    <string name="main_activity_cow">Krávy</string>
+    <string name="main_activity_record">Záznamy</string>
+    <string name="main_activity_diagnosis">Diagnózy</string>
+    <string name="main_activity_resource">Položky</string>
+    <string name="main_activity_status">Označení</string>
+    <string name="main_activity_export">Export</string>
 
 </resources>

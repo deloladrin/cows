@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="global_null">—</string>
     <string name="global_name">牛</string>
+
+    <string name="button_cancel">キャンセル</string>
+
+    <string name="main_company_select">会社を選択して：</string>
+
+    <string name="main_activity_company">会社</string>
+    <string name="main_activity_cow">牛</string>
+    <string name="main_activity_record">記録</string>
+    <string name="main_activity_diagnosis">診断</string>
+    <string name="main_activity_resource">リソース</string>
+    <string name="main_activity_status">マーク</string>
+    <string name="main_activity_export">エクスポート</string>
 
 </resources>
